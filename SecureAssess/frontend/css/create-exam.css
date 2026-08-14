@@ -1,0 +1,838 @@
+/* =========================
+   RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: Inter, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+
+    background: #f7f8f6;
+
+    color: #151515;
+
+    line-height: 1.5;
+}
+
+
+/* =========================
+   TOPBAR
+========================= */
+
+.topbar {
+    height: 70px;
+
+    padding: 0 5%;
+
+    background: white;
+
+    border-bottom: 1px solid #e4e5e2;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+}
+
+
+.brand {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    color: #151515;
+
+    text-decoration: none;
+
+    font-size: 16px;
+
+    font-weight: 700;
+}
+
+
+.brand-icon {
+    width: 31px;
+    height: 31px;
+
+    border-radius: 8px;
+
+    background: #151515;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 14px;
+
+    font-weight: 800;
+}
+
+
+.top-right {
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+}
+
+
+.secure-text {
+    color: #999;
+
+    font-size: 9px;
+}
+
+
+.profile {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    font-size: 10px;
+
+    font-weight: 600;
+}
+
+
+.avatar {
+    width: 31px;
+    height: 31px;
+
+    border-radius: 50%;
+
+    background: #151515;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 10px;
+}
+
+
+/* =========================
+   PAGE
+========================= */
+
+.page-container {
+    max-width: 1250px;
+
+    margin: auto;
+
+    padding: 30px 30px 70px;
+}
+
+
+/* =========================
+   BREADCRUMB
+========================= */
+
+.breadcrumb {
+    display: flex;
+
+    gap: 8px;
+
+    align-items: center;
+
+    margin-bottom: 28px;
+
+    color: #999;
+
+    font-size: 9px;
+}
+
+
+.breadcrumb a {
+    color: #777;
+
+    text-decoration: none;
+}
+
+
+/* =========================
+   PAGE HEADER
+========================= */
+
+.page-header {
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    margin-bottom: 25px;
+}
+
+
+.section-label,
+.card-label {
+    color: #999;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.4px;
+}
+
+
+.page-header h1 {
+    margin-top: 7px;
+
+    font-size: 30px;
+
+    letter-spacing: -1.2px;
+}
+
+
+.page-header p {
+    margin-top: 5px;
+
+    color: #888;
+
+    font-size: 11px;
+}
+
+
+.draft-status {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 7px 10px;
+
+    border-radius: 100px;
+
+    background: #f0f1ee;
+
+    color: #777;
+
+    font-size: 8px;
+}
+
+
+.draft-dot {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #777;
+}
+
+
+/* =========================
+   STEPS
+========================= */
+
+.steps {
+    display: flex;
+
+    align-items: center;
+
+    margin-bottom: 18px;
+}
+
+
+.step {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    min-width: 180px;
+}
+
+
+.step-number {
+    width: 29px;
+    height: 29px;
+
+    border-radius: 7px;
+
+    background: #eeeeec;
+
+    color: #999;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 8px;
+
+    font-weight: 700;
+}
+
+
+.step.active .step-number {
+    background: #151515;
+
+    color: white;
+}
+
+
+.step strong {
+    display: block;
+
+    font-size: 9px;
+}
+
+
+.step small {
+    display: block;
+
+    color: #999;
+
+    font-size: 7px;
+}
+
+
+.step-line {
+    flex: 0 1 80px;
+
+    height: 1px;
+
+    background: #dedfdb;
+
+    margin: 0 12px;
+}
+
+
+/* =========================
+   FORM LAYOUT
+========================= */
+
+.form-layout {
+    display: grid;
+
+    grid-template-columns: 1.35fr .65fr;
+
+    gap: 15px;
+
+    align-items: start;
+}
+
+
+.form-card,
+.settings-card {
+    background: white;
+
+    border: 1px solid #e4e5e2;
+
+    border-radius: 11px;
+
+    padding: 26px;
+}
+
+
+.card-header {
+    padding-bottom: 20px;
+
+    margin-bottom: 22px;
+
+    border-bottom: 1px solid #eeeeec;
+}
+
+
+.card-header h2 {
+    margin-top: 4px;
+
+    font-size: 17px;
+
+    letter-spacing: -0.3px;
+}
+
+
+/* =========================
+   FORM
+========================= */
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+
+.form-row {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 13px;
+}
+
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #555;
+
+    font-size: 9px;
+
+    font-weight: 600;
+}
+
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+
+    border: 1px solid #dedfdb;
+
+    border-radius: 8px;
+
+    background: #fff;
+
+    color: #222;
+
+    padding: 11px 12px;
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+    outline: none;
+
+    transition: .2s;
+}
+
+
+.form-group textarea {
+    resize: vertical;
+
+    min-height: 100px;
+}
+
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #777;
+
+    box-shadow:
+        0 0 0 3px #f0f1ee;
+}
+
+
+.field-hint {
+    display: block;
+
+    margin-top: 5px;
+
+    color: #aaa;
+
+    font-size: 7px;
+}
+
+
+/* =========================
+   FORM ACTIONS
+========================= */
+
+.form-actions {
+    display: flex;
+
+    justify-content: flex-end;
+
+    align-items: center;
+
+    gap: 9px;
+
+    padding-top: 15px;
+
+    border-top: 1px solid #eeeeec;
+
+    margin-top: 10px;
+}
+
+
+.cancel-button,
+.draft-button,
+.continue-button {
+    height: 40px;
+
+    padding: 0 13px;
+
+    border-radius: 7px;
+
+    font-family: inherit;
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    text-decoration: none;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+
+.cancel-button {
+    color: #777;
+
+    background: transparent;
+
+    border: none;
+}
+
+
+.draft-button {
+    border: 1px solid #dedfdb;
+
+    background: white;
+
+    color: #666;
+}
+
+
+.continue-button {
+    border: none;
+
+    background: #151515;
+
+    color: white;
+}
+
+
+.continue-button:hover {
+    background: #333;
+}
+
+
+/* =========================
+   SETTINGS
+========================= */
+
+.settings-column {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+}
+
+
+.settings-card {
+    padding: 21px;
+}
+
+
+.settings-card .card-header {
+    margin-bottom: 5px;
+
+    padding-bottom: 16px;
+}
+
+
+.setting-list {
+    display: flex;
+
+    flex-direction: column;
+}
+
+
+.setting {
+    min-height: 62px;
+
+    border-bottom: 1px solid #eeeeec;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+    cursor: pointer;
+}
+
+
+.setting:last-child {
+    border-bottom: none;
+}
+
+
+.setting strong {
+    display: block;
+
+    font-size: 9px;
+}
+
+
+.setting small {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #999;
+
+    font-size: 7px;
+}
+
+
+/* =========================
+   TOGGLE
+========================= */
+
+.setting input {
+    display: none;
+}
+
+
+.toggle {
+    width: 34px;
+    height: 19px;
+
+    flex-shrink: 0;
+
+    border-radius: 100px;
+
+    background: #ddd;
+
+    position: relative;
+
+    transition: .2s;
+}
+
+
+.toggle::after {
+    content: "";
+
+    width: 13px;
+    height: 13px;
+
+    position: absolute;
+
+    top: 3px;
+    left: 3px;
+
+    border-radius: 50%;
+
+    background: white;
+
+    transition: .2s;
+
+    box-shadow:
+        0 1px 3px rgba(0,0,0,.15);
+}
+
+
+.setting input:checked + .toggle {
+    background: #151515;
+}
+
+
+.setting input:checked + .toggle::after {
+    transform: translateX(15px);
+}
+
+
+/* =========================
+   INFO
+========================= */
+
+.info-card {
+    padding: 17px;
+
+    border-radius: 10px;
+
+    background: #eeeeec;
+
+    display: flex;
+
+    gap: 11px;
+}
+
+
+.info-icon {
+    width: 25px;
+    height: 25px;
+
+    flex-shrink: 0;
+
+    border-radius: 7px;
+
+    background: #151515;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+
+.info-card strong {
+    font-size: 9px;
+}
+
+
+.info-card p {
+    margin-top: 4px;
+
+    color: #777;
+
+    font-size: 8px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+.toast {
+    position: fixed;
+
+    left: 50%;
+
+    bottom: 25px;
+
+    transform:
+        translateX(-50%)
+        translateY(80px);
+
+    padding: 11px 17px;
+
+    border-radius: 8px;
+
+    background: #151515;
+
+    color: white;
+
+    font-size: 9px;
+
+    opacity: 0;
+
+    transition: .3s;
+
+    z-index: 5000;
+}
+
+
+.toast.show {
+    opacity: 1;
+
+    transform:
+        translateX(-50%)
+        translateY(0);
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+
+    .form-layout {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    .page-container {
+        padding: 25px 17px 50px;
+    }
+
+    .top-right .secure-text {
+        display: none;
+    }
+
+    .page-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 15px;
+    }
+
+    .steps {
+        overflow-x: auto;
+
+        padding-bottom: 8px;
+    }
+
+    .step {
+        min-width: 150px;
+    }
+
+    .step-line {
+        min-width: 35px;
+    }
+
+    .form-card,
+    .settings-card {
+        padding: 20px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+        flex-wrap: wrap;
+    }
+
+}
+
+
+@media (max-width: 450px) {
+
+    .form-actions {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .cancel-button,
+    .draft-button,
+    .continue-button {
+        justify-content: center;
+    }
+
+}

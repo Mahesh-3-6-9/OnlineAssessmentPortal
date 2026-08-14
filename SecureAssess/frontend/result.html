@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Exam Result | SecureAssess</title>
+
+    <link
+        rel="stylesheet"
+        href="css/result.css"
+    >
+
+</head>
+
+
+<body>
+
+    <!-- =========================
+         TOP BAR
+    ========================== -->
+
+    <header class="topbar">
+
+        <a
+            href="student-dashboard.html"
+            class="brand"
+        >
+
+            <span class="brand-icon">
+                S
+            </span>
+
+            <span>
+                SecureAssess
+            </span>
+
+        </a>
+
+
+        <div class="topbar-right">
+
+            <span class="result-status">
+                Assessment completed
+            </span>
+
+            <div class="avatar">
+                S
+            </div>
+
+            <span class="student-name">
+                Saiteja
+            </span>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="page-container">
+
+
+        <!-- BREADCRUMB -->
+
+        <div class="breadcrumb">
+
+            <a href="student-dashboard.html">
+                Dashboard
+            </a>
+
+            <span>›</span>
+
+            <span>
+                Results
+            </span>
+
+            <span>›</span>
+
+            <span>
+                Data Structures
+            </span>
+
+        </div>
+
+
+        <!-- =========================
+             RESULT HERO
+        ========================== -->
+
+        <section class="result-hero">
+
+            <div class="hero-content">
+
+                <span class="hero-label">
+                    ASSESSMENT RESULT
+                </span>
+
+                <h1>
+                    Data Structures
+                </h1>
+
+                <p>
+                    Mid Semester Assessment
+                </p>
+
+                <span class="completed-date">
+                    Completed on August 14, 2026
+                </span>
+
+            </div>
+
+
+            <div class="score-container">
+
+                <div class="score-circle">
+
+                    <strong id="finalPercentage">
+                        86
+                    </strong>
+
+                    <span>
+                        %
+                    </span>
+
+                </div>
+
+                <div class="score-text">
+
+                    <strong>
+                        Good performance
+                    </strong>
+
+                    <span>
+                        43 / 50 marks
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             PERFORMANCE CARDS
+        ========================== -->
+
+        <section class="stats-grid">
+
+
+            <div class="stat-card">
+
+                <span class="stat-icon correct">
+                    ✓
+                </span>
+
+                <div>
+
+                    <small>
+                        Correct answers
+                    </small>
+
+                    <strong id="correctAnswers">
+                        26
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-icon wrong">
+                    ×
+                </span>
+
+                <div>
+
+                    <small>
+                        Incorrect answers
+                    </small>
+
+                    <strong id="wrongAnswers">
+                        4
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-icon skipped">
+                    —
+                </span>
+
+                <div>
+
+                    <small>
+                        Unanswered
+                    </small>
+
+                    <strong id="unanswered">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-icon time">
+                    ◷
+                </span>
+
+                <div>
+
+                    <small>
+                        Time taken
+                    </small>
+
+                    <strong id="timeTaken">
+                        37 min
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             MAIN GRID
+        ========================== -->
+
+        <section class="content-grid">
+
+
+            <!-- =========================
+                 PERFORMANCE
+            ========================== -->
+
+            <div class="content-card performance-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <span class="card-label">
+                            PERFORMANCE
+                        </span>
+
+                        <h2>
+                            Score breakdown
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SCORE BAR -->
+
+                <div class="score-breakdown">
+
+                    <div class="breakdown-row">
+
+                        <div class="breakdown-info">
+
+                            <span>
+                                Correct
+                            </span>
+
+                            <strong>
+                                26 questions
+                            </strong>
+
+                        </div>
+
+                        <span class="percentage">
+                            87%
+                        </span>
+
+                    </div>
+
+
+                    <div class="progress-track">
+
+                        <div
+                            class="progress-fill correct-fill"
+                            style="width: 87%"
+                        ></div>
+
+                    </div>
+
+
+                    <div class="breakdown-row">
+
+                        <div class="breakdown-info">
+
+                            <span>
+                                Incorrect
+                            </span>
+
+                            <strong>
+                                4 questions
+                            </strong>
+
+                        </div>
+
+                        <span class="percentage">
+                            13%
+                        </span>
+
+                    </div>
+
+
+                    <div class="progress-track">
+
+                        <div
+                            class="progress-fill wrong-fill"
+                            style="width: 13%"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- COMPARISON -->
+
+                <div class="comparison-box">
+
+                    <div>
+
+                        <span>
+                            Your score
+                        </span>
+
+                        <strong>
+                            86%
+                        </strong>
+
+                    </div>
+
+
+                    <div class="comparison-divider"></div>
+
+
+                    <div>
+
+                        <span>
+                            Class average
+                        </span>
+
+                        <strong>
+                            74%
+                        </strong>
+
+                    </div>
+
+
+                    <div class="comparison-result">
+
+                        <span>
+                            You performed
+                        </span>
+
+                        <strong>
+                            12% above average
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 INTEGRITY
+            ========================== -->
+
+            <div class="content-card integrity-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <span class="card-label">
+                            EXAM INTEGRITY
+                        </span>
+
+                        <h2>
+                            Session analysis
+                        </h2>
+
+                    </div>
+
+                    <span class="verified-badge">
+                        Verified
+                    </span>
+
+                </div>
+
+
+                <div class="integrity-main">
+
+                    <div class="integrity-circle">
+
+                        <strong id="integrityScore">
+                            100
+                        </strong>
+
+                        <span>
+                            /100
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            Excellent integrity
+                        </strong>
+
+                        <p>
+                            No significant suspicious
+                            activity was detected during
+                            your assessment.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="integrity-events">
+
+                    <div>
+
+                        <span>
+                            Tab switches
+                        </span>
+
+                        <strong>
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Fullscreen exits
+                        </span>
+
+                        <strong>
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Copy attempts
+                        </span>
+
+                        <strong>
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Integrity warnings
+                        </span>
+
+                        <strong>
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="integrity-note">
+
+                    <span>
+                        ◆
+                    </span>
+
+                    <p>
+                        Your examination session was
+                        successfully verified.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             QUESTION SUMMARY
+        ========================== -->
+
+        <section class="content-card question-summary-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <span class="card-label">
+                        QUESTION ANALYSIS
+                    </span>
+
+                    <h2>
+                        Question summary
+                    </h2>
+
+                </div>
+
+                <button
+                    id="toggleQuestions"
+                    class="toggle-button"
+                >
+                    View questions ↓
+                </button>
+
+            </div>
+
+
+            <div
+                class="question-summary"
+                id="questionSummary"
+            >
+
+                <!-- JS will generate rows -->
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             ACTIONS
+        ========================== -->
+
+        <section class="result-actions">
+
+            <a
+                href="student-dashboard.html"
+                class="secondary-button"
+            >
+                ← Back to dashboard
+            </a>
+
+
+            <button
+                id="downloadButton"
+                class="primary-button"
+            >
+
+                Download result
+
+                <span>
+                    ↓
+                </span>
+
+            </button>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- =========================
+         TOAST
+    ========================== -->
+
+    <div
+        class="toast"
+        id="toast"
+    >
+        Result download will be available after
+        backend integration.
+    </div>
+
+
+    <script src="js/result.js"></script>
+
+</body>
+
+</html>

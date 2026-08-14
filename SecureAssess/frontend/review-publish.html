@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Review & Publish | SecureAssess</title>
+
+    <link
+        rel="stylesheet"
+        href="css/review-publish.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<header class="topbar">
+
+    <a
+        href="teacher-dashboard.html"
+        class="brand"
+    >
+
+        <span class="brand-icon">S</span>
+
+        <span>SecureAssess</span>
+
+    </a>
+
+
+    <div class="top-right">
+
+        <span class="draft-status">
+            Final review
+        </span>
+
+        <div class="profile">
+
+            <span class="avatar">
+                T
+            </span>
+
+            <span>
+                Dr. Kumar
+            </span>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<main class="page-container">
+
+
+    <!-- BREADCRUMB -->
+
+    <div class="breadcrumb">
+
+        <a href="teacher-dashboard.html">
+            Dashboard
+        </a>
+
+        <span>›</span>
+
+        <a href="create-exam.html">
+            Create examination
+        </a>
+
+        <span>›</span>
+
+        <a href="question-bank.html">
+            Questions
+        </a>
+
+        <span>›</span>
+
+        <span>
+            Review & publish
+        </span>
+
+    </div>
+
+
+
+    <!-- HEADER -->
+
+    <section class="page-header">
+
+        <div>
+
+            <span class="section-label">
+                STEP 03 · FINAL REVIEW
+            </span>
+
+            <h1>
+                Review & publish
+            </h1>
+
+            <p>
+                Verify the examination before making it
+                available to students.
+            </p>
+
+        </div>
+
+
+        <span class="ready-badge">
+            Ready for review
+        </span>
+
+    </section>
+
+
+
+    <!-- STEPS -->
+
+    <div class="steps">
+
+        <div class="step completed">
+
+            <span class="step-number">
+                ✓
+            </span>
+
+            <div>
+
+                <strong>
+                    Exam details
+                </strong>
+
+                <small>
+                    Completed
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <span class="step-line completed"></span>
+
+
+        <div class="step completed">
+
+            <span class="step-number">
+                ✓
+            </span>
+
+            <div>
+
+                <strong>
+                    Questions
+                </strong>
+
+                <small>
+                    Completed
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <span class="step-line completed"></span>
+
+
+        <div class="step active">
+
+            <span class="step-number">
+                03
+            </span>
+
+            <div>
+
+                <strong>
+                    Review & publish
+                </strong>
+
+                <small>
+                    Final verification
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- MAIN GRID -->
+
+    <section class="review-grid">
+
+
+        <!-- LEFT -->
+
+        <div>
+
+
+            <!-- EXAM SUMMARY -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <span class="card-label">
+                            EXAMINATION
+                        </span>
+
+                        <h2 id="examTitle">
+                            Data Structures Mid Semester
+                        </h2>
+
+                    </div>
+
+
+                    <button
+                        id="editExamButton"
+                        class="edit-button"
+                    >
+                        Edit
+                    </button>
+
+                </div>
+
+
+                <div class="exam-meta-grid">
+
+
+                    <div>
+
+                        <small>
+                            Subject
+                        </small>
+
+                        <strong id="examSubject">
+                            Data Structures
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <small>
+                            Type
+                        </small>
+
+                        <strong id="examType">
+                            Mid Semester
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <small>
+                            Date
+                        </small>
+
+                        <strong id="examDate">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <small>
+                            Start time
+                        </small>
+
+                        <strong id="examTime">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <small>
+                            Duration
+                        </small>
+
+                        <strong id="examDuration">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <small>
+                            Maximum marks
+                        </small>
+
+                        <strong id="examMarks">
+                            —
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="description-box">
+
+                    <small>
+                        Description
+                    </small>
+
+                    <p id="examDescription">
+                        No description provided.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- QUESTION SUMMARY -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <span class="card-label">
+                            QUESTION BANK
+                        </span>
+
+                        <h2>
+                            Questions
+                        </h2>
+
+                    </div>
+
+
+                    <span
+                        class="question-count"
+                        id="questionCount"
+                    >
+                        0 questions
+                    </span>
+
+                </div>
+
+
+                <div
+                    id="questionPreview"
+                    class="question-preview"
+                >
+
+                    <!-- JS -->
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- RIGHT -->
+
+        <aside>
+
+
+            <!-- PUBLISH CARD -->
+
+            <div class="publish-card">
+
+                <span class="card-label">
+                    PUBLISH EXAMINATION
+                </span>
+
+                <h2>
+                    Ready to publish?
+                </h2>
+
+                <p>
+                    Once published, students will be able
+                    to see and attempt this examination
+                    according to the configured schedule.
+                </p>
+
+
+                <div class="publish-checks">
+
+
+                    <div class="check-row">
+
+                        <span>
+                            ✓
+                        </span>
+
+                        Exam details configured
+                    </div>
+
+
+                    <div class="check-row">
+
+                        <span>
+                            ✓
+                        </span>
+
+                        Questions added
+                    </div>
+
+
+                    <div class="check-row">
+
+                        <span>
+                            ✓
+                        </span>
+
+                        Security controls enabled
+                    </div>
+
+
+                    <div
+                        class="check-row"
+                        id="marksCheck"
+                    >
+
+                        <span>
+                            ✓
+                        </span>
+
+                        Marks verified
+
+                    </div>
+
+                </div>
+
+
+                <label class="confirmation">
+
+                    <input
+                        type="checkbox"
+                        id="confirmPublish"
+                    >
+
+                    <span>
+                        I have reviewed the examination and
+                        confirm that it is ready for students.
+                    </span>
+
+                </label>
+
+
+                <button
+                    id="publishButton"
+                    class="publish-button"
+                >
+
+                    Publish examination
+
+                    <span>
+                        →
+                    </span>
+
+                </button>
+
+
+                <button
+                    id="saveDraftButton"
+                    class="save-draft-button"
+                >
+                    Save as draft
+                </button>
+
+            </div>
+
+
+
+            <!-- SECURITY -->
+
+            <div class="card security-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <span class="card-label">
+                            SECURITY
+                        </span>
+
+                        <h2>
+                            Integrity controls
+                        </h2>
+
+                    </div>
+
+                    <span class="verified">
+                        Configured
+                    </span>
+
+                </div>
+
+
+                <div class="security-list">
+
+                    <div>
+
+                        <span>
+                            Fullscreen mode
+                        </span>
+
+                        <strong>
+                            Enabled
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Tab detection
+                        </span>
+
+                        <strong>
+                            Enabled
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Copy protection
+                        </span>
+
+                        <strong>
+                            Enabled
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Event logging
+                        </span>
+
+                        <strong>
+                            Enabled
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Question randomization
+                        </span>
+
+                        <strong>
+                            Enabled
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- WARNING -->
+
+            <div class="warning-card">
+
+                <span class="warning-icon">
+                    !
+                </span>
+
+                <div>
+
+                    <strong>
+                        Before publishing
+                    </strong>
+
+                    <p>
+                        Check the correct answers carefully.
+                        Students will be evaluated based on
+                        the answer key stored for this exam.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+    </section>
+
+
+
+    <!-- BOTTOM -->
+
+    <section class="bottom-actions">
+
+        <a
+            href="question-bank.html"
+            class="back-button"
+        >
+            ← Back to questions
+        </a>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =========================
+     SUCCESS MODAL
+========================= -->
+
+<div
+    class="success-overlay"
+    id="successOverlay"
+>
+
+    <div class="success-modal">
+
+        <div class="success-icon">
+            ✓
+        </div>
+
+        <span class="card-label">
+            EXAMINATION PUBLISHED
+        </span>
+
+        <h2>
+            Your examination is live
+        </h2>
+
+        <p>
+            The examination has been successfully
+            published and is now available according
+            to its schedule.
+        </p>
+
+
+        <div class="exam-code-box">
+
+            <small>
+                EXAMINATION CODE
+            </small>
+
+            <strong id="examCode">
+                SA-DSA-2026
+            </strong>
+
+        </div>
+
+
+        <button
+            id="dashboardButton"
+            class="publish-button"
+        >
+            Go to teacher dashboard
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- TOAST -->
+
+<div
+    id="toast"
+    class="toast"
+></div>
+
+
+<script src="js/review-publish.js"></script>
+
+</body>
+
+</html>

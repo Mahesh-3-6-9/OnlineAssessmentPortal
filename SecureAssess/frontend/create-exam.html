@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Create Examination | SecureAssess</title>
+
+    <link
+        rel="stylesheet"
+        href="css/create-exam.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     TOPBAR
+========================= -->
+
+<header class="topbar">
+
+    <a
+        href="teacher-dashboard.html"
+        class="brand"
+    >
+
+        <span class="brand-icon">
+            S
+        </span>
+
+        <span>
+            SecureAssess
+        </span>
+
+    </a>
+
+
+    <div class="top-right">
+
+        <span class="secure-text">
+            Faculty workspace
+        </span>
+
+        <div class="profile">
+
+            <span class="avatar">
+                T
+            </span>
+
+            <span>
+                Dr. Kumar
+            </span>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="page-container">
+
+
+    <!-- BREADCRUMB -->
+
+    <div class="breadcrumb">
+
+        <a href="teacher-dashboard.html">
+            Dashboard
+        </a>
+
+        <span>›</span>
+
+        <span>
+            Create examination
+        </span>
+
+    </div>
+
+
+    <!-- PAGE HEADER -->
+
+    <section class="page-header">
+
+        <div>
+
+            <span class="section-label">
+                NEW ASSESSMENT
+            </span>
+
+            <h1>
+                Create examination
+            </h1>
+
+            <p>
+                Configure the examination details before
+                adding questions.
+            </p>
+
+        </div>
+
+
+        <div class="draft-status">
+
+            <span class="draft-dot"></span>
+
+            Draft
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         STEPS
+    ========================== -->
+
+    <div class="steps">
+
+        <div class="step active">
+
+            <span class="step-number">
+                01
+            </span>
+
+            <div>
+
+                <strong>
+                    Exam details
+                </strong>
+
+                <small>
+                    Basic information
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <span class="step-line"></span>
+
+
+        <div class="step">
+
+            <span class="step-number">
+                02
+            </span>
+
+            <div>
+
+                <strong>
+                    Questions
+                </strong>
+
+                <small>
+                    Add question bank
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <span class="step-line"></span>
+
+
+        <div class="step">
+
+            <span class="step-number">
+                03
+            </span>
+
+            <div>
+
+                <strong>
+                    Review & publish
+                </strong>
+
+                <small>
+                    Final verification
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         FORM GRID
+    ========================== -->
+
+    <section class="form-layout">
+
+
+        <!-- LEFT FORM -->
+
+        <div class="form-card">
+
+            <div class="card-header">
+
+                <span class="card-label">
+                    EXAMINATION DETAILS
+                </span>
+
+                <h2>
+                    Basic information
+                </h2>
+
+            </div>
+
+
+            <!-- EXAM TITLE -->
+
+            <div class="form-group">
+
+                <label for="examTitle">
+                    Examination title
+                </label>
+
+                <input
+                    type="text"
+                    id="examTitle"
+                    placeholder="e.g. Data Structures Mid Semester"
+                >
+
+                <span class="field-hint">
+                    Use a clear name that students can easily identify.
+                </span>
+
+            </div>
+
+
+            <!-- SUBJECT -->
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="subject">
+                        Subject
+                    </label>
+
+                    <select id="subject">
+
+                        <option value="">
+                            Select subject
+                        </option>
+
+                        <option>
+                            Data Structures
+                        </option>
+
+                        <option>
+                            Database Management
+                        </option>
+
+                        <option>
+                            Operating Systems
+                        </option>
+
+                        <option>
+                            Computer Networks
+                        </option>
+
+                        <option>
+                            Java Programming
+                        </option>
+
+                        <option>
+                            Theory of Computation
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="examType">
+                        Examination type
+                    </label>
+
+                    <select id="examType">
+
+                        <option value="">
+                            Select type
+                        </option>
+
+                        <option>
+                            Mid Semester
+                        </option>
+
+                        <option>
+                            End Semester
+                        </option>
+
+                        <option>
+                            Practice Test
+                        </option>
+
+                        <option>
+                            Internal Assessment
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- DATE TIME -->
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="examDate">
+                        Examination date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="examDate"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="examTime">
+                        Start time
+                    </label>
+
+                    <input
+                        type="time"
+                        id="examTime"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- DURATION -->
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="duration">
+                        Duration
+                    </label>
+
+                    <select id="duration">
+
+                        <option value="">
+                            Select duration
+                        </option>
+
+                        <option value="30">
+                            30 minutes
+                        </option>
+
+                        <option value="45">
+                            45 minutes
+                        </option>
+
+                        <option value="60">
+                            60 minutes
+                        </option>
+
+                        <option value="90">
+                            90 minutes
+                        </option>
+
+                        <option value="120">
+                            120 minutes
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="maxMarks">
+                        Maximum marks
+                    </label>
+
+                    <input
+                        type="number"
+                        id="maxMarks"
+                        min="1"
+                        placeholder="e.g. 50"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="form-group">
+
+                <label for="description">
+                    Description
+                </label>
+
+                <textarea
+                    id="description"
+                    rows="4"
+                    placeholder="Add instructions or a short description for students..."
+                ></textarea>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="form-actions">
+
+                <a
+                    href="teacher-dashboard.html"
+                    class="cancel-button"
+                >
+                    Cancel
+                </a>
+
+
+                <button
+                    id="saveDraftButton"
+                    class="draft-button"
+                >
+                    Save draft
+                </button>
+
+
+                <button
+                    id="continueButton"
+                    class="continue-button"
+                >
+                    Continue to questions
+                    <span>→</span>
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- RIGHT SETTINGS -->
+
+        <aside class="settings-column">
+
+
+            <!-- SECURITY SETTINGS -->
+
+            <div class="settings-card">
+
+                <div class="card-header">
+
+                    <span class="card-label">
+                        EXAM SECURITY
+                    </span>
+
+                    <h2>
+                        Integrity controls
+                    </h2>
+
+                </div>
+
+
+                <div class="setting-list">
+
+
+                    <label class="setting">
+
+                        <div>
+
+                            <strong>
+                                Fullscreen mode
+                            </strong>
+
+                            <small>
+                                Require fullscreen during exam
+                            </small>
+
+                        </div>
+
+                        <input
+                            type="checkbox"
+                            id="fullscreenSetting"
+                            checked
+                        >
+
+                        <span class="toggle"></span>
+
+                    </label>
+
+
+                    <label class="setting">
+
+                        <div>
+
+                            <strong>
+                                Tab-switch detection
+                            </strong>
+
+                            <small>
+                                Record browser visibility changes
+                            </small>
+
+                        </div>
+
+                        <input
+                            type="checkbox"
+                            id="tabSetting"
+                            checked
+                        >
+
+                        <span class="toggle"></span>
+
+                    </label>
+
+
+                    <label class="setting">
+
+                        <div>
+
+                            <strong>
+                                Copy protection
+                            </strong>
+
+                            <small>
+                                Restrict copy and context menu
+                            </small>
+
+                        </div>
+
+                        <input
+                            type="checkbox"
+                            id="copySetting"
+                            checked
+                        >
+
+                        <span class="toggle"></span>
+
+                    </label>
+
+
+                    <label class="setting">
+
+                        <div>
+
+                            <strong>
+                                Event logging
+                            </strong>
+
+                            <small>
+                                Record integrity events
+                            </small>
+
+                        </div>
+
+                        <input
+                            type="checkbox"
+                            id="loggingSetting"
+                            checked
+                        >
+
+                        <span class="toggle"></span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <!-- EXAM SETTINGS -->
+
+            <div class="settings-card">
+
+                <div class="card-header">
+
+                    <span class="card-label">
+                        EXAM SETTINGS
+                    </span>
+
+                    <h2>
+                        Assessment rules
+                    </h2>
+
+                </div>
+
+
+                <div class="setting-list">
+
+
+                    <label class="setting">
+
+                        <div>
+
+                            <strong>
+                                Randomize questions
+                            </strong>
+
+                            <small>
+                                Different question order
+                            </small>
+
+                        </div>
+
+                        <input
+                            type="checkbox"
+                            id="randomQuestions"
+                            checked
+                        >
+
+                        <span class="toggle"></span>
+
+                    </label>
+
+
+                    <label class="setting">
+
+                        <div>
+
+                            <strong>
+                                Randomize options
+                            </strong>
+
+                            <small>
+                                Shuffle answer choices
+                            </small>
+
+                        </div>
+
+                        <input
+                            type="checkbox"
+                            id="randomOptions"
+                            checked
+                        >
+
+                        <span class="toggle"></span>
+
+                    </label>
+
+
+                    <label class="setting">
+
+                        <div>
+
+                            <strong>
+                                One attempt only
+                            </strong>
+
+                            <small>
+                                Prevent repeated attempts
+                            </small>
+
+                        </div>
+
+                        <input
+                            type="checkbox"
+                            id="oneAttempt"
+                            checked
+                        >
+
+                        <span class="toggle"></span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <!-- INFO -->
+
+            <div class="info-card">
+
+                <span class="info-icon">
+                    i
+                </span>
+
+                <div>
+
+                    <strong>
+                        Security recommendation
+                    </strong>
+
+                    <p>
+                        Keep integrity controls enabled for
+                        examinations that contribute to student
+                        evaluation.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+    </section>
+
+</main>
+
+
+<!-- =========================
+     TOAST
+========================== -->
+
+<div
+    class="toast"
+    id="toast"
+>
+</div>
+
+
+<script src="js/create-exam.js"></script>
+
+</body>
+
+</html>
