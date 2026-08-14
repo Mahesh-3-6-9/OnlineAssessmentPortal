@@ -1,0 +1,265 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | SecureAssess</title>
+
+    <link rel="stylesheet" href="css/login.css">
+</head>
+
+<body>
+
+    <main class="login-page">
+
+        <!-- LEFT SIDE -->
+        <section class="login-info">
+
+            <a href="index.html" class="brand">
+                <span class="brand-icon">S</span>
+                <span>SecureAssess</span>
+            </a>
+
+            <div class="info-content">
+
+                <span class="eyebrow">
+                    INTELLIGENT ASSESSMENT PLATFORM
+                </span>
+
+                <h1>
+                    Assess knowledge.
+                    <span>Protect integrity.</span>
+                </h1>
+
+                <p>
+                    A secure environment for conducting fair,
+                    efficient and intelligent online assessments.
+                </p>
+
+                <div class="security-points">
+
+                    <div class="security-point">
+                        <div class="point-icon">✓</div>
+                        <div>
+                            <strong>Secure examinations</strong>
+                            <p>Designed to discourage and detect suspicious activity.</p>
+                        </div>
+                    </div>
+
+                    <div class="security-point">
+                        <div class="point-icon">✓</div>
+                        <div>
+                            <strong>Automated evaluation</strong>
+                            <p>Instant results for objective assessments.</p>
+                        </div>
+                    </div>
+
+                    <div class="security-point">
+                        <div class="point-icon">✓</div>
+                        <div>
+                            <strong>Performance insights</strong>
+                            <p>Understand student performance beyond marks.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="login-footer-text">
+                © 2026 SecureAssess
+            </div>
+
+        </section>
+
+
+        <!-- RIGHT SIDE -->
+        <section class="login-container">
+
+            <div class="login-card">
+
+                <div class="mobile-brand">
+                    <span class="brand-icon">S</span>
+                    <span>SecureAssess</span>
+                </div>
+
+                <div class="login-heading">
+
+                    <span class="small-label">
+                        WELCOME BACK
+                    </span>
+
+                    <h2>
+                        Sign in to your account
+                    </h2>
+
+                    <p>
+                        Enter your credentials to continue.
+                    </p>
+
+                </div>
+
+
+                <!-- LOGIN FORM -->
+
+                <form id="loginForm">
+
+                    <!-- EMAIL -->
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="you@example.com"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="form-group">
+
+                        <div class="label-row">
+
+                            <label for="password">
+                                Password
+                            </label>
+
+                            <a href="#" id="forgotPassword">
+                                Forgot password?
+                            </a>
+
+                        </div>
+
+                        <div class="password-wrapper">
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                id="togglePassword"
+                                class="password-toggle"
+                                aria-label="Show password"
+                            >
+                                Show
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ROLE -->
+
+                    <div class="form-group">
+
+                        <label for="role">
+                            Sign in as
+                        </label>
+
+                        <select id="role" name="role">
+
+                            <option value="STUDENT">
+                                Student
+                            </option>
+
+                            <option value="TEACHER">
+                                Teacher
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- REMEMBER -->
+
+                    <div class="remember-row">
+
+                        <label class="checkbox-container">
+
+                            <input
+                                type="checkbox"
+                                id="rememberMe"
+                            >
+
+                            <span class="checkmark"></span>
+
+                            Remember me
+
+                        </label>
+
+                    </div>
+
+
+                    <!-- ERROR MESSAGE -->
+
+                    <div
+                        id="loginMessage"
+                        class="login-message"
+                        role="alert"
+                    ></div>
+
+
+                    <!-- LOGIN BUTTON -->
+
+                    <button
+                        type="submit"
+                        class="login-button"
+                        id="loginButton"
+                    >
+                        <span id="buttonText">
+                            Sign in
+                        </span>
+
+                        <span
+                            id="buttonLoader"
+                            class="loader"
+                        ></span>
+
+                    </button>
+
+                </form>
+
+
+                <div class="login-note">
+
+                    <span class="shield-icon">◆</span>
+
+                    <span>
+                        Your examination data is protected.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="js/login.js"></script>
+
+</body>
+</html>
+```

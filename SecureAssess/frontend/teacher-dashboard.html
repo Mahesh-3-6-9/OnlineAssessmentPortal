@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Teacher Dashboard | SecureAssess</title>
+
+    <link
+        rel="stylesheet"
+        href="css/teacher-dashboard.css"
+    >
+
+</head>
+
+
+<body>
+
+<div class="app-container">
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div>
+
+            <a
+                href="index.html"
+                class="brand"
+            >
+
+                <span class="brand-icon">
+                    S
+                </span>
+
+                <span>
+                    SecureAssess
+                </span>
+
+            </a>
+
+
+            <nav class="sidebar-nav">
+
+                <a
+                    href="#"
+                    class="nav-item active"
+                    data-section="dashboard"
+                >
+
+                    <span class="nav-icon">⌂</span>
+
+                    Dashboard
+
+                </a>
+
+
+                <a
+                    href="#"
+                    class="nav-item"
+                    data-section="exams"
+                >
+
+                    <span class="nav-icon">▣</span>
+
+                    Exams
+
+                </a>
+
+
+                <a
+                    href="#"
+                    class="nav-item"
+                    data-section="questions"
+                >
+
+                    <span class="nav-icon">?</span>
+
+                    Question Bank
+
+                </a>
+
+
+                <a
+                    href="#"
+                    class="nav-item"
+                    data-section="students"
+                >
+
+                    <span class="nav-icon">◯</span>
+
+                    Students
+
+                </a>
+
+
+                <a
+                    href="#"
+                    class="nav-item"
+                    data-section="results"
+                >
+
+                    <span class="nav-icon">◫</span>
+
+                    Results
+
+                </a>
+
+
+                <a
+                    href="#"
+                    class="nav-item"
+                    data-section="analytics"
+                >
+
+                    <span class="nav-icon">↗</span>
+
+                    Analytics
+
+                </a>
+
+
+                <div class="nav-divider"></div>
+
+
+                <a
+                    href="#"
+                    class="nav-item"
+                    data-section="settings"
+                >
+
+                    <span class="nav-icon">⚙</span>
+
+                    Settings
+
+                </a>
+
+            </nav>
+
+        </div>
+
+
+        <!-- SIDEBAR BOTTOM -->
+
+        <div class="sidebar-bottom">
+
+            <div class="teacher-card">
+
+                <span class="teacher-avatar">
+                    T
+                </span>
+
+                <div>
+
+                    <strong>
+                        Dr. Kumar
+                    </strong>
+
+                    <small>
+                        Faculty
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <button
+                id="logoutButton"
+                class="logout-button"
+            >
+
+                ↪
+
+                Logout
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN
+    ========================== -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <button
+                class="menu-button"
+                id="menuButton"
+            >
+                ☰
+            </button>
+
+
+            <div class="topbar-spacer"></div>
+
+
+            <button
+                class="notification-button"
+                id="notificationButton"
+            >
+
+                ♧
+
+                <span class="notification-dot"></span>
+
+            </button>
+
+
+            <div class="top-profile">
+
+                <span class="profile-avatar">
+                    T
+                </span>
+
+                <div>
+
+                    <strong>
+                        Dr. Kumar
+                    </strong>
+
+                    <small>
+                        Faculty
+                    </small>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =========================
+             CONTENT
+        ========================== -->
+
+        <div class="dashboard-content">
+
+
+            <!-- WELCOME -->
+
+            <section class="welcome-section">
+
+                <div>
+
+                    <span class="section-label">
+                        FACULTY DASHBOARD
+                    </span>
+
+                    <h1>
+                        Good evening,
+                        <span>Dr. Kumar.</span>
+                    </h1>
+
+                    <p>
+                        Here's an overview of your
+                        assessments and students.
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="create-button"
+                    id="createExamButton"
+                >
+
+                    + Create examination
+
+                </button>
+
+            </section>
+
+
+            <!-- =========================
+                 STATISTICS
+            ========================== -->
+
+            <section class="stats-grid">
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span>
+                            Total examinations
+                        </span>
+
+                        <b>
+                            ▣
+                        </b>
+
+                    </div>
+
+                    <strong>
+                        12
+                    </strong>
+
+                    <small>
+                        8 published · 4 drafts
+                    </small>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span>
+                            Students assessed
+                        </span>
+
+                        <b>
+                            ◯
+                        </b>
+
+                    </div>
+
+                    <strong>
+                        284
+                    </strong>
+
+                    <small>
+                        This semester
+                    </small>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span>
+                            Average score
+                        </span>
+
+                        <b>
+                            ↗
+                        </b>
+
+                    </div>
+
+                    <strong>
+                        76%
+                    </strong>
+
+                    <small class="positive">
+                        ↑ 4% from last month
+                    </small>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span>
+                            Integrity alerts
+                        </span>
+
+                        <b>
+                            !
+                        </b>
+
+                    </div>
+
+                    <strong>
+                        07
+                    </strong>
+
+                    <small>
+                        Requires review
+                    </small>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 MAIN GRID
+            ========================== -->
+
+            <section class="main-grid">
+
+
+                <!-- UPCOMING EXAMS -->
+
+                <div class="dashboard-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <span class="card-label">
+                                SCHEDULE
+                            </span>
+
+                            <h2>
+                                Upcoming examinations
+                            </h2>
+
+                        </div>
+
+                        <a
+                            href="#"
+                            class="view-link"
+                        >
+                            View all →
+                        </a>
+
+                    </div>
+
+
+                    <div class="exam-list">
+
+
+                        <div class="exam-row">
+
+                            <div class="exam-icon">
+                                DS
+                            </div>
+
+                            <div class="exam-info">
+
+                                <strong>
+                                    Data Structures
+                                </strong>
+
+                                <small>
+                                    30 questions · 45 min
+                                </small>
+
+                            </div>
+
+                            <div class="exam-date">
+
+                                <strong>
+                                    Aug 14
+                                </strong>
+
+                                <small>
+                                    10:00 AM
+                                </small>
+
+                            </div>
+
+                            <span class="status scheduled">
+                                Scheduled
+                            </span>
+
+                        </div>
+
+
+                        <div class="exam-row">
+
+                            <div class="exam-icon">
+                                DB
+                            </div>
+
+                            <div class="exam-info">
+
+                                <strong>
+                                    Database Management
+                                </strong>
+
+                                <small>
+                                    25 questions · 40 min
+                                </small>
+
+                            </div>
+
+                            <div class="exam-date">
+
+                                <strong>
+                                    Aug 18
+                                </strong>
+
+                                <small>
+                                    11:00 AM
+                                </small>
+
+                            </div>
+
+                            <span class="status scheduled">
+                                Scheduled
+                            </span>
+
+                        </div>
+
+
+                        <div class="exam-row">
+
+                            <div class="exam-icon">
+                                OS
+                            </div>
+
+                            <div class="exam-info">
+
+                                <strong>
+                                    Operating Systems
+                                </strong>
+
+                                <small>
+                                    30 questions · 45 min
+                                </small>
+
+                            </div>
+
+                            <div class="exam-date">
+
+                                <strong>
+                                    Aug 21
+                                </strong>
+
+                                <small>
+                                    10:00 AM
+                                </small>
+
+                            </div>
+
+                            <span class="status draft">
+                                Draft
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PERFORMANCE -->
+
+                <div class="dashboard-card performance-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <span class="card-label">
+                                PERFORMANCE
+                            </span>
+
+                            <h2>
+                                Class performance
+                            </h2>
+
+                        </div>
+
+                        <span class="period">
+                            This semester
+                        </span>
+
+                    </div>
+
+
+                    <div class="performance-chart">
+
+                        <div class="chart-lines">
+
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+
+                        </div>
+
+
+                        <div class="chart-bars">
+
+                            <div class="chart-column">
+
+                                <div
+                                    class="chart-bar"
+                                    style="height: 62%"
+                                ></div>
+
+                                <small>
+                                    CN
+                                </small>
+
+                            </div>
+
+
+                            <div class="chart-column">
+
+                                <div
+                                    class="chart-bar"
+                                    style="height: 76%"
+                                ></div>
+
+                                <small>
+                                    Java
+                                </small>
+
+                            </div>
+
+
+                            <div class="chart-column">
+
+                                <div
+                                    class="chart-bar"
+                                    style="height: 69%"
+                                ></div>
+
+                                <small>
+                                    OS
+                                </small>
+
+                            </div>
+
+
+                            <div class="chart-column">
+
+                                <div
+                                    class="chart-bar"
+                                    style="height: 84%"
+                                ></div>
+
+                                <small>
+                                    DBMS
+                                </small>
+
+                            </div>
+
+
+                            <div class="chart-column">
+
+                                <div
+                                    class="chart-bar highlight"
+                                    style="height: 76%"
+                                ></div>
+
+                                <small>
+                                    DSA
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 BOTTOM GRID
+            ========================== -->
+
+            <section class="bottom-grid">
+
+
+                <!-- RECENT ACTIVITY -->
+
+                <div class="dashboard-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <span class="card-label">
+                                RECENT ACTIVITY
+                            </span>
+
+                            <h2>
+                                Examination activity
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="activity-list">
+
+
+                        <div class="activity-row">
+
+                            <span class="activity-icon">
+                                ✓
+                            </span>
+
+                            <div>
+
+                                <strong>
+                                    Data Structures
+                                    examination completed
+                                </strong>
+
+                                <small>
+                                    42 students submitted
+                                    · 2 hours ago
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="activity-row">
+
+                            <span class="activity-icon">
+                                +
+                            </span>
+
+                            <div>
+
+                                <strong>
+                                    Database Management
+                                    exam created
+                                </strong>
+
+                                <small>
+                                    25 questions · Yesterday
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="activity-row">
+
+                            <span class="activity-icon alert">
+                                !
+                            </span>
+
+                            <div>
+
+                                <strong>
+                                    Integrity alert requires review
+                                </strong>
+
+                                <small>
+                                    Student ID #1042 · Yesterday
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- INTEGRITY -->
+
+                <div class="dashboard-card integrity-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <span class="card-label">
+                                INTEGRITY MONITOR
+                            </span>
+
+                            <h2>
+                                Recent alerts
+                            </h2>
+
+                        </div>
+
+                        <span class="alert-count">
+                            3 new
+                        </span>
+
+                    </div>
+
+
+                    <div class="alert-list">
+
+
+                        <div class="alert-row">
+
+                            <span class="alert-indicator">
+                                !
+                            </span>
+
+                            <div>
+
+                                <strong>
+                                    Multiple tab switches
+                                </strong>
+
+                                <small>
+                                    Student #1042 · DSA
+                                </small>
+
+                            </div>
+
+                            <button class="review-alert">
+                                Review
+                            </button>
+
+                        </div>
+
+
+                        <div class="alert-row">
+
+                            <span class="alert-indicator">
+                                !
+                            </span>
+
+                            <div>
+
+                                <strong>
+                                    Fullscreen exited
+                                </strong>
+
+                                <small>
+                                    Student #1087 · DSA
+                                </small>
+
+                            </div>
+
+                            <button class="review-alert">
+                                Review
+                            </button>
+
+                        </div>
+
+
+                        <div class="alert-row">
+
+                            <span class="alert-indicator">
+                                !
+                            </span>
+
+                            <div>
+
+                                <strong>
+                                    Multiple warnings
+                                </strong>
+
+                                <small>
+                                    Student #1103 · Java
+                                </small>
+
+                            </div>
+
+                            <button class="review-alert">
+                                Review
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        class="view-alerts"
+                        id="viewAlertsButton"
+                    >
+                        View all integrity alerts →
+                    </button>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- =========================
+     NOTIFICATION
+========================== -->
+
+<div
+    class="notification-panel"
+    id="notificationPanel"
+>
+
+    <strong>
+        Notifications
+    </strong>
+
+    <p>
+        3 students require integrity review.
+    </p>
+
+    <p>
+        Data Structures results are ready.
+    </p>
+
+</div>
+
+
+<script src="js/teacher-dashboard.js"></script>
+
+</body>
+
+</html>

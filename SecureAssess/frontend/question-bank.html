@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Question Bank | SecureAssess</title>
+
+    <link
+        rel="stylesheet"
+        href="css/question-bank.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     TOPBAR
+========================= -->
+
+<header class="topbar">
+
+    <a
+        href="teacher-dashboard.html"
+        class="brand"
+    >
+
+        <span class="brand-icon">
+            S
+        </span>
+
+        <span>
+            SecureAssess
+        </span>
+
+    </a>
+
+
+    <div class="top-right">
+
+        <span class="exam-draft">
+            Draft examination
+        </span>
+
+        <div class="profile">
+
+            <span class="avatar">
+                T
+            </span>
+
+            <span>
+                Dr. Kumar
+            </span>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="page-container">
+
+
+    <!-- BREADCRUMB -->
+
+    <div class="breadcrumb">
+
+        <a href="teacher-dashboard.html">
+            Dashboard
+        </a>
+
+        <span>›</span>
+
+        <a href="create-exam.html">
+            Create examination
+        </a>
+
+        <span>›</span>
+
+        <span>
+            Question bank
+        </span>
+
+    </div>
+
+
+    <!-- =========================
+         PAGE HEADER
+    ========================== -->
+
+    <section class="page-header">
+
+        <div>
+
+            <span class="section-label">
+                STEP 02 · QUESTIONS
+            </span>
+
+            <h1>
+                Question bank
+            </h1>
+
+            <p id="examSubtitle">
+                Add and organize questions for your examination.
+            </p>
+
+        </div>
+
+
+        <button
+            class="add-button"
+            id="addQuestionButton"
+        >
+
+            + Add question
+
+        </button>
+
+    </section>
+
+
+    <!-- =========================
+         STEPS
+    ========================== -->
+
+    <div class="steps">
+
+        <div class="step completed">
+
+            <span class="step-number">
+                ✓
+            </span>
+
+            <div>
+
+                <strong>
+                    Exam details
+                </strong>
+
+                <small>
+                    Completed
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <span class="step-line completed"></span>
+
+
+        <div class="step active">
+
+            <span class="step-number">
+                02
+            </span>
+
+            <div>
+
+                <strong>
+                    Questions
+                </strong>
+
+                <small>
+                    Add question bank
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <span class="step-line"></span>
+
+
+        <div class="step">
+
+            <span class="step-number">
+                03
+            </span>
+
+            <div>
+
+                <strong>
+                    Review & publish
+                </strong>
+
+                <small>
+                    Final verification
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         STATISTICS
+    ========================== -->
+
+    <section class="stats-grid">
+
+        <div class="stat-card">
+
+            <span class="stat-icon">
+                ?
+            </span>
+
+            <div>
+
+                <small>
+                    Total questions
+                </small>
+
+                <strong id="totalQuestions">
+                    0
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span class="stat-icon">
+                #
+            </span>
+
+            <div>
+
+                <small>
+                    Total marks
+                </small>
+
+                <strong id="totalMarks">
+                    0
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span class="stat-icon">
+                E
+            </span>
+
+            <div>
+
+                <small>
+                    Easy
+                </small>
+
+                <strong id="easyCount">
+                    0
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span class="stat-icon">
+                H
+            </span>
+
+            <div>
+
+                <small>
+                    Hard
+                </small>
+
+                <strong id="hardCount">
+                    0
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         TOOLBAR
+    ========================== -->
+
+    <section class="toolbar">
+
+        <div class="search-box">
+
+            <span>
+                ⌕
+            </span>
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search questions..."
+            >
+
+        </div>
+
+
+        <select id="difficultyFilter">
+
+            <option value="all">
+                All difficulty
+            </option>
+
+            <option value="easy">
+                Easy
+            </option>
+
+            <option value="medium">
+                Medium
+            </option>
+
+            <option value="hard">
+                Hard
+            </option>
+
+        </select>
+
+
+        <select id="marksFilter">
+
+            <option value="all">
+                All marks
+            </option>
+
+            <option value="1">
+                1 mark
+            </option>
+
+            <option value="2">
+                2 marks
+            </option>
+
+            <option value="5">
+                5 marks
+            </option>
+
+        </select>
+
+    </section>
+
+
+    <!-- =========================
+         QUESTION LIST
+    ========================== -->
+
+    <section class="question-list-card">
+
+        <div class="list-header">
+
+            <div>
+
+                <span class="card-label">
+                    EXAMINATION QUESTIONS
+                </span>
+
+                <h2>
+                    Questions
+                </h2>
+
+            </div>
+
+
+            <span
+                id="visibleQuestionCount"
+                class="visible-count"
+            >
+                0 questions
+            </span>
+
+        </div>
+
+
+        <div
+            id="questionList"
+            class="question-list"
+        >
+
+            <!-- JavaScript will generate questions -->
+
+        </div>
+
+
+        <!-- EMPTY STATE -->
+
+        <div
+            id="emptyState"
+            class="empty-state"
+        >
+
+            <div class="empty-icon">
+                ?
+            </div>
+
+            <h3>
+                No questions yet
+            </h3>
+
+            <p>
+                Start building your examination by adding
+                the first question.
+            </p>
+
+            <button
+                id="emptyAddButton"
+                class="add-button"
+            >
+                + Add first question
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         FOOTER ACTIONS
+    ========================== -->
+
+    <section class="bottom-actions">
+
+        <a
+            href="create-exam.html"
+            class="back-button"
+        >
+            ← Back to exam details
+        </a>
+
+
+        <div>
+
+            <button
+                id="saveQuestionsButton"
+                class="save-button"
+            >
+                Save questions
+            </button>
+
+
+            <button
+                id="reviewButton"
+                class="continue-button"
+            >
+
+                Review & publish
+
+                <span>
+                    →
+                </span>
+
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =========================
+     QUESTION MODAL
+========================= -->
+
+<div
+    class="modal-overlay"
+    id="questionModal"
+>
+
+    <div class="question-modal">
+
+
+        <div class="modal-header">
+
+            <div>
+
+                <span class="card-label">
+                    QUESTION EDITOR
+                </span>
+
+                <h2 id="modalTitle">
+                    Add question
+                </h2>
+
+            </div>
+
+
+            <button
+                id="closeModal"
+                class="close-button"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <!-- QUESTION -->
+
+        <div class="modal-form-group">
+
+            <label>
+                Question
+            </label>
+
+            <textarea
+                id="questionText"
+                rows="4"
+                placeholder="Enter your question..."
+            ></textarea>
+
+        </div>
+
+
+        <!-- OPTIONS -->
+
+        <div class="options-heading">
+
+            <label>
+                Answer options
+            </label>
+
+            <span>
+                Select the correct answer
+            </span>
+
+        </div>
+
+
+        <div class="option-editor">
+
+
+            <div class="option-input">
+
+                <span>
+                    A
+                </span>
+
+                <input
+                    type="text"
+                    id="optionA"
+                    placeholder="Option A"
+                >
+
+                <input
+                    type="radio"
+                    name="correctAnswer"
+                    value="A"
+                >
+
+            </div>
+
+
+            <div class="option-input">
+
+                <span>
+                    B
+                </span>
+
+                <input
+                    type="text"
+                    id="optionB"
+                    placeholder="Option B"
+                >
+
+                <input
+                    type="radio"
+                    name="correctAnswer"
+                    value="B"
+                >
+
+            </div>
+
+
+            <div class="option-input">
+
+                <span>
+                    C
+                </span>
+
+                <input
+                    type="text"
+                    id="optionC"
+                    placeholder="Option C"
+                >
+
+                <input
+                    type="radio"
+                    name="correctAnswer"
+                    value="C"
+                >
+
+            </div>
+
+
+            <div class="option-input">
+
+                <span>
+                    D
+                </span>
+
+                <input
+                    type="text"
+                    id="optionD"
+                    placeholder="Option D"
+                >
+
+                <input
+                    type="radio"
+                    name="correctAnswer"
+                    value="D"
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- SETTINGS -->
+
+        <div class="modal-row">
+
+
+            <div class="modal-form-group">
+
+                <label>
+                    Difficulty
+                </label>
+
+                <select id="questionDifficulty">
+
+                    <option value="easy">
+                        Easy
+                    </option>
+
+                    <option value="medium">
+                        Medium
+                    </option>
+
+                    <option value="hard">
+                        Hard
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="modal-form-group">
+
+                <label>
+                    Marks
+                </label>
+
+                <select id="questionMarks">
+
+                    <option value="1">
+                        1 mark
+                    </option>
+
+                    <option value="2">
+                        2 marks
+                    </option>
+
+                    <option value="5">
+                        5 marks
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- MODAL ACTIONS -->
+
+        <div class="modal-actions">
+
+            <button
+                id="cancelModal"
+                class="cancel-button"
+            >
+                Cancel
+            </button>
+
+
+            <button
+                id="saveQuestionButton"
+                class="save-question-button"
+            >
+                Save question
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     TOAST
+========================== -->
+
+<div
+    class="toast"
+    id="toast"
+>
+</div>
+
+
+<script src="js/question-bank.js"></script>
+
+</body>
+
+</html>-

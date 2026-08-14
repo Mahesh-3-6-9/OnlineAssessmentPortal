@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Data Structures | SecureAssess</title>
+
+    <link
+        rel="stylesheet"
+        href="css/exam.css"
+    >
+
+</head>
+
+
+<body>
+
+    <!-- =================================
+         EXAM HEADER
+    ================================== -->
+
+    <header class="exam-header">
+
+        <div class="exam-brand">
+
+            <div class="brand-icon">
+                S
+            </div>
+
+            <div>
+
+                <strong>
+                    SecureAssess
+                </strong>
+
+                <span>
+                    Data Structures — Mid Semester
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="exam-status-area">
+
+            <div class="save-status">
+
+                <span class="save-dot"></span>
+
+                <span id="saveStatus">
+                    All changes saved
+                </span>
+
+            </div>
+
+
+            <div class="integrity-status">
+
+                <span class="integrity-indicator"></span>
+
+                Integrity monitoring active
+
+            </div>
+
+        </div>
+
+
+        <div class="timer-container">
+
+            <span class="timer-label">
+                TIME REMAINING
+            </span>
+
+            <strong id="timer">
+                44:59
+            </strong>
+
+        </div>
+
+    </header>
+
+
+    <!-- =================================
+         EXAM BODY
+    ================================== -->
+
+    <main class="exam-layout">
+
+
+        <!-- =================================
+             LEFT QUESTION AREA
+        ================================== -->
+
+        <section class="question-area">
+
+
+            <!-- QUESTION TOP -->
+
+            <div class="question-top">
+
+                <div>
+
+                    <span class="question-label">
+                        QUESTION
+                    </span>
+
+                    <strong id="questionNumber">
+                        01
+                    </strong>
+
+                    <span class="question-total">
+                        / 30
+                    </span>
+
+                </div>
+
+
+                <button
+                    class="review-button"
+                    id="reviewButton"
+                >
+
+                    <span id="reviewIcon">
+                        ☆
+                    </span>
+
+                    Mark for review
+
+                </button>
+
+            </div>
+
+
+            <!-- PROGRESS -->
+
+            <div class="progress-container">
+
+                <div
+                    class="progress-bar"
+                    id="progressBar"
+                ></div>
+
+            </div>
+
+
+            <!-- QUESTION -->
+
+            <article class="question-card">
+
+                <div class="question-topic">
+
+                    DATA STRUCTURES
+
+                </div>
+
+
+                <h1 id="questionText">
+
+                    Which data structure follows the
+                    Last In First Out (LIFO) principle?
+
+                </h1>
+
+
+                <!-- OPTIONS -->
+
+                <div
+                    class="options"
+                    id="optionsContainer"
+                >
+
+                    <label class="option">
+
+                        <input
+                            type="radio"
+                            name="answer"
+                            value="A"
+                        >
+
+                        <span class="option-letter">
+                            A
+                        </span>
+
+                        <span class="option-text">
+                            Queue
+                        </span>
+
+                    </label>
+
+
+                    <label class="option">
+
+                        <input
+                            type="radio"
+                            name="answer"
+                            value="B"
+                        >
+
+                        <span class="option-letter">
+                            B
+                        </span>
+
+                        <span class="option-text">
+                            Stack
+                        </span>
+
+                    </label>
+
+
+                    <label class="option">
+
+                        <input
+                            type="radio"
+                            name="answer"
+                            value="C"
+                        >
+
+                        <span class="option-letter">
+                            C
+                        </span>
+
+                        <span class="option-text">
+                            Linked List
+                        </span>
+
+                    </label>
+
+
+                    <label class="option">
+
+                        <input
+                            type="radio"
+                            name="answer"
+                            value="D"
+                        >
+
+                        <span class="option-letter">
+                            D
+                        </span>
+
+                        <span class="option-text">
+                            Binary Tree
+                        </span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- QUESTION FOOTER -->
+
+                <div class="question-footer">
+
+                    <span>
+                        Select one answer
+                    </span>
+
+                    <span id="answerStatus">
+                        Not answered
+                    </span>
+
+                </div>
+
+            </article>
+
+
+            <!-- NAVIGATION -->
+
+            <div class="question-navigation">
+
+                <button
+                    class="previous-button"
+                    id="previousButton"
+                >
+
+                    ← Previous
+
+                </button>
+
+
+                <div class="navigation-center">
+
+                    <span id="navigationStatus">
+                        Question 1 of 30
+                    </span>
+
+                </div>
+
+
+                <button
+                    class="next-button"
+                    id="nextButton"
+                >
+
+                    Next →
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================
+             RIGHT SIDEBAR
+        ================================== -->
+
+        <aside class="exam-sidebar">
+
+
+            <!-- QUESTION NAVIGATOR -->
+
+            <div class="navigator-card">
+
+                <div class="sidebar-card-header">
+
+                    <div>
+
+                        <span class="sidebar-label">
+                            QUESTIONS
+                        </span>
+
+                        <h2>
+                            Question navigator
+                        </h2>
+
+                    </div>
+
+                    <span id="answeredCount">
+                        0 / 30
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="question-grid"
+                    id="questionGrid"
+                >
+
+                    <!-- JS generates buttons -->
+
+                </div>
+
+
+                <div class="legend">
+
+                    <div>
+                        <span class="legend-box answered"></span>
+                        Answered
+                    </div>
+
+                    <div>
+                        <span class="legend-box current"></span>
+                        Current
+                    </div>
+
+                    <div>
+                        <span class="legend-box review"></span>
+                        Review
+                    </div>
+
+                    <div>
+                        <span class="legend-box unanswered"></span>
+                        Unanswered
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- INTEGRITY CARD -->
+
+            <div class="integrity-card">
+
+                <div class="sidebar-card-header">
+
+                    <div>
+
+                        <span class="sidebar-label">
+                            EXAM INTEGRITY
+                        </span>
+
+                        <h2>
+                            Session status
+                        </h2>
+
+                    </div>
+
+                    <span class="live-badge">
+                        LIVE
+                    </span>
+
+                </div>
+
+
+                <div class="integrity-score">
+
+                    <div class="score-circle">
+
+                        <strong id="integrityScore">
+                            100
+                        </strong>
+
+                        <span>
+                            /100
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <strong id="integrityLevel">
+                            Excellent
+                        </strong>
+
+                        <p>
+                            No suspicious events detected.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="integrity-events">
+
+                    <div>
+
+                        <span>
+                            Tab switches
+                        </span>
+
+                        <strong id="tabSwitchCount">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Fullscreen exits
+                        </span>
+
+                        <strong id="fullscreenExitCount">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Copy attempts
+                        </span>
+
+                        <strong id="copyAttemptCount">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SUBMIT -->
+
+            <button
+                class="submit-button"
+                id="submitButton"
+            >
+
+                Submit examination
+
+                <span>
+                    →
+                </span>
+
+            </button>
+
+        </aside>
+
+    </main>
+
+
+    <!-- =================================
+         WARNING MODAL
+    ================================== -->
+
+    <div
+        class="modal-overlay"
+        id="warningModal"
+    >
+
+        <div class="warning-modal">
+
+            <div class="warning-icon">
+                !
+            </div>
+
+            <span class="modal-label">
+                EXAMINATION WARNING
+            </span>
+
+            <h2 id="warningTitle">
+                Suspicious activity detected
+            </h2>
+
+            <p id="warningMessage">
+                Your examination session detected
+                an integrity-related event.
+            </p>
+
+            <div class="warning-counter">
+
+                Warning
+                <strong id="warningCount">
+                    1
+                </strong>
+                of 3
+
+            </div>
+
+            <button
+                id="warningClose"
+                class="warning-button"
+            >
+
+                Continue examination
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================
+         SUBMIT MODAL
+    ================================== -->
+
+    <div
+        class="modal-overlay"
+        id="submitModal"
+    >
+
+        <div class="submit-modal">
+
+            <div class="submit-icon">
+                ✓
+            </div>
+
+            <h2>
+                Submit examination?
+            </h2>
+
+            <p>
+                Once submitted, you cannot change your answers.
+                Please review your responses before continuing.
+            </p>
+
+
+            <div class="submit-summary">
+
+                <div>
+
+                    <span>
+                        Answered
+                    </span>
+
+                    <strong id="submitAnswered">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Unanswered
+                    </span>
+
+                    <strong id="submitUnanswered">
+                        30
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button
+                    id="cancelSubmit"
+                    class="cancel-button"
+                >
+
+                    Go back
+
+                </button>
+
+
+                <button
+                    id="confirmSubmit"
+                    class="confirm-button"
+                >
+
+                    Submit exam
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="js/exam.js"></script>
+
+</body>
+
+</html>

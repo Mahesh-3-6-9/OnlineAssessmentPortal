@@ -1,0 +1,1083 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Student Dashboard | SecureAssess</title>
+
+    <link
+        rel="stylesheet"
+        href="css/student-dashboard.css"
+    >
+
+</head>
+
+
+<body>
+
+    <div class="app-container">
+
+
+        <!-- =========================
+             SIDEBAR
+        ========================== -->
+
+        <aside class="sidebar" id="sidebar">
+
+            <div class="sidebar-top">
+
+
+                <!-- LOGO -->
+
+                <a href="index.html" class="brand">
+
+                    <span class="brand-icon">
+                        S
+                    </span>
+
+                    <span class="brand-name">
+                        SecureAssess
+                    </span>
+
+                </a>
+
+
+                <!-- NAVIGATION -->
+
+                <nav class="sidebar-nav">
+
+                    <a
+                        href="#"
+                        class="nav-item active"
+                        data-section="dashboard"
+                    >
+
+                        <span class="nav-icon">
+                            ⌂
+                        </span>
+
+                        <span>
+                            Dashboard
+                        </span>
+
+                    </a>
+
+
+                    <a
+                        href="#"
+                        class="nav-item"
+                        data-section="exams"
+                    >
+
+                        <span class="nav-icon">
+                            ▣
+                        </span>
+
+                        <span>
+                            My Exams
+                        </span>
+
+                    </a>
+
+
+                    <a
+                        href="#"
+                        class="nav-item"
+                        data-section="results"
+                    >
+
+                        <span class="nav-icon">
+                            ◫
+                        </span>
+
+                        <span>
+                            Results
+                        </span>
+
+                    </a>
+
+
+                    <a
+                        href="#"
+                        class="nav-item"
+                        data-section="performance"
+                    >
+
+                        <span class="nav-icon">
+                            ↗
+                        </span>
+
+                        <span>
+                            Performance
+                        </span>
+
+                    </a>
+
+
+                    <div class="nav-divider"></div>
+
+
+                    <a
+                        href="#"
+                        class="nav-item"
+                        data-section="profile"
+                    >
+
+                        <span class="nav-icon">
+                            ◯
+                        </span>
+
+                        <span>
+                            Profile
+                        </span>
+
+                    </a>
+
+
+                    <a
+                        href="#"
+                        class="nav-item"
+                        data-section="settings"
+                    >
+
+                        <span class="nav-icon">
+                            ⚙
+                        </span>
+
+                        <span>
+                            Settings
+                        </span>
+
+                    </a>
+
+                </nav>
+
+            </div>
+
+
+            <!-- SIDEBAR BOTTOM -->
+
+            <div class="sidebar-bottom">
+
+                <div class="integrity-mini-card">
+
+                    <div class="integrity-mini-top">
+
+                        <span>
+                            Exam integrity
+                        </span>
+
+                        <span class="integrity-dot"></span>
+
+                    </div>
+
+                    <strong>
+                        Protected
+                    </strong>
+
+                    <p>
+                        Your assessments are monitored
+                        for suspicious activity.
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="logout-button"
+                    id="logoutButton"
+                >
+
+                    <span>
+                        ↪
+                    </span>
+
+                    Logout
+
+                </button>
+
+            </div>
+
+        </aside>
+
+
+        <!-- =========================
+             MAIN CONTENT
+        ========================== -->
+
+        <main class="main-content">
+
+
+            <!-- TOP BAR -->
+
+            <header class="topbar">
+
+                <button
+                    class="menu-button"
+                    id="menuButton"
+                    aria-label="Open menu"
+                >
+                    ☰
+                </button>
+
+
+                <div class="topbar-spacer"></div>
+
+
+                <!-- NOTIFICATION -->
+
+                <button
+                    class="notification-button"
+                    id="notificationButton"
+                    aria-label="Notifications"
+                >
+
+                    <span class="notification-icon">
+                        ♧
+                    </span>
+
+                    <span class="notification-dot"></span>
+
+                </button>
+
+
+                <!-- PROFILE -->
+
+                <button
+                    class="profile-button"
+                    id="profileButton"
+                >
+
+                    <span class="avatar">
+                        S
+                    </span>
+
+                    <span class="profile-info">
+
+                        <strong>
+                            Saiteja
+                        </strong>
+
+                        <small>
+                            Student
+                        </small>
+
+                    </span>
+
+                    <span class="profile-arrow">
+                        ▾
+                    </span>
+
+                </button>
+
+            </header>
+
+
+            <!-- =========================
+                 DASHBOARD
+            ========================== -->
+
+            <div class="dashboard-content">
+
+
+                <!-- WELCOME -->
+
+                <section class="welcome-section">
+
+                    <div>
+
+                        <span class="section-label">
+                            STUDENT DASHBOARD
+                        </span>
+
+                        <h1>
+                            Good evening,
+                            <span>Saiteja.</span>
+                        </h1>
+
+                        <p>
+                            Here's an overview of your assessments
+                            and academic performance.
+                        </p>
+
+                    </div>
+
+
+                    <div class="date-display">
+
+                        <span class="calendar-icon">
+                            ◫
+                        </span>
+
+                        <div>
+
+                            <strong id="currentDate">
+                                Thursday, August 13
+                            </strong>
+
+                            <small>
+                                2026
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =========================
+                     STATISTICS
+                ========================== -->
+
+                <section class="stats-grid">
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-top">
+
+                            <span class="stat-label">
+                                Completed Exams
+                            </span>
+
+                            <span class="stat-icon">
+                                ✓
+                            </span>
+
+                        </div>
+
+                        <strong class="stat-value">
+                            04
+                        </strong>
+
+                        <span class="stat-description">
+                            This semester
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-top">
+
+                            <span class="stat-label">
+                                Pending Exams
+                            </span>
+
+                            <span class="stat-icon">
+                                ◷
+                            </span>
+
+                        </div>
+
+                        <strong class="stat-value">
+                            02
+                        </strong>
+
+                        <span class="stat-description">
+                            Upcoming assessments
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-top">
+
+                            <span class="stat-label">
+                                Average Score
+                            </span>
+
+                            <span class="stat-icon">
+                                ↗
+                            </span>
+
+                        </div>
+
+                        <strong class="stat-value">
+                            82%
+                        </strong>
+
+                        <span class="stat-description positive">
+                            ↑ 6% from last month
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-top">
+
+                            <span class="stat-label">
+                                Integrity Score
+                            </span>
+
+                            <span class="stat-icon">
+                                ◇
+                            </span>
+
+                        </div>
+
+                        <strong class="stat-value">
+                            96%
+                        </strong>
+
+                        <span class="stat-description">
+                            Excellent
+                        </span>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =========================
+                     MAIN GRID
+                ========================== -->
+
+                <section class="dashboard-grid">
+
+
+                    <!-- UPCOMING EXAMS -->
+
+                    <div class="dashboard-card upcoming-card">
+
+                        <div class="card-header">
+
+                            <div>
+
+                                <span class="card-label">
+                                    NEXT ASSESSMENT
+                                </span>
+
+                                <h2>
+                                    Upcoming exams
+                                </h2>
+
+                            </div>
+
+                            <a href="#" class="view-link">
+                                View all →
+                            </a>
+
+                        </div>
+
+
+                        <!-- EXAM 1 -->
+
+                        <article class="exam-card">
+
+                            <div class="exam-icon">
+                                DS
+                            </div>
+
+                            <div class="exam-details">
+
+                                <h3>
+                                    Data Structures
+                                </h3>
+
+                                <p>
+                                    Mid Semester Assessment
+                                </p>
+
+                                <div class="exam-meta">
+
+                                    <span>
+                                        ◷ 45 min
+                                    </span>
+
+                                    <span>
+                                        ▣ 30 questions
+                                    </span>
+
+                                    <span>
+                                        ◇ 50 marks
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="exam-action">
+
+                                <span class="exam-date">
+                                    Tomorrow
+                                </span>
+
+                                <button
+                                    class="start-button"
+                                    data-exam="Data Structures"
+                                >
+                                    View exam
+                                </button>
+
+                            </div>
+
+                        </article>
+
+
+                        <!-- EXAM 2 -->
+
+                        <article class="exam-card">
+
+                            <div class="exam-icon">
+                                DB
+                            </div>
+
+                            <div class="exam-details">
+
+                                <h3>
+                                    Database Management
+                                </h3>
+
+                                <p>
+                                    Unit Test — SQL & DBMS
+                                </p>
+
+                                <div class="exam-meta">
+
+                                    <span>
+                                        ◷ 30 min
+                                    </span>
+
+                                    <span>
+                                        ▣ 20 questions
+                                    </span>
+
+                                    <span>
+                                        ◇ 30 marks
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="exam-action">
+
+                                <span class="exam-date">
+                                    Aug 18
+                                </span>
+
+                                <button
+                                    class="start-button secondary"
+                                    data-exam="Database Management"
+                                >
+                                    View exam
+                                </button>
+
+                            </div>
+
+                        </article>
+
+                    </div>
+
+
+                    <!-- PERFORMANCE -->
+
+                    <div class="dashboard-card performance-card">
+
+                        <div class="card-header">
+
+                            <div>
+
+                                <span class="card-label">
+                                    PERFORMANCE
+                                </span>
+
+                                <h2>
+                                    Your progress
+                                </h2>
+
+                            </div>
+
+                            <button
+                                class="period-button"
+                                id="periodButton"
+                            >
+                                6 exams ▾
+                            </button>
+
+                        </div>
+
+
+                        <div class="chart-area">
+
+                            <div class="chart-y-axis">
+
+                                <span>100</span>
+                                <span>75</span>
+                                <span>50</span>
+                                <span>25</span>
+                                <span>0</span>
+
+                            </div>
+
+
+                            <div class="chart">
+
+                                <div class="grid-line line-100"></div>
+                                <div class="grid-line line-75"></div>
+                                <div class="grid-line line-50"></div>
+                                <div class="grid-line line-25"></div>
+                                <div class="grid-line line-0"></div>
+
+
+                                <div class="bars">
+
+                                    <div class="bar-wrapper">
+
+                                        <div
+                                            class="performance-bar"
+                                            style="height: 62%"
+                                        ></div>
+
+                                        <span>
+                                            CN
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="bar-wrapper">
+
+                                        <div
+                                            class="performance-bar"
+                                            style="height: 76%"
+                                        ></div>
+
+                                        <span>
+                                            Java
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="bar-wrapper">
+
+                                        <div
+                                            class="performance-bar"
+                                            style="height: 69%"
+                                        ></div>
+
+                                        <span>
+                                            OS
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="bar-wrapper">
+
+                                        <div
+                                            class="performance-bar"
+                                            style="height: 84%"
+                                        ></div>
+
+                                        <span>
+                                            DBMS
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="bar-wrapper">
+
+                                        <div
+                                            class="performance-bar"
+                                            style="height: 72%"
+                                        ></div>
+
+                                        <span>
+                                            TOC
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="bar-wrapper">
+
+                                        <div
+                                            class="performance-bar highlight"
+                                            style="height: 91%"
+                                        ></div>
+
+                                        <span>
+                                            DSA
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="performance-summary">
+
+                            <div>
+
+                                <strong>
+                                    82%
+                                </strong>
+
+                                <span>
+                                    Average score
+                                </span>
+
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    +6%
+                                </strong>
+
+                                <span>
+                                    Improvement
+                                </span>
+
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    91%
+                                </strong>
+
+                                <span>
+                                    Best score
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =========================
+                     RECENT RESULTS
+                ========================== -->
+
+                <section class="dashboard-card results-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <span class="card-label">
+                                RECENT ACTIVITY
+                            </span>
+
+                            <h2>
+                                Recent results
+                            </h2>
+
+                        </div>
+
+                        <a href="#" class="view-link">
+                            View all →
+                        </a>
+
+                    </div>
+
+
+                    <div class="results-table">
+
+                        <div class="table-header">
+
+                            <span>
+                                Assessment
+                            </span>
+
+                            <span>
+                                Date
+                            </span>
+
+                            <span>
+                                Score
+                            </span>
+
+                            <span>
+                                Status
+                            </span>
+
+                            <span></span>
+
+                        </div>
+
+
+                        <!-- RESULT 1 -->
+
+                        <div class="result-row">
+
+                            <div class="assessment-name">
+
+                                <span class="result-icon">
+                                    D
+                                </span>
+
+                                <div>
+
+                                    <strong>
+                                        Data Structures
+                                    </strong>
+
+                                    <small>
+                                        Mid Semester
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                            <span class="result-date">
+                                Aug 10, 2026
+                            </span>
+
+                            <strong class="result-score">
+                                91%
+                            </strong>
+
+                            <span class="result-status excellent">
+                                Excellent
+                            </span>
+
+                            <button class="more-button">
+                                →
+                            </button>
+
+                        </div>
+
+
+                        <!-- RESULT 2 -->
+
+                        <div class="result-row">
+
+                            <div class="assessment-name">
+
+                                <span class="result-icon">
+                                    J
+                                </span>
+
+                                <div>
+
+                                    <strong>
+                                        Java Programming
+                                    </strong>
+
+                                    <small>
+                                        Unit Test
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                            <span class="result-date">
+                                Aug 06, 2026
+                            </span>
+
+                            <strong class="result-score">
+                                86%
+                            </strong>
+
+                            <span class="result-status good">
+                                Good
+                            </span>
+
+                            <button class="more-button">
+                                →
+                            </button>
+
+                        </div>
+
+
+                        <!-- RESULT 3 -->
+
+                        <div class="result-row">
+
+                            <div class="assessment-name">
+
+                                <span class="result-icon">
+                                    C
+                                </span>
+
+                                <div>
+
+                                    <strong>
+                                        Computer Networks
+                                    </strong>
+
+                                    <small>
+                                        Internal Assessment
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                            <span class="result-date">
+                                Aug 02, 2026
+                            </span>
+
+                            <strong class="result-score">
+                                78%
+                            </strong>
+
+                            <span class="result-status average">
+                                Average
+                            </span>
+
+                            <button class="more-button">
+                                →
+                            </button>
+
+                        </div>
+
+
+                        <!-- RESULT 4 -->
+
+                        <div class="result-row">
+
+                            <div class="assessment-name">
+
+                                <span class="result-icon">
+                                    O
+                                </span>
+
+                                <div>
+
+                                    <strong>
+                                        Operating Systems
+                                    </strong>
+
+                                    <small>
+                                        Practice Assessment
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                            <span class="result-date">
+                                Jul 29, 2026
+                            </span>
+
+                            <strong class="result-score">
+                                73%
+                            </strong>
+
+                            <span class="result-status average">
+                                Average
+                            </span>
+
+                            <button class="more-button">
+                                →
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <!-- NOTIFICATION PANEL -->
+
+    <div
+        class="notification-panel"
+        id="notificationPanel"
+    >
+
+        <div class="notification-header">
+
+            <strong>
+                Notifications
+            </strong>
+
+            <button id="closeNotifications">
+                ×
+            </button>
+
+        </div>
+
+        <div class="notification-item">
+
+            <span class="notification-bullet"></span>
+
+            <div>
+
+                <strong>
+                    Data Structures exam tomorrow
+                </strong>
+
+                <p>
+                    Your assessment starts at 10:00 AM.
+                </p>
+
+                <small>
+                    2 hours ago
+                </small>
+
+            </div>
+
+        </div>
+
+        <div class="notification-item">
+
+            <span class="notification-bullet"></span>
+
+            <div>
+
+                <strong>
+                    Java result published
+                </strong>
+
+                <p>
+                    You scored 86%.
+                </p>
+
+                <small>
+                    Yesterday
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="js/student-dashboard.js"></script>
+
+</body>
+
+</html>
+

@@ -1,0 +1,950 @@
+/* =========================
+   RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: Inter, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+
+    background: #f7f8f6;
+
+    color: #151515;
+
+    line-height: 1.5;
+}
+
+
+/* =========================
+   TOP BAR
+========================= */
+
+.topbar {
+    height: 70px;
+
+    padding: 0 5%;
+
+    background: white;
+
+    border-bottom: 1px solid #e4e5e2;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+}
+
+
+.brand {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    color: #151515;
+
+    text-decoration: none;
+
+    font-size: 17px;
+
+    font-weight: 700;
+}
+
+
+.brand-icon {
+    width: 31px;
+    height: 31px;
+
+    border-radius: 8px;
+
+    background: #151515;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 14px;
+
+    font-weight: 800;
+}
+
+
+.topbar-right {
+    display: flex;
+
+    align-items: center;
+
+    gap: 25px;
+}
+
+
+.secure-status {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    color: #777;
+
+    font-size: 10px;
+}
+
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #68766a;
+}
+
+
+.student-mini {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+
+.avatar {
+    width: 30px;
+    height: 30px;
+
+    border-radius: 50%;
+
+    background: #151515;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 10px;
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+.page-container {
+    max-width: 1250px;
+
+    margin: auto;
+
+    padding: 30px 30px 70px;
+}
+
+
+/* =========================
+   BREADCRUMB
+========================= */
+
+.breadcrumb {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 30px;
+
+    color: #999;
+
+    font-size: 10px;
+}
+
+
+.breadcrumb a {
+    color: #777;
+
+    text-decoration: none;
+}
+
+
+.breadcrumb a:hover {
+    color: #151515;
+}
+
+
+/* =========================
+   EXAM HEADER
+========================= */
+
+.exam-header {
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    margin-bottom: 28px;
+}
+
+
+.exam-label {
+    color: #999;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+}
+
+
+.exam-header h1 {
+    margin-top: 7px;
+
+    font-size: 36px;
+
+    line-height: 1.1;
+
+    letter-spacing: -1.5px;
+}
+
+
+.exam-header p {
+    margin-top: 5px;
+
+    color: #888;
+
+    font-size: 12px;
+}
+
+
+.exam-date-box {
+    padding: 13px 17px;
+
+    background: white;
+
+    border: 1px solid #dedfdb;
+
+    border-radius: 9px;
+
+    min-width: 180px;
+}
+
+
+.exam-date-box span {
+    display: block;
+
+    color: #999;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+}
+
+
+.exam-date-box strong {
+    display: block;
+
+    margin-top: 5px;
+
+    font-size: 11px;
+}
+
+
+.exam-date-box small {
+    display: block;
+
+    margin-top: 2px;
+
+    color: #888;
+
+    font-size: 9px;
+}
+
+
+/* =========================
+   DETAILS
+========================= */
+
+.details-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 10px;
+
+    margin-bottom: 15px;
+}
+
+
+.detail-card {
+    padding: 16px;
+
+    background: white;
+
+    border: 1px solid #e4e5e2;
+
+    border-radius: 10px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+.detail-icon {
+    width: 34px;
+    height: 34px;
+
+    border-radius: 8px;
+
+    background: #f0f1ee;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    color: #555;
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+
+.detail-card small {
+    display: block;
+
+    color: #999;
+
+    font-size: 8px;
+}
+
+
+.detail-card strong {
+    display: block;
+
+    margin-top: 3px;
+
+    font-size: 11px;
+}
+
+
+/* =========================
+   CONTENT GRID
+========================= */
+
+.content-grid {
+    display: grid;
+
+    grid-template-columns: 1.35fr 0.65fr;
+
+    gap: 15px;
+
+    align-items: start;
+}
+
+
+/* =========================
+   INSTRUCTIONS CARD
+========================= */
+
+.instructions-card {
+    background: white;
+
+    border: 1px solid #e4e5e2;
+
+    border-radius: 12px;
+
+    padding: 28px;
+}
+
+
+.card-heading {
+    padding-bottom: 22px;
+
+    border-bottom: 1px solid #eeeeec;
+}
+
+
+.section-label {
+    color: #999;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.4px;
+}
+
+
+.card-heading h2 {
+    margin-top: 5px;
+
+    font-size: 20px;
+
+    letter-spacing: -0.5px;
+}
+
+
+/* =========================
+   GENERAL INSTRUCTIONS
+========================= */
+
+.instruction-section {
+    padding: 25px 0;
+}
+
+
+.instruction-section h3,
+.system-section h3 {
+    font-size: 13px;
+
+    margin-bottom: 15px;
+}
+
+
+.instruction-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+
+.instruction-item {
+    display: flex;
+
+    gap: 15px;
+
+    align-items: flex-start;
+}
+
+
+.number {
+    width: 27px;
+    height: 27px;
+
+    flex-shrink: 0;
+
+    border-radius: 7px;
+
+    background: #f0f1ee;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    color: #777;
+
+    font-size: 8px;
+
+    font-weight: 700;
+}
+
+
+.instruction-item p {
+    padding-top: 4px;
+
+    color: #666;
+
+    font-size: 11px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================
+   INTEGRITY
+========================= */
+
+.integrity-section {
+    padding: 23px;
+
+    background: #f6f6f4;
+
+    border: 1px solid #e8e8e5;
+
+    border-radius: 10px;
+}
+
+
+.integrity-heading {
+    display: flex;
+
+    gap: 13px;
+}
+
+
+.shield {
+    width: 32px;
+    height: 32px;
+
+    flex-shrink: 0;
+
+    border-radius: 8px;
+
+    background: #151515;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 10px;
+}
+
+
+.integrity-heading h3 {
+    font-size: 13px;
+}
+
+
+.integrity-heading p {
+    margin-top: 3px;
+
+    color: #888;
+
+    font-size: 9px;
+
+    line-height: 1.5;
+}
+
+
+.integrity-rules {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 10px;
+
+    margin-top: 20px;
+}
+
+
+.integrity-rules div {
+    padding: 11px;
+
+    background: white;
+
+    border: 1px solid #e5e5e2;
+
+    border-radius: 8px;
+
+    display: flex;
+
+    gap: 9px;
+
+    align-items: flex-start;
+
+    color: #666;
+
+    font-size: 9px;
+
+    line-height: 1.5;
+}
+
+
+.rule-icon {
+    color: #777;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+
+/* =========================
+   SYSTEM
+========================= */
+
+.system-section {
+    padding-top: 25px;
+}
+
+
+.system-checks {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 9px;
+}
+
+
+.system-check {
+    padding: 8px 10px;
+
+    border: 1px solid #eeeeec;
+
+    border-radius: 7px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    color: #777;
+
+    font-size: 9px;
+}
+
+
+.check-icon {
+    width: 15px;
+    height: 15px;
+
+    border-radius: 50%;
+
+    background: #151515;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 8px;
+}
+
+
+/* =========================
+   START CARD
+========================= */
+
+.start-card {
+    padding: 27px;
+
+    background: #151515;
+
+    color: white;
+
+    border-radius: 12px;
+
+    position: sticky;
+
+    top: 90px;
+}
+
+
+.start-card-top {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+
+.start-card .section-label {
+    color: #777;
+}
+
+
+.exam-status {
+    padding: 5px 8px;
+
+    border-radius: 100px;
+
+    background: #292929;
+
+    color: #aaa;
+
+    font-size: 8px;
+}
+
+
+.start-card h2 {
+    margin-top: 22px;
+
+    font-size: 23px;
+
+    letter-spacing: -0.7px;
+}
+
+
+.start-card > p {
+    margin-top: 9px;
+
+    color: #888;
+
+    font-size: 10px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================
+   AGREEMENT
+========================= */
+
+.agreement {
+    margin-top: 28px;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 9px;
+
+    color: #aaa;
+
+    font-size: 9px;
+
+    line-height: 1.5;
+
+    cursor: pointer;
+}
+
+
+.agreement input {
+    position: absolute;
+
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+
+.custom-checkbox {
+    width: 17px;
+    height: 17px;
+
+    flex-shrink: 0;
+
+    border: 1px solid #555;
+
+    border-radius: 4px;
+
+    position: relative;
+}
+
+
+.agreement input:checked + .custom-checkbox {
+    background: white;
+
+    border-color: white;
+}
+
+
+.agreement input:checked + .custom-checkbox::after {
+    content: "✓";
+
+    position: absolute;
+
+    left: 3px;
+    top: -1px;
+
+    color: #151515;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+
+/* =========================
+   START BUTTON
+========================= */
+
+.start-exam-button {
+    width: 100%;
+
+    height: 46px;
+
+    margin-top: 20px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #333;
+
+    color: #777;
+
+    cursor: not-allowed;
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 15px;
+
+    transition: 0.2s ease;
+}
+
+
+.start-exam-button.enabled {
+    background: white;
+
+    color: #151515;
+
+    cursor: pointer;
+}
+
+
+.start-exam-button.enabled:hover {
+    transform: translateY(-1px);
+}
+
+
+.back-button {
+    display: block;
+
+    margin-top: 15px;
+
+    text-align: center;
+
+    color: #777;
+
+    text-decoration: none;
+
+    font-size: 9px;
+}
+
+
+.back-button:hover {
+    color: white;
+}
+
+
+/* =========================
+   SECURITY NOTE
+========================= */
+
+.security-note {
+    margin-top: 25px;
+
+    padding-top: 18px;
+
+    border-top: 1px solid #303030;
+
+    display: flex;
+
+    gap: 9px;
+
+    color: #777;
+
+    font-size: 8px;
+
+    line-height: 1.5;
+}
+
+
+.security-note span {
+    color: #aaa;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 950px) {
+
+    .details-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .start-card {
+        position: static;
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    .topbar {
+        padding: 0 20px;
+    }
+
+    .secure-status {
+        display: none;
+    }
+
+    .page-container {
+        padding: 25px 18px 50px;
+    }
+
+    .exam-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 20px;
+    }
+
+    .exam-header h1 {
+        font-size: 30px;
+    }
+
+    .exam-date-box {
+        width: 100%;
+    }
+
+    .details-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .instructions-card {
+        padding: 20px;
+    }
+
+    .integrity-rules {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 430px) {
+
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .student-mini span:last-child {
+        display: none;
+    }
+
+}
