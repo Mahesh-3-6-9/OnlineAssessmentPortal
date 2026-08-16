@@ -54,8 +54,11 @@
                 S
             </div>
 
-            <span class="student-name">
-                Saiteja
+            <span
+                class="student-name"
+                id="studentName"
+            >
+                Student
             </span>
 
         </div>
@@ -86,7 +89,7 @@
 
             <span>›</span>
 
-            <span>
+            <span id="breadcrumbExam">
                 Data Structures
             </span>
 
@@ -105,7 +108,7 @@
                     ASSESSMENT RESULT
                 </span>
 
-                <h1>
+                <h1 id="examTitle">
                     Data Structures
                 </h1>
 
@@ -113,8 +116,11 @@
                     Mid Semester Assessment
                 </p>
 
-                <span class="completed-date">
-                    Completed on August 14, 2026
+                <span
+                    class="completed-date"
+                    id="completedDate"
+                >
+                    Completed
                 </span>
 
             </div>
@@ -125,7 +131,7 @@
                 <div class="score-circle">
 
                     <strong id="finalPercentage">
-                        86
+                        0
                     </strong>
 
                     <span>
@@ -136,12 +142,12 @@
 
                 <div class="score-text">
 
-                    <strong>
-                        Good performance
+                    <strong id="performanceText">
+                        Result
                     </strong>
 
-                    <span>
-                        43 / 50 marks
+                    <span id="marksText">
+                        0 / 0 marks
                     </span>
 
                 </div>
@@ -158,6 +164,8 @@
         <section class="stats-grid">
 
 
+            <!-- CORRECT -->
+
             <div class="stat-card">
 
                 <span class="stat-icon correct">
@@ -171,13 +179,15 @@
                     </small>
 
                     <strong id="correctAnswers">
-                        26
+                        0
                     </strong>
 
                 </div>
 
             </div>
 
+
+            <!-- WRONG -->
 
             <div class="stat-card">
 
@@ -192,13 +202,15 @@
                     </small>
 
                     <strong id="wrongAnswers">
-                        4
+                        0
                     </strong>
 
                 </div>
 
             </div>
 
+
+            <!-- UNANSWERED -->
 
             <div class="stat-card">
 
@@ -221,6 +233,8 @@
             </div>
 
 
+            <!-- TIME -->
+
             <div class="stat-card">
 
                 <span class="stat-icon time">
@@ -234,7 +248,7 @@
                     </small>
 
                     <strong id="timeTaken">
-                        37 min
+                        0 sec
                     </strong>
 
                 </div>
@@ -274,7 +288,7 @@
                 </div>
 
 
-                <!-- SCORE BAR -->
+                <!-- CORRECT -->
 
                 <div class="score-breakdown">
 
@@ -286,14 +300,17 @@
                                 Correct
                             </span>
 
-                            <strong>
-                                26 questions
+                            <strong id="correctQuestionText">
+                                0 questions
                             </strong>
 
                         </div>
 
-                        <span class="percentage">
-                            87%
+                        <span
+                            class="percentage"
+                            id="correctPercentage"
+                        >
+                            0%
                         </span>
 
                     </div>
@@ -303,11 +320,14 @@
 
                         <div
                             class="progress-fill correct-fill"
-                            style="width: 87%"
+                            id="correctProgress"
+                            style="width: 0%"
                         ></div>
 
                     </div>
 
+
+                    <!-- INCORRECT -->
 
                     <div class="breakdown-row">
 
@@ -317,14 +337,17 @@
                                 Incorrect
                             </span>
 
-                            <strong>
-                                4 questions
+                            <strong id="wrongQuestionText">
+                                0 questions
                             </strong>
 
                         </div>
 
-                        <span class="percentage">
-                            13%
+                        <span
+                            class="percentage"
+                            id="wrongPercentage"
+                        >
+                            0%
                         </span>
 
                     </div>
@@ -334,7 +357,8 @@
 
                         <div
                             class="progress-fill wrong-fill"
-                            style="width: 13%"
+                            id="wrongProgress"
+                            style="width: 0%"
                         ></div>
 
                     </div>
@@ -342,7 +366,9 @@
                 </div>
 
 
-                <!-- COMPARISON -->
+                <!-- =========================
+                     COMPARISON
+                ========================== -->
 
                 <div class="comparison-box">
 
@@ -352,8 +378,8 @@
                             Your score
                         </span>
 
-                        <strong>
-                            86%
+                        <strong id="yourScore">
+                            0%
                         </strong>
 
                     </div>
@@ -369,7 +395,7 @@
                         </span>
 
                         <strong>
-                            74%
+                            —
                         </strong>
 
                     </div>
@@ -378,11 +404,11 @@
                     <div class="comparison-result">
 
                         <span>
-                            You performed
+                            Performance comparison
                         </span>
 
                         <strong>
-                            12% above average
+                            Not available
                         </strong>
 
                     </div>
@@ -437,19 +463,20 @@
                     <div>
 
                         <strong>
-                            Excellent integrity
+                            Session integrity
                         </strong>
 
                         <p>
-                            No significant suspicious
-                            activity was detected during
-                            your assessment.
+                            Integrity information recorded
+                            during the examination session.
                         </p>
 
                     </div>
 
                 </div>
 
+
+                <!-- INTEGRITY EVENTS -->
 
                 <div class="integrity-events">
 
@@ -459,7 +486,7 @@
                             Tab switches
                         </span>
 
-                        <strong>
+                        <strong id="tabSwitches">
                             0
                         </strong>
 
@@ -472,7 +499,7 @@
                             Fullscreen exits
                         </span>
 
-                        <strong>
+                        <strong id="fullscreenExits">
                             0
                         </strong>
 
@@ -485,7 +512,7 @@
                             Copy attempts
                         </span>
 
-                        <strong>
+                        <strong id="copyAttempts">
                             0
                         </strong>
 
@@ -498,7 +525,7 @@
                             Integrity warnings
                         </span>
 
-                        <strong>
+                        <strong id="warnings">
                             0
                         </strong>
 
@@ -515,7 +542,7 @@
 
                     <p>
                         Your examination session was
-                        successfully verified.
+                        successfully recorded.
                     </p>
 
                 </div>
@@ -560,7 +587,7 @@
                 id="questionSummary"
             >
 
-                <!-- JS will generate rows -->
+                <!-- JS will generate content -->
 
             </div>
 
@@ -608,8 +635,7 @@
         class="toast"
         id="toast"
     >
-        Result download will be available after
-        backend integration.
+        Result downloaded successfully.
     </div>
 
 

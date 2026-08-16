@@ -1,7 +1,27 @@
 // ========================================
 // SECUREASSESS
 // REVIEW & PUBLISH
+// BACKEND CONNECTED VERSION
 // ========================================
+
+
+// ========================================
+// CONFIGURATION
+// ========================================
+
+const API_BASE_URL =
+    "http://localhost:8080/api";
+
+
+// Current development teacher
+// Test Teacher = ID 2
+
+const TEACHER_ID =
+    Number(
+        localStorage.getItem(
+            "teacherId"
+        )
+    ) || 2;
 
 
 // ========================================
@@ -12,6 +32,8 @@ let examData = null;
 
 let questions = [];
 
+let examId = null;
+
 
 // ========================================
 // INITIALIZE
@@ -19,25 +41,83 @@ let questions = [];
 
 document.addEventListener(
     "DOMContentLoaded",
-    () => {
+    async () => {
 
-        loadData();
+        try {
 
-        displayExam();
+            setupEvents();
 
-        displayQuestions();
+            getExamId();
 
-        setupEvents();
+
+            if (!examId) {
+
+                showToast(
+                    "Exam ID not found."
+                );
+
+                return;
+
+            }
+
+
+            await loadData();
+
+            displayExam();
+
+            displayQuestions();
+
+            updateChecks();
+
+
+        } catch (error) {
+
+            console.error(
+                "Review page initialization error:",
+                error
+            );
+
+
+            showToast(
+                error.message ||
+                "Unable to load examination data."
+            );
+
+        }
 
     }
 );
 
 
 // ========================================
-// LOAD DATA
+// GET EXAM ID
 // ========================================
 
-function loadData() {
+function getExamId() {
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    const urlExamId =
+        params.get(
+            "examId"
+        );
+
+
+    if (urlExamId) {
+
+        examId =
+            Number(
+                urlExamId
+            );
+
+        return;
+
+    }
+
 
     const savedExam =
         localStorage.getItem(
@@ -45,23 +125,30 @@ function loadData() {
         );
 
 
-    const savedQuestions =
-        localStorage.getItem(
-            "secureAssessQuestions"
-        );
-
-
     if (savedExam) {
 
         try {
 
-            examData =
-                JSON.parse(savedExam);
+            const parsed =
+                JSON.parse(
+                    savedExam
+                );
+
+
+            if (parsed.id) {
+
+                examId =
+                    Number(
+                        parsed.id
+                    );
+
+            }
+
 
         } catch (error) {
 
             console.error(
-                "Exam data error:",
+                "Invalid currentExam:",
                 error
             );
 
@@ -69,24 +156,71 @@ function loadData() {
 
     }
 
+}
 
-    if (savedQuestions) {
 
-        try {
+// ========================================
+// LOAD DATA FROM BACKEND
+// ========================================
 
-            questions =
-                JSON.parse(savedQuestions);
+async function loadData() {
 
-        } catch (error) {
+    // ------------------------------------
+    // LOAD EXAM
+    // ------------------------------------
 
-            console.error(
-                "Question data error:",
-                error
-            );
+    const examResponse =
+        await fetch(
+            `${API_BASE_URL}/exams/${examId}`
+        );
 
-        }
+
+    if (!examResponse.ok) {
+
+        throw new Error(
+            "Failed to load exam."
+        );
 
     }
+
+
+    examData =
+        await examResponse.json();
+
+
+    // ------------------------------------
+    // LOAD QUESTIONS
+    // ------------------------------------
+
+    const questionResponse =
+        await fetch(
+            `${API_BASE_URL}/questions/exam/${examId}`
+        );
+
+
+    if (!questionResponse.ok) {
+
+        throw new Error(
+            "Failed to load questions."
+        );
+
+    }
+
+
+    questions =
+        await questionResponse.json();
+
+
+    console.log(
+        "Exam loaded:",
+        examData
+    );
+
+
+    console.log(
+        "Questions loaded:",
+        questions
+    );
 
 }
 
@@ -104,63 +238,102 @@ function displayExam() {
     }
 
 
-    document.getElementById(
-        "examTitle"
-    ).textContent =
+    setText(
+        "examTitle",
         examData.title ||
-        "Untitled examination";
+        "Untitled examination"
+    );
 
 
-    document.getElementById(
-        "examSubject"
-    ).textContent =
+    setText(
+        "examSubject",
         examData.subject ||
-        "Not specified";
+        examData.title ||
+        "Not specified"
+    );
 
 
-    document.getElementById(
-        "examType"
-    ).textContent =
+    setText(
+        "examType",
         examData.examType ||
-        "Not specified";
+        "Assessment"
+    );
 
 
-    document.getElementById(
-        "examDate"
-    ).textContent =
-        formatDate(
-            examData.date
+    if (examData.createdAt) {
+
+        setText(
+            "examDate",
+            formatDate(
+                examData.createdAt
+            )
         );
 
+    } else {
 
-    document.getElementById(
-        "examTime"
-    ).textContent =
-        examData.time ||
-        "Not specified";
+        setText(
+            "examDate",
+            "Not specified"
+        );
 
-
-    document.getElementById(
-        "examDuration"
-    ).textContent =
-        examData.duration
-            ? `${examData.duration} minutes`
-            : "Not specified";
+    }
 
 
-    document.getElementById(
-        "examMarks"
-    ).textContent =
-        examData.maxMarks
-            ? `${examData.maxMarks} marks`
-            : "Not specified";
+    setText(
+        "examTime",
+        "Not specified"
+    );
 
 
-    document.getElementById(
-        "examDescription"
-    ).textContent =
+    if (
+        examData.durationMinutes !==
+        null &&
+        examData.durationMinutes !==
+        undefined
+    ) {
+
+        setText(
+            "examDuration",
+            `${examData.durationMinutes} minutes`
+        );
+
+    } else {
+
+        setText(
+            "examDuration",
+            "Not specified"
+        );
+
+    }
+
+
+    if (
+        examData.totalMarks !==
+        null &&
+        examData.totalMarks !==
+        undefined
+    ) {
+
+        setText(
+            "examMarks",
+            `${examData.totalMarks} marks`
+        );
+
+    } else {
+
+        setText(
+            "examMarks",
+            "Not specified"
+        );
+
+    }
+
+
+    setText(
+        "examDescription",
         examData.description ||
-        "No description provided.";
+        "No description provided."
+    );
 
 }
 
@@ -177,17 +350,63 @@ function displayQuestions() {
         );
 
 
-    container.innerHTML = "";
+    if (!container) {
+
+        return;
+
+    }
 
 
-    document.getElementById(
-        "questionCount"
-    ).textContent =
-        `${questions.length} question${questions.length !== 1 ? "s" : ""}`;
+    container.innerHTML =
+        "";
+
+
+    const questionCount =
+        document.getElementById(
+            "questionCount"
+        );
+
+
+    if (questionCount) {
+
+        questionCount.textContent =
+            `${questions.length} question${
+                questions.length !== 1
+                    ? "s"
+                    : ""
+            }`;
+
+    }
+
+
+    if (
+        questions.length === 0
+    ) {
+
+        container.innerHTML = `
+
+            <div style="
+                padding:30px;
+                text-align:center;
+                color:#999;
+            ">
+
+                No questions have been added.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
 
 
     questions.forEach(
-        (question, index) => {
+        (
+            question,
+            index
+        ) => {
 
             const row =
                 document.createElement(
@@ -202,29 +421,59 @@ function displayQuestions() {
             row.innerHTML = `
 
                 <div class="preview-number">
-                    Q${String(index + 1).padStart(2, "0")}
+
+                    Q${String(
+                        index + 1
+                    ).padStart(
+                        2,
+                        "0"
+                    )}
+
                 </div>
+
 
                 <div class="preview-question">
 
                     <strong>
+
                         ${escapeHTML(
-                            question.text
+                            question.questionText ||
+                            "Question"
                         )}
+
                     </strong>
 
+
                     <small>
-                        ${capitalize(
-                            question.difficulty
-                        )} · Correct answer:
-                        ${question.correct}
+
+                        Correct answer:
+
+                        <strong>
+
+                            ${escapeHTML(
+                                question.correctAnswer ||
+                                "-"
+                            )}
+
+                        </strong>
+
                     </small>
 
                 </div>
 
+
                 <div class="preview-marks">
-                    ${question.marks}
-                    mark${question.marks > 1 ? "s" : ""}
+
+                    ${question.marks || 0}
+
+                    mark${
+                        Number(
+                            question.marks
+                        ) > 1
+                            ? "s"
+                            : ""
+                    }
+
                 </div>
 
             `;
@@ -237,25 +486,83 @@ function displayQuestions() {
         }
     );
 
+}
+
+
+// ========================================
+// UPDATE MARKS CHECK
+// ========================================
+
+function updateChecks() {
+
+    const marksCheck =
+        document.getElementById(
+            "marksCheck"
+        );
+
+
+    if (!marksCheck) {
+
+        return;
+
+    }
+
+
+    const totalMarks =
+        Number(
+            examData?.totalMarks ||
+            0
+        );
+
+
+    const actualMarks =
+        questions.reduce(
+            (
+                total,
+                question
+            ) => {
+
+                return total +
+                    Number(
+                        question.marks ||
+                        0
+                    );
+
+            },
+            0
+        );
+
 
     if (
-        questions.length === 0
+        totalMarks > 0 &&
+        actualMarks ===
+            totalMarks
     ) {
 
-        container.innerHTML = `
+        marksCheck.innerHTML = `
 
-            <div style="
-                padding:30px;
-                text-align:center;
-                color:#999;
-                font-size:9px;
-            ">
+            <span>✓</span>
 
-                No questions have been added.
-
-            </div>
+            Marks verified
 
         `;
+
+        marksCheck.style.color =
+            "";
+
+    } else {
+
+        marksCheck.innerHTML = `
+
+            <span>!</span>
+
+            Marks mismatch
+            (${actualMarks}/${totalMarks})
+
+        `;
+
+        marksCheck.style.color =
+            "#b45309";
 
     }
 
@@ -263,10 +570,14 @@ function displayQuestions() {
 
 
 // ========================================
-// PUBLISH
+// PUBLISH EXAM
 // ========================================
 
-function publishExam() {
+async function publishExam() {
+
+    // ------------------------------------
+    // CONFIRMATION
+    // ------------------------------------
 
     const confirmation =
         document.getElementById(
@@ -274,7 +585,10 @@ function publishExam() {
         );
 
 
-    if (!confirmation.checked) {
+    if (
+        !confirmation ||
+        !confirmation.checked
+    ) {
 
         showToast(
             "Please confirm that you reviewed the examination."
@@ -285,13 +599,14 @@ function publishExam() {
     }
 
 
-    if (
-        !examData ||
-        !examData.title
-    ) {
+    // ------------------------------------
+    // EXAM VALIDATION
+    // ------------------------------------
+
+    if (!examData) {
 
         showToast(
-            "Examination details are incomplete."
+            "Examination data is not available."
         );
 
         return;
@@ -299,12 +614,27 @@ function publishExam() {
     }
 
 
+    if (!examData.title) {
+
+        showToast(
+            "Examination title is missing."
+        );
+
+        return;
+
+    }
+
+
+    // ------------------------------------
+    // QUESTION VALIDATION
+    // ------------------------------------
+
     if (
         questions.length === 0
     ) {
 
         showToast(
-            "Add at least one question."
+            "Add at least one question before publishing."
         );
 
         return;
@@ -313,75 +643,275 @@ function publishExam() {
 
 
     /*
-     * TEMPORARY FRONTEND BEHAVIOUR
+     * IMPORTANT:
      *
-     * Later:
+     * We are NOT checking:
      *
-     * POST /api/exams/{examId}/publish
+     * questions.length === examData.totalQuestions
      *
-     * Spring Boot will perform
-     * the real publishing operation.
+     * right now.
+     *
+     * This allows us to test publishing
+     * with only one question.
+     *
+     * Later, when the project is complete,
+     * we can enforce the exact number.
      */
 
 
-    const examCode =
-        generateExamCode();
+    // ------------------------------------
+    // MARKS CHECK
+    // ------------------------------------
+
+    const actualMarks =
+        questions.reduce(
+            (
+                total,
+                question
+            ) => {
+
+                return total +
+                    Number(
+                        question.marks ||
+                        0
+                    );
+
+            },
+            0
+        );
 
 
-    const publishedExam = {
-
-        ...examData,
-
-        questions,
-
-        examCode,
-
-        status:
-            "PUBLISHED",
-
-        publishedAt:
-            new Date().toISOString()
-
-    };
+    const totalMarks =
+        Number(
+            examData.totalMarks ||
+            0
+        );
 
 
-    localStorage.setItem(
-        "publishedExam",
-        JSON.stringify(
+    /*
+     * For testing, don't BLOCK publishing
+     * when question marks don't yet equal
+     * the configured total marks.
+     *
+     * Just show a confirmation.
+     */
+
+    if (
+        totalMarks > 0 &&
+        actualMarks !==
+            totalMarks
+    ) {
+
+        const proceed =
+            confirm(
+                `Exam total marks are ${totalMarks}, but the questions currently contain ${actualMarks} marks.\n\nThis is okay for testing.\n\nDo you want to publish anyway?`
+            );
+
+
+        if (!proceed) {
+
+            return;
+
+        }
+
+    }
+
+
+    // ------------------------------------
+    // DISABLE BUTTON
+    // ------------------------------------
+
+    const publishButton =
+        document.getElementById(
+            "publishButton"
+        );
+
+
+    if (publishButton) {
+
+        publishButton.disabled =
+            true;
+
+
+        publishButton.innerHTML =
+            "Publishing...";
+
+    }
+
+
+    try {
+
+        // --------------------------------
+        // REAL BACKEND REQUEST
+        // --------------------------------
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/exams/${examId}/publish?teacherId=${TEACHER_ID}`,
+                {
+
+                    method:
+                        "PUT",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    }
+
+                }
+            );
+
+
+        // --------------------------------
+        // HANDLE ERROR
+        // --------------------------------
+
+        if (!response.ok) {
+
+            let message =
+                "Failed to publish examination.";
+
+
+            try {
+
+                message =
+                    await response.text();
+
+            } catch (error) {
+
+                console.error(
+                    error
+                );
+
+            }
+
+
+            throw new Error(
+                message
+            );
+
+        }
+
+
+        // --------------------------------
+        // BACKEND RESPONSE
+        // --------------------------------
+
+        const publishedExam =
+            await response.json();
+
+
+        console.log(
+            "Published examination:",
             publishedExam
-        )
-    );
+        );
 
 
-    document.getElementById(
-        "examCode"
-    ).textContent =
-        examCode;
+        // --------------------------------
+        // UPDATE LOCAL CACHE
+        // --------------------------------
+
+        localStorage.setItem(
+            "currentExam",
+            JSON.stringify(
+                publishedExam
+            )
+        );
 
 
-    document.getElementById(
-        "successOverlay"
-    ).classList.add(
-        "show"
-    );
+        // --------------------------------
+        // GENERATE DISPLAY CODE
+        // --------------------------------
+
+        const examCode =
+            generateExamCode();
 
 
-    console.log(
-        "Published examination:",
-        publishedExam
-    );
+        const examCodeElement =
+            document.getElementById(
+                "examCode"
+            );
+
+
+        if (examCodeElement) {
+
+            examCodeElement.textContent =
+                examCode;
+
+        }
+
+
+        // --------------------------------
+        // SHOW SUCCESS
+        // --------------------------------
+
+        const successOverlay =
+            document.getElementById(
+                "successOverlay"
+            );
+
+
+        if (successOverlay) {
+
+            successOverlay.classList.add(
+                "show"
+            );
+
+        }
+
+
+        showToast(
+            "Examination published successfully."
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Publish error:",
+            error
+        );
+
+
+        showToast(
+            error.message ||
+            "Unable to publish examination."
+        );
+
+
+        if (publishButton) {
+
+            publishButton.disabled =
+                false;
+
+
+            publishButton.innerHTML = `
+
+                Publish examination
+
+                <span>
+                    →
+                </span>
+
+            `;
+
+        }
+
+    }
 
 }
 
 
 // ========================================
-// EXAM CODE
+// GENERATE EXAM CODE
 // ========================================
 
 function generateExamCode() {
 
     const subject =
-        examData.subject ||
+        examData?.title ||
         "EXAM";
 
 
@@ -391,18 +921,24 @@ function generateExamCode() {
                 /[^A-Za-z]/g,
                 ""
             )
-            .substring(0, 3)
+            .substring(
+                0,
+                3
+            )
             .toUpperCase();
 
 
     const random =
         Math.floor(
             1000 +
-            Math.random() * 9000
+            Math.random() *
+            9000
         );
 
 
-    return `SA-${prefix}-${random}`;
+    return `SA-${
+        prefix || "EXM"
+    }-${random}`;
 
 }
 
@@ -413,69 +949,102 @@ function generateExamCode() {
 
 function setupEvents() {
 
-
+    // ------------------------------------
     // PUBLISH
+    // ------------------------------------
 
-    document.getElementById(
-        "publishButton"
-    ).addEventListener(
-        "click",
-        publishExam
-    );
+    const publishButton =
+        document.getElementById(
+            "publishButton"
+        );
 
 
+    if (publishButton) {
+
+        publishButton.addEventListener(
+            "click",
+            publishExam
+        );
+
+    }
+
+
+    // ------------------------------------
     // SAVE DRAFT
+    // ------------------------------------
 
-    document.getElementById(
-        "saveDraftButton"
-    ).addEventListener(
-        "click",
-        () => {
-
-            localStorage.setItem(
-                "secureAssessExamDraft",
-                JSON.stringify(
-                    examData
-                )
-            );
+    const saveDraftButton =
+        document.getElementById(
+            "saveDraftButton"
+        );
 
 
-            showToast(
-                "Examination saved as draft."
-            );
+    if (saveDraftButton) {
 
-        }
-    );
+        saveDraftButton.addEventListener(
+            "click",
+            () => {
+
+                showToast(
+                    "Exam is already saved as a draft in the backend."
+                );
+
+            }
+        );
+
+    }
 
 
+    // ------------------------------------
     // EDIT EXAM
+    // ------------------------------------
 
-    document.getElementById(
-        "editExamButton"
-    ).addEventListener(
-        "click",
-        () => {
-
-            window.location.href =
-                "create-exam.html";
-
-        }
-    );
+    const editExamButton =
+        document.getElementById(
+            "editExamButton"
+        );
 
 
+    if (editExamButton) {
+
+        editExamButton.addEventListener(
+            "click",
+            () => {
+
+                window.location.href =
+                    `create-exam.html?examId=${examId}`;
+
+            }
+
+        );
+
+    }
+
+
+    // ------------------------------------
     // DASHBOARD
+    // ------------------------------------
 
-    document.getElementById(
-        "dashboardButton"
-    ).addEventListener(
-        "click",
-        () => {
+    const dashboardButton =
+        document.getElementById(
+            "dashboardButton"
+        );
 
-            window.location.href =
-                "teacher-dashboard.html";
 
-        }
-    );
+    if (dashboardButton) {
+
+        dashboardButton.addEventListener(
+            "click",
+            () => {
+
+                window.location.href =
+                    "teacher-dashboard.html";
+
+            }
+
+        );
+
+    }
 
 }
 
@@ -484,7 +1053,9 @@ function setupEvents() {
 // FORMAT DATE
 // ========================================
 
-function formatDate(date) {
+function formatDate(
+    date
+) {
 
     if (!date) {
 
@@ -494,7 +1065,9 @@ function formatDate(date) {
 
 
     const parsed =
-        new Date(date);
+        new Date(
+            date
+        );
 
 
     if (
@@ -511,9 +1084,16 @@ function formatDate(date) {
     return parsed.toLocaleDateString(
         "en-IN",
         {
-            day: "2-digit",
-            month: "short",
-            year: "numeric"
+
+            day:
+                "2-digit",
+
+            month:
+                "short",
+
+            year:
+                "numeric"
+
         }
     );
 
@@ -521,35 +1101,47 @@ function formatDate(date) {
 
 
 // ========================================
-// HELPERS
+// SET TEXT SAFELY
 // ========================================
 
-function capitalize(text) {
+function setText(
+    elementId,
+    value
+) {
 
-    if (!text) {
+    const element =
+        document.getElementById(
+            elementId
+        );
 
-        return "";
+
+    if (element) {
+
+        element.textContent =
+            value;
 
     }
-
-
-    return (
-        text.charAt(0).toUpperCase() +
-        text.slice(1)
-    );
 
 }
 
 
-function escapeHTML(text) {
+// ========================================
+// ESCAPE HTML
+// ========================================
+
+function escapeHTML(
+    text
+) {
 
     const div =
         document.createElement(
             "div"
         );
 
+
     div.textContent =
-        text;
+        text ?? "";
+
 
     return div.innerHTML;
 
@@ -560,12 +1152,25 @@ function escapeHTML(text) {
 // TOAST
 // ========================================
 
-function showToast(message) {
+function showToast(
+    message
+) {
 
     const toast =
         document.getElementById(
             "toast"
         );
+
+
+    if (!toast) {
+
+        alert(
+            message
+        );
+
+        return;
+
+    }
 
 
     toast.textContent =
@@ -585,7 +1190,7 @@ function showToast(message) {
             );
 
         },
-        2500
+        3000
     );
 
 }

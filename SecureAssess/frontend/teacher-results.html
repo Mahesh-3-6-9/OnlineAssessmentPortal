@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Results | SecureAssess</title>
+
+    <link
+        rel="stylesheet"
+        href="css/teacher-results.css"
+    >
+
+</head>
+
+
+<body>
+
+<div class="app-container">
+
+
+    <!-- ========================================
+         SIDEBAR
+    ========================================= -->
+
+    <aside class="sidebar">
+
+        <div>
+
+            <a
+                href="teacher-dashboard.html"
+                class="brand"
+            >
+
+                <span class="brand-icon">
+                    S
+                </span>
+
+                <span>
+                    SecureAssess
+                </span>
+
+            </a>
+
+
+            <nav class="sidebar-nav">
+
+                <a
+                    href="teacher-dashboard.html"
+                    class="nav-item"
+                >
+
+                    <span class="nav-icon">
+                        ⌂
+                    </span>
+
+                    Dashboard
+
+                </a>
+
+
+                <a
+                    href="teacher-dashboard.html"
+                    class="nav-item"
+                >
+
+                    <span class="nav-icon">
+                        ▣
+                    </span>
+
+                    Exams
+
+                </a>
+
+
+                <a
+                    href="question-bank.html"
+                    class="nav-item"
+                >
+
+                    <span class="nav-icon">
+                        ?
+                    </span>
+
+                    Question Bank
+
+                </a>
+
+
+                <a
+                    href="#"
+                    class="nav-item"
+                >
+
+                    <span class="nav-icon">
+                        ◯
+                    </span>
+
+                    Students
+
+                </a>
+
+
+                <a
+                    href="teacher-results.html"
+                    class="nav-item active"
+                >
+
+                    <span class="nav-icon">
+                        ◫
+                    </span>
+
+                    Results
+
+                </a>
+
+
+                <a
+                    href="#"
+                    class="nav-item"
+                >
+
+                    <span class="nav-icon">
+                        ↗
+                    </span>
+
+                    Analytics
+
+                </a>
+
+
+                <div class="nav-divider"></div>
+
+
+                <a
+                    href="#"
+                    class="nav-item"
+                >
+
+                    <span class="nav-icon">
+                        ⚙
+                    </span>
+
+                    Settings
+
+                </a>
+
+            </nav>
+
+        </div>
+
+
+        <!-- ========================================
+             SIDEBAR BOTTOM
+        ========================================= -->
+
+        <div class="sidebar-bottom">
+
+            <div class="teacher-card">
+
+                <span
+                    class="teacher-avatar"
+                    id="teacherAvatar"
+                >
+                    T
+                </span>
+
+                <div>
+
+                    <strong id="teacherName">
+                        Faculty
+                    </strong>
+
+                    <small id="teacherRole">
+                        Faculty
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <button
+                id="logoutButton"
+                class="logout-button"
+            >
+
+                ↪ Logout
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ========================================
+         MAIN
+    ========================================= -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="top-profile">
+
+                <span
+                    class="profile-avatar"
+                    id="topTeacherAvatar"
+                >
+                    T
+                </span>
+
+                <div>
+
+                    <strong id="topTeacherName">
+                        Faculty
+                    </strong>
+
+                    <small id="topTeacherRole">
+                        Faculty
+                    </small>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ========================================
+             CONTENT
+        ========================================= -->
+
+        <div class="results-content">
+
+
+            <!-- PAGE HEADER -->
+
+            <section class="page-header">
+
+                <span class="section-label">
+                    ASSESSMENT RESULTS
+                </span>
+
+                <h1>
+                    Examination results
+                </h1>
+
+                <p>
+                    View student performance and examination results.
+                </p>
+
+            </section>
+
+
+            <!-- ========================================
+                 EXAM SELECTOR
+            ========================================= -->
+
+            <section class="selector-card">
+
+                <div class="selector-left">
+
+                    <label for="examSelect">
+                        Select examination
+                    </label>
+
+                    <select id="examSelect">
+
+                        <option value="">
+                            Loading examinations...
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button
+                    id="refreshButton"
+                    class="refresh-button"
+                >
+
+                    ↻ Refresh
+
+                </button>
+
+            </section>
+
+
+            <!-- ========================================
+                 STATISTICS
+            ========================================= -->
+
+            <section class="stats-grid">
+
+
+                <div class="stat-card">
+
+                    <span>
+                        Students attempted
+                    </span>
+
+                    <strong id="totalStudents">
+                        0
+                    </strong>
+
+                    <small>
+                        Total submissions
+                    </small>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <span>
+                        Average score
+                    </span>
+
+                    <strong id="averageScore">
+                        0%
+                    </strong>
+
+                    <small>
+                        Class average
+                    </small>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <span>
+                        Highest score
+                    </span>
+
+                    <strong id="highestScore">
+                        0%
+                    </strong>
+
+                    <small>
+                        Best performance
+                    </small>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <span>
+                        Integrity alerts
+                    </span>
+
+                    <strong id="integrityAlerts">
+                        —
+                    </strong>
+
+                    <small>
+                        Available after backend integration
+                    </small>
+
+                </div>
+
+            </section>
+
+
+            <!-- ========================================
+                 RESULTS
+            ========================================= -->
+
+            <section class="results-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <span class="card-label">
+                            STUDENT PERFORMANCE
+                        </span>
+
+                        <h2>
+                            Results
+                        </h2>
+
+                    </div>
+
+                    <span id="resultCount">
+                        0 students
+                    </span>
+
+                </div>
+
+
+                <div
+                    id="loadingMessage"
+                    class="message"
+                >
+
+                    Select an examination to view results.
+
+                </div>
+
+
+                <div
+                    id="emptyMessage"
+                    class="message hidden"
+                >
+
+                    No students have submitted this examination yet.
+
+                </div>
+
+
+                <div
+                    id="tableContainer"
+                    class="table-container hidden"
+                >
+
+                    <table>
+
+                        <thead>
+
+                        <tr>
+
+                            <th>
+                                Student
+                            </th>
+
+                            <th>
+                                Score
+                            </th>
+
+                            <th>
+                                Percentage
+                            </th>
+
+                            <th>
+                                Correct
+                            </th>
+
+                            <th>
+                                Wrong
+                            </th>
+
+                            <th>
+                                Unanswered
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                        </thead>
+
+
+                        <tbody id="resultsTableBody"></tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- ========================================
+     RESULT MODAL
+========================================= -->
+
+<div
+    id="resultModal"
+    class="modal hidden"
+>
+
+    <div class="modal-content">
+
+        <button
+            id="closeModal"
+            class="close-modal"
+        >
+            ×
+        </button>
+
+
+        <span class="section-label">
+            RESULT DETAILS
+        </span>
+
+
+        <h2 id="modalStudentName">
+            Student
+        </h2>
+
+
+        <div class="modal-grid">
+
+
+            <div>
+
+                <span>
+                    Score
+                </span>
+
+                <strong id="modalScore">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Percentage
+                </span>
+
+                <strong id="modalPercentage">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Correct
+                </span>
+
+                <strong id="modalCorrect">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Wrong
+                </span>
+
+                <strong id="modalWrong">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Unanswered
+                </span>
+
+                <strong id="modalUnanswered">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Time taken
+                </span>
+
+                <strong id="modalTime">
+                    -
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="integrity-box">
+
+            <span>
+                Attempt status
+            </span>
+
+            <strong id="modalStatus">
+                -
+            </strong>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div
+    id="toast"
+    class="toast"
+></div>
+
+
+<script src="js/teacher-results.js"></script>
+
+</body>
+
+</html>

@@ -23,10 +23,6 @@
 <body>
 
 
-<!-- =========================
-     TOPBAR
-========================= -->
-
 <header class="topbar">
 
     <a
@@ -68,14 +64,9 @@
 </header>
 
 
-<!-- =========================
-     MAIN
-========================= -->
 
 <main class="page-container">
 
-
-    <!-- BREADCRUMB -->
 
     <div class="breadcrumb">
 
@@ -92,7 +83,6 @@
     </div>
 
 
-    <!-- PAGE HEADER -->
 
     <section class="page-header">
 
@@ -125,9 +115,6 @@
     </section>
 
 
-    <!-- =========================
-         STEPS
-    ========================== -->
 
     <div class="steps">
 
@@ -202,16 +189,12 @@
     </div>
 
 
-    <!-- =========================
-         FORM GRID
-    ========================== -->
 
     <section class="form-layout">
 
 
-        <!-- LEFT FORM -->
-
         <div class="form-card">
+
 
             <div class="card-header">
 
@@ -226,7 +209,6 @@
             </div>
 
 
-            <!-- EXAM TITLE -->
 
             <div class="form-group">
 
@@ -247,9 +229,9 @@
             </div>
 
 
-            <!-- SUBJECT -->
 
             <div class="form-row">
+
 
                 <div class="form-group">
 
@@ -263,33 +245,38 @@
                             Select subject
                         </option>
 
-                        <option>
+                        <option value="Data Structures">
                             Data Structures
                         </option>
 
-                        <option>
+                        <option value="Database Management">
                             Database Management
                         </option>
 
-                        <option>
+                        <option value="Operating Systems">
                             Operating Systems
                         </option>
 
-                        <option>
+                        <option value="Computer Networks">
                             Computer Networks
                         </option>
 
-                        <option>
+                        <option value="Java Programming">
                             Java Programming
                         </option>
 
-                        <option>
+                        <option value="Algorithms">
+                            Algorithms
+                        </option>
+
+                        <option value="Theory of Computation">
                             Theory of Computation
                         </option>
 
                     </select>
 
                 </div>
+
 
 
                 <div class="form-group">
@@ -304,19 +291,19 @@
                             Select type
                         </option>
 
-                        <option>
+                        <option value="Mid Semester">
                             Mid Semester
                         </option>
 
-                        <option>
+                        <option value="End Semester">
                             End Semester
                         </option>
 
-                        <option>
+                        <option value="Practice Test">
                             Practice Test
                         </option>
 
-                        <option>
+                        <option value="Internal Assessment">
                             Internal Assessment
                         </option>
 
@@ -327,22 +314,35 @@
             </div>
 
 
-            <!-- DATE TIME -->
+
+            <!-- =========================
+                 EXAM DATE
+            ========================== -->
+
+            <div class="form-group">
+
+                <label for="examDate">
+                    Examination date
+                </label>
+
+                <input
+                    type="date"
+                    id="examDate"
+                >
+
+                <span class="field-hint">
+                    Students can access the examination only on the scheduled date and time.
+                </span>
+
+            </div>
+
+
+
+            <!-- =========================
+                 START + END TIME
+            ========================== -->
 
             <div class="form-row">
-
-                <div class="form-group">
-
-                    <label for="examDate">
-                        Examination date
-                    </label>
-
-                    <input
-                        type="date"
-                        id="examDate"
-                    >
-
-                </div>
 
 
                 <div class="form-group">
@@ -356,14 +356,41 @@
                         id="examTime"
                     >
 
+                    <span class="field-hint">
+                        Time when students can start the examination.
+                    </span>
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label for="examEndTime">
+                        End time
+                    </label>
+
+                    <input
+                        type="time"
+                        id="examEndTime"
+                    >
+
+                    <span class="field-hint">
+                        Hard deadline for the examination.
+                    </span>
+
                 </div>
 
             </div>
 
 
-            <!-- DURATION -->
+
+            <!-- =========================
+                 DURATION + MARKS
+            ========================== -->
 
             <div class="form-row">
+
 
                 <div class="form-group">
 
@@ -375,6 +402,10 @@
 
                         <option value="">
                             Select duration
+                        </option>
+
+                        <option value="15">
+                            15 minutes
                         </option>
 
                         <option value="30">
@@ -402,6 +433,7 @@
                 </div>
 
 
+
                 <div class="form-group">
 
                     <label for="maxMarks">
@@ -420,7 +452,27 @@
             </div>
 
 
-            <!-- DESCRIPTION -->
+
+            <div class="form-group">
+
+                <label for="totalQuestions">
+                    Total questions
+                </label>
+
+                <input
+                    type="number"
+                    id="totalQuestions"
+                    min="1"
+                    placeholder="e.g. 10"
+                >
+
+                <span class="field-hint">
+                    Enter the number of questions you will add to this examination.
+                </span>
+
+            </div>
+
+
 
             <div class="form-group">
 
@@ -437,9 +489,9 @@
             </div>
 
 
-            <!-- ACTIONS -->
 
             <div class="form-actions">
+
 
                 <a
                     href="teacher-dashboard.html"
@@ -450,6 +502,7 @@
 
 
                 <button
+                    type="button"
                     id="saveDraftButton"
                     class="draft-button"
                 >
@@ -458,11 +511,17 @@
 
 
                 <button
+                    type="button"
                     id="continueButton"
                     class="continue-button"
                 >
+
                     Continue to questions
-                    <span>→</span>
+
+                    <span>
+                        →
+                    </span>
+
                 </button>
 
             </div>
@@ -470,12 +529,11 @@
         </div>
 
 
-        <!-- RIGHT SETTINGS -->
+
+        <!-- RIGHT SIDE -->
 
         <aside class="settings-column">
 
-
-            <!-- SECURITY SETTINGS -->
 
             <div class="settings-card">
 
@@ -504,7 +562,7 @@
                             </strong>
 
                             <small>
-                                Require fullscreen during exam
+                                Keep students in examination mode
                             </small>
 
                         </div>
@@ -520,16 +578,17 @@
                     </label>
 
 
+
                     <label class="setting">
 
                         <div>
 
                             <strong>
-                                Tab-switch detection
+                                Tab switching detection
                             </strong>
 
                             <small>
-                                Record browser visibility changes
+                                Detect leaving the examination tab
                             </small>
 
                         </div>
@@ -543,6 +602,7 @@
                         <span class="toggle"></span>
 
                     </label>
+
 
 
                     <label class="setting">
@@ -568,6 +628,7 @@
                         <span class="toggle"></span>
 
                     </label>
+
 
 
                     <label class="setting">
@@ -599,7 +660,6 @@
             </div>
 
 
-            <!-- EXAM SETTINGS -->
 
             <div class="settings-card">
 
@@ -644,6 +704,7 @@
                     </label>
 
 
+
                     <label class="setting">
 
                         <div>
@@ -667,6 +728,7 @@
                         <span class="toggle"></span>
 
                     </label>
+
 
 
                     <label class="setting">
@@ -698,7 +760,6 @@
             </div>
 
 
-            <!-- INFO -->
 
             <div class="info-card">
 
@@ -729,18 +790,18 @@
 </main>
 
 
-<!-- =========================
-     TOAST
-========================== -->
 
 <div
     class="toast"
     id="toast"
->
-</div>
+></div>
 
 
-<script src="js/create-exam.js"></script>
+
+<script
+    src="js/create-exam.js"
+></script>
+
 
 </body>
 
