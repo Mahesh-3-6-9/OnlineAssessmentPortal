@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,1010 +22,997 @@
 
 <body>
 
-    <div class="app-container">
+<div class="app-container">
 
 
-        <!-- =========================
-             SIDEBAR
-        ========================== -->
+    <!-- ========================================
+         SIDEBAR
+    ========================================= -->
 
-        <aside class="sidebar" id="sidebar">
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
 
-            <div class="sidebar-top">
+        <div>
+
+            <!-- BRAND -->
+
+            <a
+                href="index.html"
+                class="brand"
+            >
+
+                <span class="brand-icon">
+                    S
+                </span>
+
+                <span>
+                    SecureAssess
+                </span>
+
+            </a>
 
 
-                <!-- LOGO -->
+            <!-- NAVIGATION -->
 
-                <a href="index.html" class="brand">
+            <nav class="sidebar-nav">
 
-                    <span class="brand-icon">
-                        S
+                <a
+                    href="#"
+                    class="nav-item active"
+                    data-section="dashboard"
+                >
+
+                    <span class="nav-icon">
+                        ⌂
                     </span>
 
-                    <span class="brand-name">
-                        SecureAssess
-                    </span>
+                    Dashboard
 
                 </a>
 
 
-                <!-- NAVIGATION -->
+                <a
+                    href="#"
+                    class="nav-item"
+                    data-section="exams"
+                >
 
-                <nav class="sidebar-nav">
+                    <span class="nav-icon">
+                        ▣
+                    </span>
 
-                    <a
-                        href="#"
-                        class="nav-item active"
-                        data-section="dashboard"
-                    >
+                    My Exams
 
-                        <span class="nav-icon">
-                            ⌂
-                        </span>
-
-                        <span>
-                            Dashboard
-                        </span>
-
-                    </a>
+                </a>
 
 
-                    <a
-                        href="#"
-                        class="nav-item"
-                        data-section="exams"
-                    >
+                <a
+                    href="#"
+                    class="nav-item"
+                    data-section="results"
+                >
 
-                        <span class="nav-icon">
-                            ▣
-                        </span>
+                    <span class="nav-icon">
+                        ◫
+                    </span>
 
-                        <span>
-                            My Exams
-                        </span>
+                    Results
 
-                    </a>
+                </a>
 
 
-                    <a
-                        href="#"
-                        class="nav-item"
-                        data-section="results"
-                    >
+                <a
+                    href="#"
+                    class="nav-item"
+                    data-section="performance"
+                >
 
-                        <span class="nav-icon">
-                            ◫
-                        </span>
+                    <span class="nav-icon">
+                        ↗
+                    </span>
 
-                        <span>
-                            Results
-                        </span>
+                    Performance
 
-                    </a>
+                </a>
 
 
-                    <a
-                        href="#"
-                        class="nav-item"
-                        data-section="performance"
-                    >
-
-                        <span class="nav-icon">
-                            ↗
-                        </span>
-
-                        <span>
-                            Performance
-                        </span>
-
-                    </a>
+                <div class="nav-divider"></div>
 
 
-                    <div class="nav-divider"></div>
+                <a
+                    href="#"
+                    class="nav-item"
+                    data-section="profile"
+                >
+
+                    <span class="nav-icon">
+                        ◯
+                    </span>
+
+                    Profile
+
+                </a>
 
 
-                    <a
-                        href="#"
-                        class="nav-item"
-                        data-section="profile"
-                    >
+                <a
+                    href="#"
+                    class="nav-item"
+                    data-section="settings"
+                >
 
-                        <span class="nav-icon">
-                            ◯
-                        </span>
+                    <span class="nav-icon">
+                        ⚙
+                    </span>
 
-                        <span>
-                            Profile
-                        </span>
+                    Settings
 
-                    </a>
+                </a>
+
+            </nav>
+
+        </div>
 
 
-                    <a
-                        href="#"
-                        class="nav-item"
-                        data-section="settings"
-                    >
+        <!-- SIDEBAR BOTTOM -->
 
-                        <span class="nav-icon">
-                            ⚙
-                        </span>
+        <div class="sidebar-bottom">
 
-                        <span>
-                            Settings
-                        </span>
+            <div class="integrity-mini-card">
 
-                    </a>
+                <div class="integrity-mini-top">
 
-                </nav>
+                    <span>
+                        Exam integrity
+                    </span>
+
+                    <span class="integrity-dot"></span>
+
+                </div>
+
+                <strong>
+                    Protected
+                </strong>
+
+                <p>
+                    Your assessments are monitored
+                    for suspicious activity.
+                </p>
 
             </div>
 
 
-            <!-- SIDEBAR BOTTOM -->
+            <button
+                class="logout-button"
+                id="logoutButton"
+                type="button"
+            >
 
-            <div class="sidebar-bottom">
+                <span>
+                    ↪
+                </span>
 
-                <div class="integrity-mini-card">
+                Logout
 
-                    <div class="integrity-mini-top">
+            </button>
 
-                        <span>
-                            Exam integrity
-                        </span>
+        </div>
 
-                        <span class="integrity-dot"></span>
+    </aside>
 
-                    </div>
 
-                    <strong>
-                        Protected
+    <!-- ========================================
+         MAIN CONTENT
+    ========================================= -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <button
+                class="menu-button"
+                id="menuButton"
+                type="button"
+                aria-label="Open menu"
+            >
+                ☰
+            </button>
+
+
+            <div class="topbar-spacer"></div>
+
+
+            <!-- NOTIFICATION -->
+
+            <button
+                class="notification-button"
+                id="notificationButton"
+                type="button"
+                aria-label="Notifications"
+            >
+
+                <span class="notification-icon">
+                    ♧
+                </span>
+
+                <span
+                    class="notification-dot"
+                    id="notificationDot"
+                ></span>
+
+            </button>
+
+
+            <!-- PROFILE -->
+
+            <button
+                class="profile-button"
+                id="profileButton"
+                type="button"
+            >
+
+                <span
+                    class="avatar"
+                    id="topAvatar"
+                >
+                    S
+                </span>
+
+                <span class="profile-info">
+
+                    <strong id="topProfileName">
+                        Student
                     </strong>
 
+                    <small>
+                        Student
+                    </small>
+
+                </span>
+
+                <span class="profile-arrow">
+                    ▾
+                </span>
+
+            </button>
+
+        </header>
+
+
+        <!-- ========================================
+             DASHBOARD CONTENT
+        ========================================= -->
+
+        <div class="dashboard-content">
+
+
+            <!-- WELCOME -->
+
+            <section class="welcome-section">
+
+                <div>
+
+                    <span class="section-label">
+                        STUDENT DASHBOARD
+                    </span>
+
+                    <h1>
+
+                        Good day,
+
+                        <span id="welcomeName">
+                            Student.
+                        </span>
+
+                    </h1>
+
                     <p>
-                        Your assessments are monitored
-                        for suspicious activity.
+                        Here's an overview of your
+                        assessments and academic performance.
                     </p>
 
                 </div>
 
 
-                <button
-                    class="logout-button"
-                    id="logoutButton"
-                >
+                <div class="date-display">
 
-                    <span>
-                        ↪
+                    <span class="calendar-icon">
+                        ◫
                     </span>
-
-                    Logout
-
-                </button>
-
-            </div>
-
-        </aside>
-
-
-        <!-- =========================
-             MAIN CONTENT
-        ========================== -->
-
-        <main class="main-content">
-
-
-            <!-- TOP BAR -->
-
-            <header class="topbar">
-
-                <button
-                    class="menu-button"
-                    id="menuButton"
-                    aria-label="Open menu"
-                >
-                    ☰
-                </button>
-
-
-                <div class="topbar-spacer"></div>
-
-
-                <!-- NOTIFICATION -->
-
-                <button
-                    class="notification-button"
-                    id="notificationButton"
-                    aria-label="Notifications"
-                >
-
-                    <span class="notification-icon">
-                        ♧
-                    </span>
-
-                    <span class="notification-dot"></span>
-
-                </button>
-
-
-                <!-- PROFILE -->
-
-                <button
-                    class="profile-button"
-                    id="profileButton"
-                >
-
-                    <span class="avatar">
-                        S
-                    </span>
-
-                    <span class="profile-info">
-
-                        <strong>
-                            Saiteja
-                        </strong>
-
-                        <small>
-                            Student
-                        </small>
-
-                    </span>
-
-                    <span class="profile-arrow">
-                        ▾
-                    </span>
-
-                </button>
-
-            </header>
-
-
-            <!-- =========================
-                 DASHBOARD
-            ========================== -->
-
-            <div class="dashboard-content">
-
-
-                <!-- WELCOME -->
-
-                <section class="welcome-section">
 
                     <div>
 
-                        <span class="section-label">
-                            STUDENT DASHBOARD
-                        </span>
-
-                        <h1>
-                            Good evening,
-                            <span>Saiteja.</span>
-                        </h1>
-
-                        <p>
-                            Here's an overview of your assessments
-                            and academic performance.
-                        </p>
-
-                    </div>
-
-
-                    <div class="date-display">
-
-                        <span class="calendar-icon">
-                            ◫
-                        </span>
-
-                        <div>
-
-                            <strong id="currentDate">
-                                Thursday, August 13
-                            </strong>
-
-                            <small>
-                                2026
-                            </small>
-
-                        </div>
-
-                    </div>
-
-                </section>
-
-
-                <!-- =========================
-                     STATISTICS
-                ========================== -->
-
-                <section class="stats-grid">
-
-
-                    <div class="stat-card">
-
-                        <div class="stat-top">
-
-                            <span class="stat-label">
-                                Completed Exams
-                            </span>
-
-                            <span class="stat-icon">
-                                ✓
-                            </span>
-
-                        </div>
-
-                        <strong class="stat-value">
-                            04
+                        <strong id="currentDate">
+                            Loading...
                         </strong>
 
-                        <span class="stat-description">
-                            This semester
+                        <small id="currentYear">
+                            2026
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ========================================
+                 STATISTICS
+            ========================================= -->
+
+            <section class="stats-grid">
+
+
+                <!-- COMPLETED -->
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span class="stat-label">
+                            Completed Exams
+                        </span>
+
+                        <span class="stat-icon">
+                            ✓
                         </span>
 
                     </div>
 
+                    <strong
+                        class="stat-value"
+                        id="completedExamsValue"
+                    >
+                        0
+                    </strong>
 
-                    <div class="stat-card">
+                    <span class="stat-description">
+                        Submitted examinations
+                    </span>
 
-                        <div class="stat-top">
+                </div>
 
-                            <span class="stat-label">
-                                Pending Exams
-                            </span>
 
-                            <span class="stat-icon">
-                                ◷
-                            </span>
+                <!-- PENDING -->
 
-                        </div>
+                <div class="stat-card">
 
-                        <strong class="stat-value">
-                            02
-                        </strong>
+                    <div class="stat-top">
 
-                        <span class="stat-description">
-                            Upcoming assessments
+                        <span class="stat-label">
+                            Pending Exams
+                        </span>
+
+                        <span class="stat-icon">
+                            ◷
                         </span>
 
                     </div>
 
+                    <strong
+                        class="stat-value"
+                        id="pendingExamsValue"
+                    >
+                        0
+                    </strong>
 
-                    <div class="stat-card">
+                    <span class="stat-description">
+                        Available assessments
+                    </span>
 
-                        <div class="stat-top">
+                </div>
 
-                            <span class="stat-label">
-                                Average Score
-                            </span>
 
-                            <span class="stat-icon">
-                                ↗
-                            </span>
+                <!-- AVERAGE -->
 
-                        </div>
+                <div class="stat-card">
 
-                        <strong class="stat-value">
-                            82%
-                        </strong>
+                    <div class="stat-top">
 
-                        <span class="stat-description positive">
-                            ↑ 6% from last month
+                        <span class="stat-label">
+                            Average Score
+                        </span>
+
+                        <span class="stat-icon">
+                            ↗
                         </span>
 
                     </div>
 
+                    <strong
+                        class="stat-value"
+                        id="averageScoreValue"
+                    >
+                        0%
+                    </strong>
 
-                    <div class="stat-card">
+                    <span
+                        class="stat-description positive"
+                        id="averageScoreDescription"
+                    >
+                        Based on completed exams
+                    </span>
 
-                        <div class="stat-top">
+                </div>
 
-                            <span class="stat-label">
-                                Integrity Score
-                            </span>
 
-                            <span class="stat-icon">
-                                ◇
-                            </span>
+                <!-- INTEGRITY -->
 
-                        </div>
+                <div class="stat-card">
 
-                        <strong class="stat-value">
-                            96%
-                        </strong>
+                    <div class="stat-top">
 
-                        <span class="stat-description">
-                            Excellent
+                        <span class="stat-label">
+                            Integrity Score
+                        </span>
+
+                        <span class="stat-icon">
+                            ◇
                         </span>
 
                     </div>
 
-                </section>
+                    <strong
+                        class="stat-value"
+                        id="integrityScoreValue"
+                    >
+                        100%
+                    </strong>
 
+                    <span
+                        class="stat-description"
+                        id="integrityDescription"
+                    >
+                        Excellent
+                    </span>
 
-                <!-- =========================
-                     MAIN GRID
-                ========================== -->
+                </div>
 
-                <section class="dashboard-grid">
+            </section>
 
 
-                    <!-- UPCOMING EXAMS -->
+            <!-- ========================================
+                 MAIN GRID
+            ========================================= -->
 
-                    <div class="dashboard-card upcoming-card">
+            <section class="dashboard-grid">
 
-                        <div class="card-header">
 
-                            <div>
+                <!-- UPCOMING EXAMS -->
 
-                                <span class="card-label">
-                                    NEXT ASSESSMENT
-                                </span>
-
-                                <h2>
-                                    Upcoming exams
-                                </h2>
-
-                            </div>
-
-                            <a href="#" class="view-link">
-                                View all →
-                            </a>
-
-                        </div>
-
-
-                        <!-- EXAM 1 -->
-
-                        <article class="exam-card">
-
-                            <div class="exam-icon">
-                                DS
-                            </div>
-
-                            <div class="exam-details">
-
-                                <h3>
-                                    Data Structures
-                                </h3>
-
-                                <p>
-                                    Mid Semester Assessment
-                                </p>
-
-                                <div class="exam-meta">
-
-                                    <span>
-                                        ◷ 45 min
-                                    </span>
-
-                                    <span>
-                                        ▣ 30 questions
-                                    </span>
-
-                                    <span>
-                                        ◇ 50 marks
-                                    </span>
-
-                                </div>
-
-                            </div>
-
-
-                            <div class="exam-action">
-
-                                <span class="exam-date">
-                                    Tomorrow
-                                </span>
-
-                                <button
-                                    class="start-button"
-                                    data-exam="Data Structures"
-                                >
-                                    View exam
-                                </button>
-
-                            </div>
-
-                        </article>
-
-
-                        <!-- EXAM 2 -->
-
-                        <article class="exam-card">
-
-                            <div class="exam-icon">
-                                DB
-                            </div>
-
-                            <div class="exam-details">
-
-                                <h3>
-                                    Database Management
-                                </h3>
-
-                                <p>
-                                    Unit Test — SQL & DBMS
-                                </p>
-
-                                <div class="exam-meta">
-
-                                    <span>
-                                        ◷ 30 min
-                                    </span>
-
-                                    <span>
-                                        ▣ 20 questions
-                                    </span>
-
-                                    <span>
-                                        ◇ 30 marks
-                                    </span>
-
-                                </div>
-
-                            </div>
-
-
-                            <div class="exam-action">
-
-                                <span class="exam-date">
-                                    Aug 18
-                                </span>
-
-                                <button
-                                    class="start-button secondary"
-                                    data-exam="Database Management"
-                                >
-                                    View exam
-                                </button>
-
-                            </div>
-
-                        </article>
-
-                    </div>
-
-
-                    <!-- PERFORMANCE -->
-
-                    <div class="dashboard-card performance-card">
-
-                        <div class="card-header">
-
-                            <div>
-
-                                <span class="card-label">
-                                    PERFORMANCE
-                                </span>
-
-                                <h2>
-                                    Your progress
-                                </h2>
-
-                            </div>
-
-                            <button
-                                class="period-button"
-                                id="periodButton"
-                            >
-                                6 exams ▾
-                            </button>
-
-                        </div>
-
-
-                        <div class="chart-area">
-
-                            <div class="chart-y-axis">
-
-                                <span>100</span>
-                                <span>75</span>
-                                <span>50</span>
-                                <span>25</span>
-                                <span>0</span>
-
-                            </div>
-
-
-                            <div class="chart">
-
-                                <div class="grid-line line-100"></div>
-                                <div class="grid-line line-75"></div>
-                                <div class="grid-line line-50"></div>
-                                <div class="grid-line line-25"></div>
-                                <div class="grid-line line-0"></div>
-
-
-                                <div class="bars">
-
-                                    <div class="bar-wrapper">
-
-                                        <div
-                                            class="performance-bar"
-                                            style="height: 62%"
-                                        ></div>
-
-                                        <span>
-                                            CN
-                                        </span>
-
-                                    </div>
-
-
-                                    <div class="bar-wrapper">
-
-                                        <div
-                                            class="performance-bar"
-                                            style="height: 76%"
-                                        ></div>
-
-                                        <span>
-                                            Java
-                                        </span>
-
-                                    </div>
-
-
-                                    <div class="bar-wrapper">
-
-                                        <div
-                                            class="performance-bar"
-                                            style="height: 69%"
-                                        ></div>
-
-                                        <span>
-                                            OS
-                                        </span>
-
-                                    </div>
-
-
-                                    <div class="bar-wrapper">
-
-                                        <div
-                                            class="performance-bar"
-                                            style="height: 84%"
-                                        ></div>
-
-                                        <span>
-                                            DBMS
-                                        </span>
-
-                                    </div>
-
-
-                                    <div class="bar-wrapper">
-
-                                        <div
-                                            class="performance-bar"
-                                            style="height: 72%"
-                                        ></div>
-
-                                        <span>
-                                            TOC
-                                        </span>
-
-                                    </div>
-
-
-                                    <div class="bar-wrapper">
-
-                                        <div
-                                            class="performance-bar highlight"
-                                            style="height: 91%"
-                                        ></div>
-
-                                        <span>
-                                            DSA
-                                        </span>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="performance-summary">
-
-                            <div>
-
-                                <strong>
-                                    82%
-                                </strong>
-
-                                <span>
-                                    Average score
-                                </span>
-
-                            </div>
-
-                            <div>
-
-                                <strong>
-                                    +6%
-                                </strong>
-
-                                <span>
-                                    Improvement
-                                </span>
-
-                            </div>
-
-                            <div>
-
-                                <strong>
-                                    91%
-                                </strong>
-
-                                <span>
-                                    Best score
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </section>
-
-
-                <!-- =========================
-                     RECENT RESULTS
-                ========================== -->
-
-                <section class="dashboard-card results-card">
+                <div
+                    class="dashboard-card upcoming-card"
+                    id="upcomingCard"
+                >
 
                     <div class="card-header">
 
                         <div>
 
                             <span class="card-label">
-                                RECENT ACTIVITY
+                                NEXT ASSESSMENT
                             </span>
 
                             <h2>
-                                Recent results
+                                Upcoming exams
                             </h2>
 
                         </div>
 
-                        <a href="#" class="view-link">
+                        <a
+                            href="#"
+                            class="view-link"
+                            id="viewAllExamsLink"
+                        >
                             View all →
                         </a>
 
                     </div>
 
 
-                    <div class="results-table">
+                    <div id="examList">
 
-                        <div class="table-header">
+                        <div class="dashboard-loading">
+                            Loading examinations...
+                        </div>
 
-                            <span>
-                                Assessment
+                    </div>
+
+                </div>
+
+
+                <!-- PERFORMANCE -->
+
+                <div
+                    class="dashboard-card performance-card"
+                    id="performanceCard"
+                >
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <span class="card-label">
+                                PERFORMANCE
                             </span>
 
-                            <span>
-                                Date
-                            </span>
+                            <h2>
+                                Your progress
+                            </h2>
 
-                            <span>
-                                Score
-                            </span>
+                        </div>
 
-                            <span>
-                                Status
-                            </span>
+                        <button
+                            class="period-button"
+                            id="periodButton"
+                            type="button"
+                        >
+                            6 exams ▾
+                        </button>
 
-                            <span></span>
+                    </div>
+
+
+                    <div class="chart-area">
+
+                        <div class="chart-y-axis">
+
+                            <span>100</span>
+                            <span>75</span>
+                            <span>50</span>
+                            <span>25</span>
+                            <span>0</span>
 
                         </div>
 
 
-                        <!-- RESULT 1 -->
+                        <div class="chart">
 
-                        <div class="result-row">
-
-                            <div class="assessment-name">
-
-                                <span class="result-icon">
-                                    D
-                                </span>
-
-                                <div>
-
-                                    <strong>
-                                        Data Structures
-                                    </strong>
-
-                                    <small>
-                                        Mid Semester
-                                    </small>
-
-                                </div>
-
-                            </div>
-
-                            <span class="result-date">
-                                Aug 10, 2026
-                            </span>
-
-                            <strong class="result-score">
-                                91%
-                            </strong>
-
-                            <span class="result-status excellent">
-                                Excellent
-                            </span>
-
-                            <button class="more-button">
-                                →
-                            </button>
-
-                        </div>
+                            <div class="grid-line line-100"></div>
+                            <div class="grid-line line-75"></div>
+                            <div class="grid-line line-50"></div>
+                            <div class="grid-line line-25"></div>
+                            <div class="grid-line line-0"></div>
 
 
-                        <!-- RESULT 2 -->
-
-                        <div class="result-row">
-
-                            <div class="assessment-name">
-
-                                <span class="result-icon">
-                                    J
-                                </span>
-
-                                <div>
-
-                                    <strong>
-                                        Java Programming
-                                    </strong>
-
-                                    <small>
-                                        Unit Test
-                                    </small>
-
-                                </div>
-
-                            </div>
-
-                            <span class="result-date">
-                                Aug 06, 2026
-                            </span>
-
-                            <strong class="result-score">
-                                86%
-                            </strong>
-
-                            <span class="result-status good">
-                                Good
-                            </span>
-
-                            <button class="more-button">
-                                →
-                            </button>
-
-                        </div>
-
-
-                        <!-- RESULT 3 -->
-
-                        <div class="result-row">
-
-                            <div class="assessment-name">
-
-                                <span class="result-icon">
-                                    C
-                                </span>
-
-                                <div>
-
-                                    <strong>
-                                        Computer Networks
-                                    </strong>
-
-                                    <small>
-                                        Internal Assessment
-                                    </small>
-
-                                </div>
-
-                            </div>
-
-                            <span class="result-date">
-                                Aug 02, 2026
-                            </span>
-
-                            <strong class="result-score">
-                                78%
-                            </strong>
-
-                            <span class="result-status average">
-                                Average
-                            </span>
-
-                            <button class="more-button">
-                                →
-                            </button>
-
-                        </div>
-
-
-                        <!-- RESULT 4 -->
-
-                        <div class="result-row">
-
-                            <div class="assessment-name">
-
-                                <span class="result-icon">
-                                    O
-                                </span>
-
-                                <div>
-
-                                    <strong>
-                                        Operating Systems
-                                    </strong>
-
-                                    <small>
-                                        Practice Assessment
-                                    </small>
-
-                                </div>
-
-                            </div>
-
-                            <span class="result-date">
-                                Jul 29, 2026
-                            </span>
-
-                            <strong class="result-score">
-                                73%
-                            </strong>
-
-                            <span class="result-status average">
-                                Average
-                            </span>
-
-                            <button class="more-button">
-                                →
-                            </button>
+                            <div
+                                class="bars"
+                                id="performanceBars"
+                            ></div>
 
                         </div>
 
                     </div>
 
-                </section>
 
+                    <div class="performance-summary">
+
+                        <div>
+
+                            <strong
+                                id="performanceAverage"
+                            >
+                                0%
+                            </strong>
+
+                            <span>
+                                Average score
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <strong
+                                id="performanceImprovement"
+                            >
+                                —
+                            </strong>
+
+                            <span>
+                                Improvement
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <strong
+                                id="performanceBest"
+                            >
+                                0%
+                            </strong>
+
+                            <span>
+                                Best score
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ========================================
+                 RECENT RESULTS
+            ========================================= -->
+
+            <section
+                class="dashboard-card results-card"
+                id="resultsCard"
+            >
+
+                <div class="card-header">
+
+                    <div>
+
+                        <span class="card-label">
+                            RECENT ACTIVITY
+                        </span>
+
+                        <h2>
+                            Recent results
+                        </h2>
+
+                    </div>
+
+                    <a
+                        href="#"
+                        class="view-link"
+                        id="viewAllResultsLink"
+                    >
+                        View all →
+                    </a>
+
+                </div>
+
+
+                <div
+                    class="results-table"
+                    id="recentResultsTable"
+                >
+
+                    <div class="table-header">
+
+                        <span>
+                            Assessment
+                        </span>
+
+                        <span>
+                            Date
+                        </span>
+
+                        <span>
+                            Score
+                        </span>
+
+                        <span>
+                            Status
+                        </span>
+
+                        <span></span>
+
+                    </div>
+
+
+                    <div class="dashboard-loading">
+                        Loading results...
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- ========================================
+     PROFILE MODAL
+========================================= -->
+
+<div
+    class="dashboard-modal"
+    id="profileModal"
+    aria-hidden="true"
+>
+
+    <div class="dashboard-modal-card">
+
+        <button
+            class="dashboard-modal-close"
+            id="closeProfileModal"
+            type="button"
+        >
+            ×
+        </button>
+
+
+        <div
+            class="profile-modal-avatar"
+            id="profileModalAvatar"
+        >
+            S
+        </div>
+
+
+        <span class="card-label">
+            ACCOUNT
+        </span>
+
+
+        <h2 id="profileModalName">
+            Student
+        </h2>
+
+
+        <p
+            class="profile-modal-role"
+            id="profileModalRole"
+        >
+            Student
+        </p>
+
+
+        <div class="profile-modal-details">
+
+            <div>
+
+                <small>
+                    Email
+                </small>
+
+                <strong id="profileModalEmail">
+                    —
+                </strong>
 
             </div>
 
-        </main>
+
+            <div>
+
+                <small>
+                    User ID
+                </small>
+
+                <strong id="profileModalId">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <small>
+                    Account type
+                </small>
+
+                <strong>
+                    Student
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="start-button"
+            id="profileSettingsButton"
+            type="button"
+        >
+            Settings
+        </button>
 
     </div>
 
+</div>
 
-    <!-- NOTIFICATION PANEL -->
+
+<!-- ========================================
+     RESULTS MODAL
+========================================= -->
+
+<div
+    class="dashboard-modal"
+    id="resultsModal"
+    aria-hidden="true"
+>
 
     <div
-        class="notification-panel"
-        id="notificationPanel"
+        class="dashboard-modal-card results-modal-card"
     >
 
-        <div class="notification-header">
+        <button
+            class="dashboard-modal-close"
+            id="closeResultsModal"
+            type="button"
+        >
+            ×
+        </button>
 
-            <strong>
-                Notifications
-            </strong>
 
-            <button id="closeNotifications">
-                ×
-            </button>
+        <span class="card-label">
+            RESULTS
+        </span>
+
+
+        <h2>
+            Your examination results
+        </h2>
+
+
+        <p id="resultsModalSummary">
+            Loading your results...
+        </p>
+
+
+        <div id="allResultsContainer"></div>
+
+    </div>
+
+</div>
+
+
+<!-- ========================================
+     SETTINGS MODAL
+========================================= -->
+
+<div
+    class="dashboard-modal"
+    id="settingsModal"
+    aria-hidden="true"
+>
+
+    <div class="dashboard-modal-card">
+
+        <button
+            class="dashboard-modal-close"
+            id="closeSettingsModal"
+            type="button"
+        >
+            ×
+        </button>
+
+
+        <span class="card-label">
+            PREFERENCES
+        </span>
+
+
+        <h2>
+            Settings
+        </h2>
+
+
+        <div class="settings-list">
+
+
+            <label class="setting-row">
+
+                <div>
+
+                    <strong>
+                        Notifications
+                    </strong>
+
+                    <small>
+                        Show assessment notifications
+                    </small>
+
+                </div>
+
+                <input
+                    type="checkbox"
+                    id="notificationSetting"
+                    checked
+                >
+
+            </label>
+
+
+            <label class="setting-row">
+
+                <div>
+
+                    <strong>
+                        Exam reminders
+                    </strong>
+
+                    <small>
+                        Receive reminders for upcoming exams
+                    </small>
+
+                </div>
+
+                <input
+                    type="checkbox"
+                    id="examReminderSetting"
+                    checked
+                >
+
+            </label>
+
+
+            <label class="setting-row">
+
+                <div>
+
+                    <strong>
+                        Secure exam mode
+                    </strong>
+
+                    <small>
+                        Keep integrity monitoring enabled
+                    </small>
+
+                </div>
+
+                <input
+                    type="checkbox"
+                    id="secureModeSetting"
+                    checked
+                    disabled
+                >
+
+            </label>
 
         </div>
+
+
+        <button
+            class="start-button"
+            id="saveSettingsButton"
+            type="button"
+        >
+            Save settings
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ========================================
+     NOTIFICATION PANEL
+========================================= -->
+
+<div
+    class="notification-panel"
+    id="notificationPanel"
+>
+
+    <div class="notification-header">
+
+        <strong>
+            Notifications
+        </strong>
+
+        <button
+            id="closeNotifications"
+            type="button"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <div id="notificationList">
 
         <div class="notification-item">
 
@@ -1035,37 +1021,15 @@
             <div>
 
                 <strong>
-                    Data Structures exam tomorrow
+                    SecureAssess
                 </strong>
 
                 <p>
-                    Your assessment starts at 10:00 AM.
+                    Your dashboard is ready.
                 </p>
 
                 <small>
-                    2 hours ago
-                </small>
-
-            </div>
-
-        </div>
-
-        <div class="notification-item">
-
-            <span class="notification-bullet"></span>
-
-            <div>
-
-                <strong>
-                    Java result published
-                </strong>
-
-                <p>
-                    You scored 86%.
-                </p>
-
-                <small>
-                    Yesterday
+                    Now
                 </small>
 
             </div>
@@ -1074,10 +1038,15 @@
 
     </div>
 
+</div>
 
-    <script src="js/student-dashboard.js"></script>
+
+<!-- ========================================
+     SCRIPT
+========================================= -->
+
+<script src="js/student-dashboard.js"></script>
 
 </body>
 
 </html>
-

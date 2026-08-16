@@ -1,7 +1,10 @@
 // ========================================
 // SECUREASSESS
 // QUESTION BANK
+// CONNECTED TO SPRING BOOT
 // ========================================
+
+const API_BASE = "http://localhost:8080";
 
 
 // ========================================
@@ -12,6 +15,10 @@ let questions = [];
 
 let editingQuestionId = null;
 
+let currentExamId = null;
+
+let currentTeacherId = null;
+
 
 // ========================================
 // INITIALIZE
@@ -19,62 +26,332 @@ let editingQuestionId = null;
 
 document.addEventListener(
     "DOMContentLoaded",
-    () => {
+    async () => {
 
-        loadQuestions();
+        try {
 
-        loadExamDetails();
+            currentExamId =
+                getExamId();
 
-        renderQuestions();
+            currentTeacherId =
+                getTeacherId();
 
-        setupEvents();
 
-        console.log(
-            "Question Bank loaded."
-        );
+            console.log(
+                "Current Exam ID:",
+                currentExamId
+            );
+
+
+            console.log(
+                "Current Teacher ID:",
+                currentTeacherId
+            );
+
+
+            await loadTeacherDetails();
+
+            await loadExamDetails();
+
+            await loadQuestions();
+
+            renderQuestions();
+
+            setupEvents();
+
+
+            console.log(
+                "SecureAssess Question Bank loaded."
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Question Bank initialization failed:",
+                error
+            );
+
+
+            showToast(
+                error.message ||
+                "Unable to load question bank."
+            );
+
+        }
 
     }
 );
 
 
 // ========================================
+// GET EXAM ID
+// ========================================
+
+function getExamId() {
+
+    const examId =
+        localStorage.getItem(
+            "currentExamId"
+        );
+
+
+    if (!examId) {
+
+        throw new Error(
+            "No examination selected. Please create or select an examination first."
+        );
+
+    }
+
+
+    return Number(
+        examId
+    );
+
+}
+
+
+// ========================================
+// GET TEACHER ID
+// ========================================
+
+function getTeacherId() {
+
+    const teacherId =
+        localStorage.getItem(
+            "teacherId"
+        )
+        ||
+        localStorage.getItem(
+            "userId"
+        );
+
+
+    if (!teacherId) {
+
+        throw new Error(
+            "Teacher session not found. Please log in again."
+        );
+
+    }
+
+
+    return Number(
+        teacherId
+    );
+
+}
+
+
+// ========================================
+// LOAD TEACHER DETAILS
+// ========================================
+
+async function loadTeacherDetails() {
+
+    const teacherNameElement =
+        document.getElementById(
+            "teacherName"
+        );
+
+
+    const teacherAvatarElement =
+        document.getElementById(
+            "teacherAvatar"
+        );
+
+
+    /*
+     * First try information stored
+     * during login.
+     */
+
+    let storedName =
+        localStorage.getItem(
+            "userName"
+        )
+        ||
+        localStorage.getItem(
+            "teacherName"
+        );
+
+
+    /*
+     * If no name is available locally,
+     * ask the backend for the teacher.
+     */
+
+    if (!storedName) {
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_BASE}/api/users/${currentTeacherId}`
+                );
+
+
+            if (response.ok) {
+
+                const user =
+                    await response.json();
+
+
+                storedName =
+                    user.name;
+
+
+                if (storedName) {
+
+                    localStorage.setItem(
+                        "userName",
+                        storedName
+                    );
+
+                }
+
+            }
+
+        } catch (error) {
+
+            console.warn(
+                "Unable to load teacher profile:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /*
+     * Fallback only if the backend
+     * profile endpoint is unavailable.
+     */
+
+    if (!storedName) {
+
+        storedName =
+            "Teacher";
+
+    }
+
+
+    if (teacherNameElement) {
+
+        teacherNameElement.textContent =
+            storedName;
+
+    }
+
+
+    if (teacherAvatarElement) {
+
+        teacherAvatarElement.textContent =
+            getInitials(
+                storedName
+            );
+
+    }
+
+}
+
+
+// ========================================
+// GET INITIALS
+// ========================================
+
+function getInitials(
+    name
+) {
+
+    if (!name) {
+
+        return "T";
+
+    }
+
+
+    const words =
+        name
+            .trim()
+            .split(/\s+/);
+
+
+    if (words.length === 1) {
+
+        return words[0]
+            .charAt(0)
+            .toUpperCase();
+
+    }
+
+
+    return (
+        words[0].charAt(0) +
+        words[words.length - 1].charAt(0)
+    ).toUpperCase();
+
+}
+
+
+// ========================================
 // LOAD EXAM DETAILS
 // ========================================
 
-function loadExamDetails() {
+async function loadExamDetails() {
+
+    const response =
+        await fetch(
+            `${API_BASE}/api/exams/${currentExamId}`
+        );
+
+
+    if (!response.ok) {
+
+        const message =
+            await response.text();
+
+
+        throw new Error(
+            message ||
+            "Unable to load examination."
+        );
+
+    }
+
 
     const exam =
-        localStorage.getItem(
-            "currentExam"
-        );
+        await response.json();
 
 
-    if (!exam) {
-
-        return;
-
-    }
-
-
-    try {
-
-        const data =
-            JSON.parse(exam);
+    console.log(
+        "Current exam:",
+        exam
+    );
 
 
+    const subtitle =
         document.getElementById(
             "examSubtitle"
-        ).textContent =
-            `${data.title} · ${data.subject}`;
-
-    } catch (error) {
-
-        console.error(
-            "Unable to load exam:",
-            error
         );
 
+
+    if (subtitle) {
+
+        subtitle.textContent =
+            `${exam.title} · ${exam.totalQuestions} questions · ${exam.durationMinutes} min`;
+
     }
+
+
+    localStorage.setItem(
+        "currentExam",
+        JSON.stringify(
+            exam
+        )
+    );
 
 }
 
@@ -83,17 +360,96 @@ function loadExamDetails() {
 // LOAD QUESTIONS
 // ========================================
 
-function loadQuestions() {
+async function loadQuestions() {
+
+    const response =
+        await fetch(
+            `${API_BASE}/api/questions/exam/${currentExamId}`
+        );
+
+
+    if (!response.ok) {
+
+        const message =
+            await response.text();
+
+
+        throw new Error(
+            message ||
+            "Unable to load questions."
+        );
+
+    }
+
+
+    const backendQuestions =
+        await response.json();
+
+
+    console.log(
+        "Questions from backend:",
+        backendQuestions
+    );
+
+
+    questions =
+        backendQuestions.map(
+            question => ({
+
+                id:
+                    question.id,
+
+                text:
+                    question.questionText,
+
+                options: {
+
+                    A:
+                        question.optionA,
+
+                    B:
+                        question.optionB,
+
+                    C:
+                        question.optionC,
+
+                    D:
+                        question.optionD
+
+                },
+
+                correct:
+                    question.correctAnswer,
+
+                marks:
+                    question.marks,
+
+                difficulty:
+                    question.difficulty ||
+                    "medium"
+
+            })
+        );
+
+
+    mergeLocalDifficulty();
+
+}
+
+
+// ========================================
+// MERGE LOCAL DIFFICULTY
+// ========================================
+
+function mergeLocalDifficulty() {
 
     const saved =
         localStorage.getItem(
-            "secureAssessQuestions"
+            "secureAssessQuestionDifficulty"
         );
 
 
     if (!saved) {
-
-        questions = [];
 
         return;
 
@@ -102,15 +458,36 @@ function loadQuestions() {
 
     try {
 
-        questions =
-            JSON.parse(saved);
+        const difficultyData =
+            JSON.parse(
+                saved
+            );
+
+
+        questions.forEach(
+            question => {
+
+                if (
+                    difficultyData[
+                        question.id
+                    ]
+                ) {
+
+                    question.difficulty =
+                        difficultyData[
+                            question.id
+                        ];
+
+                }
+
+            }
+        );
+
 
     } catch (error) {
 
-        questions = [];
-
         console.error(
-            "Unable to load questions:",
+            "Unable to load difficulty information:",
             error
         );
 
@@ -120,14 +497,31 @@ function loadQuestions() {
 
 
 // ========================================
-// SAVE QUESTIONS
+// SAVE DIFFICULTY CACHE
 // ========================================
 
-function saveQuestions() {
+function saveDifficultyCache() {
+
+    const difficultyData = {};
+
+
+    questions.forEach(
+        question => {
+
+            difficultyData[
+                question.id
+            ] =
+                question.difficulty;
+
+        }
+    );
+
 
     localStorage.setItem(
-        "secureAssessQuestions",
-        JSON.stringify(questions)
+        "secureAssessQuestionDifficulty",
+        JSON.stringify(
+            difficultyData
+        )
     );
 
 }
@@ -151,24 +545,49 @@ function renderQuestions() {
         );
 
 
-    const search =
+    if (!list || !emptyState) {
+
+        return;
+
+    }
+
+
+    const searchElement =
         document.getElementById(
             "searchInput"
-        ).value
-            .trim()
-            .toLowerCase();
+        );
+
+
+    const difficultyElement =
+        document.getElementById(
+            "difficultyFilter"
+        );
+
+
+    const marksElement =
+        document.getElementById(
+            "marksFilter"
+        );
+
+
+    const search =
+        searchElement
+            ? searchElement.value
+                .trim()
+                .toLowerCase()
+            : "";
 
 
     const difficulty =
-        document.getElementById(
-            "difficultyFilter"
-        ).value;
+        difficultyElement
+            ? difficultyElement.value
+            : "all";
 
 
     const marks =
-        document.getElementById(
-            "marksFilter"
-        ).value;
+        marksElement
+            ? marksElement.value
+            : "all";
 
 
     const filtered =
@@ -179,7 +598,9 @@ function renderQuestions() {
                     !search ||
                     question.text
                         .toLowerCase()
-                        .includes(search);
+                        .includes(
+                            search
+                        );
 
 
                 const matchesDifficulty =
@@ -190,7 +611,9 @@ function renderQuestions() {
 
                 const matchesMarks =
                     marks === "all" ||
-                    String(question.marks) ===
+                    String(
+                        question.marks
+                    ) ===
                         marks;
 
 
@@ -204,11 +627,12 @@ function renderQuestions() {
         );
 
 
-    list.innerHTML = "";
+    list.innerHTML =
+        "";
 
 
     filtered.forEach(
-        (question, index) => {
+        question => {
 
             const row =
                 document.createElement(
@@ -223,35 +647,61 @@ function renderQuestions() {
             row.innerHTML = `
 
                 <div class="question-number">
+
                     Q${String(
-                        questions.indexOf(question) + 1
-                    ).padStart(2, "0")}
+                        questions.indexOf(
+                            question
+                        ) + 1
+                    ).padStart(
+                        2,
+                        "0"
+                    )}
+
                 </div>
 
 
                 <div class="question-content">
 
                     <strong>
-                        ${escapeHTML(question.text)}
+                        ${escapeHTML(
+                            question.text
+                        )}
                     </strong>
 
+
                     <small>
+
                         Correct answer:
-                        ${question.correct}
+                        ${escapeHTML(
+                            question.correct
+                        )}
+
                     </small>
 
                 </div>
 
 
-                <span class="difficulty ${question.difficulty}">
+                <span
+                    class="difficulty ${question.difficulty}"
+                >
+
                     ${capitalize(
                         question.difficulty
                     )}
+
                 </span>
 
 
                 <span class="question-marks">
-                    ${question.marks} mark${question.marks > 1 ? "s" : ""}
+
+                    ${question.marks}
+
+                    mark${
+                        question.marks > 1
+                            ? "s"
+                            : ""
+                    }
+
                 </span>
 
 
@@ -261,6 +711,8 @@ function renderQuestions() {
                         class="action-button"
                         data-action="edit"
                         data-id="${question.id}"
+                        title="Edit"
+                        type="button"
                     >
                         ✎
                     </button>
@@ -270,6 +722,8 @@ function renderQuestions() {
                         class="action-button"
                         data-action="delete"
                         data-id="${question.id}"
+                        title="Delete"
+                        type="button"
                     >
                         ×
                     </button>
@@ -279,7 +733,9 @@ function renderQuestions() {
             `;
 
 
-            list.appendChild(row);
+            list.appendChild(
+                row
+            );
 
         }
     );
@@ -291,10 +747,22 @@ function renderQuestions() {
             : "none";
 
 
-    document.getElementById(
-        "visibleQuestionCount"
-    ).textContent =
-        `${filtered.length} question${filtered.length !== 1 ? "s" : ""}`;
+    const visibleCount =
+        document.getElementById(
+            "visibleQuestionCount"
+        );
+
+
+    if (visibleCount) {
+
+        visibleCount.textContent =
+            `${filtered.length} question${
+                filtered.length !== 1
+                    ? "s"
+                    : ""
+            }`;
+
+    }
 
 
     updateStatistics();
@@ -312,52 +780,94 @@ function updateStatistics() {
 
     const totalMarks =
         questions.reduce(
-            (total, question) =>
-                total + Number(question.marks),
+            (
+                total,
+                question
+            ) =>
+                total +
+                Number(
+                    question.marks
+                ),
             0
         );
 
 
     const easy =
         questions.filter(
-            q => q.difficulty === "easy"
+            question =>
+                question.difficulty ===
+                "easy"
         ).length;
 
 
     const hard =
         questions.filter(
-            q => q.difficulty === "hard"
+            question =>
+                question.difficulty ===
+                "hard"
         ).length;
 
 
-    document.getElementById(
-        "totalQuestions"
-    ).textContent =
-        questions.length;
+    const totalQuestionsElement =
+        document.getElementById(
+            "totalQuestions"
+        );
 
 
-    document.getElementById(
-        "totalMarks"
-    ).textContent =
-        totalMarks;
+    const totalMarksElement =
+        document.getElementById(
+            "totalMarks"
+        );
 
 
-    document.getElementById(
-        "easyCount"
-    ).textContent =
-        easy;
+    const easyCountElement =
+        document.getElementById(
+            "easyCount"
+        );
 
 
-    document.getElementById(
-        "hardCount"
-    ).textContent =
-        hard;
+    const hardCountElement =
+        document.getElementById(
+            "hardCount"
+        );
+
+
+    if (totalQuestionsElement) {
+
+        totalQuestionsElement.textContent =
+            questions.length;
+
+    }
+
+
+    if (totalMarksElement) {
+
+        totalMarksElement.textContent =
+            totalMarks;
+
+    }
+
+
+    if (easyCountElement) {
+
+        easyCountElement.textContent =
+            easy;
+
+    }
+
+
+    if (hardCountElement) {
+
+        hardCountElement.textContent =
+            hard;
+
+    }
 
 }
 
 
 // ========================================
-// MODAL
+// OPEN QUESTION MODAL
 // ========================================
 
 function openQuestionModal(
@@ -435,7 +945,8 @@ function openQuestionModal(
 
         if (radio) {
 
-            radio.checked = true;
+            radio.checked =
+                true;
 
         }
 
@@ -498,7 +1009,7 @@ function clearModal() {
     document.getElementById(
         "questionDifficulty"
     ).value =
-        "easy";
+        "medium";
 
 
     document.getElementById(
@@ -512,7 +1023,8 @@ function clearModal() {
     ).forEach(
         radio => {
 
-            radio.checked = false;
+            radio.checked =
+                false;
 
         }
     );
@@ -532,6 +1044,7 @@ function closeQuestionModal() {
         "show"
     );
 
+
     clearModal();
 
 }
@@ -539,9 +1052,10 @@ function closeQuestionModal() {
 
 // ========================================
 // SAVE QUESTION
+// ADD OR EDIT
 // ========================================
 
-function saveQuestion() {
+async function saveQuestion() {
 
     const text =
         document.getElementById(
@@ -593,6 +1107,10 @@ function saveQuestion() {
         );
 
 
+    // ====================================
+    // VALIDATION
+    // ====================================
+
     if (!text) {
 
         showToast(
@@ -631,75 +1149,380 @@ function saveQuestion() {
     }
 
 
-    const questionData = {
-
-        id:
-            editingQuestionId ||
-            Date.now(),
-
-        text,
-
-        options: {
-
-            A: optionA,
-
-            B: optionB,
-
-            C: optionC,
-
-            D: optionD
-
-        },
-
-        correct:
-            correctRadio.value,
-
-        difficulty,
-
-        marks
-
-    };
-
-
-    if (editingQuestionId) {
-
-        questions =
-            questions.map(
-                question =>
-                    question.id ===
-                    editingQuestionId
-                        ? questionData
-                        : question
-            );
+    if (
+        !marks ||
+        marks <= 0
+    ) {
 
         showToast(
-            "Question updated."
+            "Marks must be greater than 0."
         );
 
-    } else {
-
-        questions.push(
-            questionData
-        );
-
-        showToast(
-            "Question added."
-        );
+        return;
 
     }
 
 
-    saveQuestions();
+    const saveButton =
+        document.getElementById(
+            "saveQuestionButton"
+        );
 
-    renderQuestions();
 
-    closeQuestionModal();
+    // ====================================
+    // PREVENT DOUBLE CLICK
+    // ====================================
+
+    if (saveButton) {
+
+        saveButton.disabled =
+            true;
+
+        saveButton.textContent =
+            editingQuestionId
+                ? "Updating..."
+                : "Saving...";
+
+    }
+
+
+    try {
+
+        // ==================================
+        // EDIT EXISTING QUESTION
+        // ==================================
+
+        if (editingQuestionId) {
+
+            const requestBody = {
+
+                teacherId:
+                    currentTeacherId,
+
+                questionText:
+                    text,
+
+                optionA:
+                    optionA,
+
+                optionB:
+                    optionB,
+
+                optionC:
+                    optionC,
+
+                optionD:
+                    optionD,
+
+                correctAnswer:
+                    correctRadio.value,
+
+                marks:
+                    marks
+
+            };
+
+
+            console.log(
+                "Updating question:",
+                editingQuestionId,
+                requestBody
+            );
+
+
+            const response =
+                await fetch(
+                    `${API_BASE}/api/questions/${editingQuestionId}`,
+                    {
+
+                        method:
+                            "PUT",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json"
+
+                        },
+
+                        body:
+                            JSON.stringify(
+                                requestBody
+                            )
+
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                const errorText =
+                    await response.text();
+
+
+                throw new Error(
+                    errorText ||
+                    `Server returned ${response.status}`
+                );
+
+            }
+
+
+            const updatedQuestion =
+                await response.json();
+
+
+            console.log(
+                "Question updated:",
+                updatedQuestion
+            );
+
+
+            // ==================================
+            // UPDATE FRONTEND STATE
+            // ==================================
+
+            const index =
+                questions.findIndex(
+                    question =>
+                        question.id ===
+                        editingQuestionId
+                );
+
+
+            if (index !== -1) {
+
+                questions[index] = {
+
+                    id:
+                        updatedQuestion.id,
+
+                    text:
+                        updatedQuestion.questionText,
+
+                    options: {
+
+                        A:
+                            updatedQuestion.optionA,
+
+                        B:
+                            updatedQuestion.optionB,
+
+                        C:
+                            updatedQuestion.optionC,
+
+                        D:
+                            updatedQuestion.optionD
+
+                    },
+
+                    correct:
+                        updatedQuestion.correctAnswer,
+
+                    marks:
+                        updatedQuestion.marks,
+
+                    difficulty:
+                        difficulty
+
+                };
+
+            }
+
+
+            saveDifficultyCache();
+
+            renderQuestions();
+
+            closeQuestionModal();
+
+
+            showToast(
+                "Question updated successfully."
+            );
+
+
+            return;
+
+        }
+
+
+        // ==================================
+        // CREATE NEW QUESTION
+        // ==================================
+
+        const requestBody = {
+
+            examId:
+                currentExamId,
+
+            teacherId:
+                currentTeacherId,
+
+            questionText:
+                text,
+
+            optionA:
+                optionA,
+
+            optionB:
+                optionB,
+
+            optionC:
+                optionC,
+
+            optionD:
+                optionD,
+
+            correctAnswer:
+                correctRadio.value,
+
+            marks:
+                marks
+
+        };
+
+
+        console.log(
+            "Creating question:",
+            requestBody
+        );
+
+
+        const response =
+            await fetch(
+                `${API_BASE}/api/questions`,
+                {
+
+                    method:
+                        "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify(
+                            requestBody
+                        )
+
+                }
+            );
+
+
+        if (!response.ok) {
+
+            const errorText =
+                await response.text();
+
+
+            throw new Error(
+                errorText ||
+                `Server returned ${response.status}`
+            );
+
+        }
+
+
+        const createdQuestion =
+            await response.json();
+
+
+        console.log(
+            "Question created:",
+            createdQuestion
+        );
+
+
+        const newQuestion = {
+
+            id:
+                createdQuestion.id,
+
+            text:
+                createdQuestion.questionText,
+
+            options: {
+
+                A:
+                    createdQuestion.optionA,
+
+                B:
+                    createdQuestion.optionB,
+
+                C:
+                    createdQuestion.optionC,
+
+                D:
+                    createdQuestion.optionD
+
+            },
+
+            correct:
+                createdQuestion.correctAnswer,
+
+            marks:
+                createdQuestion.marks,
+
+            difficulty:
+                difficulty
+
+        };
+
+
+        questions.push(
+            newQuestion
+        );
+
+
+        saveDifficultyCache();
+
+        renderQuestions();
+
+        closeQuestionModal();
+
+
+        showToast(
+            "Question added successfully."
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Unable to save question:",
+            error
+        );
+
+
+        showToast(
+            error.message ||
+            "Unable to save question."
+        );
+
+
+    } finally {
+
+        if (saveButton) {
+
+            saveButton.disabled =
+                false;
+
+            saveButton.textContent =
+                "Save question";
+
+        }
+
+    }
 
 }
 
 
 // ========================================
-// EDIT / DELETE
+// ATTACH EDIT / DELETE ACTIONS
 // ========================================
 
 function attachQuestionActions() {
@@ -725,12 +1548,22 @@ function attachQuestionActions() {
 
                     const question =
                         questions.find(
-                            q => q.id === id
+                            q =>
+                                q.id ===
+                                id
                         );
 
 
+                    if (!question) {
+
+                        return;
+
+                    }
+
+
                     if (
-                        action === "edit"
+                        action ===
+                        "edit"
                     ) {
 
                         openQuestionModal(
@@ -741,7 +1574,8 @@ function attachQuestionActions() {
 
 
                     if (
-                        action === "delete"
+                        action ===
+                        "delete"
                     ) {
 
                         deleteQuestion(
@@ -763,7 +1597,9 @@ function attachQuestionActions() {
 // DELETE QUESTION
 // ========================================
 
-function deleteQuestion(id) {
+async function deleteQuestion(
+    id
+) {
 
     const confirmed =
         confirm(
@@ -778,20 +1614,66 @@ function deleteQuestion(id) {
     }
 
 
-    questions =
-        questions.filter(
-            question =>
-                question.id !== id
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE}/api/questions/${id}?teacherId=${currentTeacherId}`,
+                {
+
+                    method:
+                        "DELETE"
+
+                }
+            );
+
+
+        if (!response.ok) {
+
+            const errorText =
+                await response.text();
+
+
+            throw new Error(
+                errorText ||
+                `Server returned ${response.status}`
+            );
+
+        }
+
+
+        questions =
+            questions.filter(
+                question =>
+                    question.id !==
+                    id
+            );
+
+
+        saveDifficultyCache();
+
+        renderQuestions();
+
+
+        showToast(
+            "Question deleted successfully."
         );
 
 
-    saveQuestions();
+    } catch (error) {
 
-    renderQuestions();
+        console.error(
+            "Unable to delete question:",
+            error
+        );
 
-    showToast(
-        "Question deleted."
-    );
+
+        showToast(
+            error.message ||
+            "Unable to delete question."
+        );
+
+    }
 
 }
 
@@ -803,162 +1685,272 @@ function deleteQuestion(id) {
 function setupEvents() {
 
 
-    // ADD
+    // ====================================
+    // ADD QUESTION
+    // ====================================
 
-    document.getElementById(
-        "addQuestionButton"
-    ).addEventListener(
-        "click",
-        () => {
-
-            openQuestionModal();
-
-        }
-    );
+    const addQuestionButton =
+        document.getElementById(
+            "addQuestionButton"
+        );
 
 
-    document.getElementById(
-        "emptyAddButton"
-    ).addEventListener(
-        "click",
-        () => {
+    if (addQuestionButton) {
 
-            openQuestionModal();
+        addQuestionButton.addEventListener(
+            "click",
+            () => {
 
-        }
-    );
+                openQuestionModal();
 
+            }
+        );
 
-    // CLOSE
-
-    document.getElementById(
-        "closeModal"
-    ).addEventListener(
-        "click",
-        closeQuestionModal
-    );
+    }
 
 
-    document.getElementById(
-        "cancelModal"
-    ).addEventListener(
-        "click",
-        closeQuestionModal
-    );
+    const emptyAddButton =
+        document.getElementById(
+            "emptyAddButton"
+        );
 
 
-    // SAVE
+    if (emptyAddButton) {
 
-    document.getElementById(
-        "saveQuestionButton"
-    ).addEventListener(
-        "click",
-        saveQuestion
-    );
+        emptyAddButton.addEventListener(
+            "click",
+            () => {
+
+                openQuestionModal();
+
+            }
+        );
+
+    }
 
 
+    // ====================================
+    // CLOSE MODAL
+    // ====================================
+
+    const closeModal =
+        document.getElementById(
+            "closeModal"
+        );
+
+
+    if (closeModal) {
+
+        closeModal.addEventListener(
+            "click",
+            closeQuestionModal
+        );
+
+    }
+
+
+    const cancelModal =
+        document.getElementById(
+            "cancelModal"
+        );
+
+
+    if (cancelModal) {
+
+        cancelModal.addEventListener(
+            "click",
+            closeQuestionModal
+        );
+
+    }
+
+
+    // ====================================
+    // SAVE QUESTION
+    // ====================================
+
+    const saveQuestionButton =
+        document.getElementById(
+            "saveQuestionButton"
+        );
+
+
+    if (saveQuestionButton) {
+
+        saveQuestionButton.addEventListener(
+            "click",
+            saveQuestion
+        );
+
+    }
+
+
+    // ====================================
     // SEARCH
+    // ====================================
 
-    document.getElementById(
-        "searchInput"
-    ).addEventListener(
-        "input",
-        renderQuestions
-    );
-
-
-    // FILTERS
-
-    document.getElementById(
-        "difficultyFilter"
-    ).addEventListener(
-        "change",
-        renderQuestions
-    );
+    const searchInput =
+        document.getElementById(
+            "searchInput"
+        );
 
 
-    document.getElementById(
-        "marksFilter"
-    ).addEventListener(
-        "change",
-        renderQuestions
-    );
+    if (searchInput) {
+
+        searchInput.addEventListener(
+            "input",
+            renderQuestions
+        );
+
+    }
 
 
+    // ====================================
+    // DIFFICULTY FILTER
+    // ====================================
+
+    const difficultyFilter =
+        document.getElementById(
+            "difficultyFilter"
+        );
+
+
+    if (difficultyFilter) {
+
+        difficultyFilter.addEventListener(
+            "change",
+            renderQuestions
+        );
+
+    }
+
+
+    // ====================================
+    // MARKS FILTER
+    // ====================================
+
+    const marksFilter =
+        document.getElementById(
+            "marksFilter"
+        );
+
+
+    if (marksFilter) {
+
+        marksFilter.addEventListener(
+            "change",
+            renderQuestions
+        );
+
+    }
+
+
+    // ====================================
     // SAVE QUESTIONS
+    // ====================================
 
-    document.getElementById(
-        "saveQuestionsButton"
-    ).addEventListener(
-        "click",
-        () => {
-
-            saveQuestions();
-
-            showToast(
-                "Questions saved successfully."
-            );
-
-        }
-    );
+    const saveQuestionsButton =
+        document.getElementById(
+            "saveQuestionsButton"
+        );
 
 
-    // REVIEW
+    if (saveQuestionsButton) {
 
-    document.getElementById(
-        "reviewButton"
-    ).addEventListener(
-        "click",
-        () => {
+        saveQuestionsButton.addEventListener(
+            "click",
+            async () => {
 
-            if (
-                questions.length === 0
-            ) {
+                await loadQuestions();
+
+                renderQuestions();
+
 
                 showToast(
-                    "Add at least one question before continuing."
+                    "Questions are saved in the database."
                 );
 
-                return;
+            }
+        );
+
+    }
+
+
+    // ====================================
+    // REVIEW & PUBLISH
+    // ====================================
+
+    const reviewButton =
+        document.getElementById(
+            "reviewButton"
+        );
+
+
+    if (reviewButton) {
+
+        reviewButton.addEventListener(
+            "click",
+            () => {
+
+                if (
+                    questions.length === 0
+                ) {
+
+                    showToast(
+                        "Add at least one question before continuing."
+                    );
+
+                    return;
+
+                }
+
+
+                localStorage.setItem(
+                    "currentExamId",
+                    String(
+                        currentExamId
+                    )
+                );
+
+
+                window.location.href =
+                    `review-publish.html?examId=${currentExamId}`;
 
             }
+        );
+
+    }
 
 
-            saveQuestions();
+    // ====================================
+    // CLOSE MODAL OUTSIDE CLICK
+    // ====================================
+
+    const questionModal =
+        document.getElementById(
+            "questionModal"
+        );
 
 
-            /*
-             * Next page:
-             *
-             * review-publish.html
-             */
+    if (questionModal) {
 
-            window.location.href =
-                "review-publish.html";
+        questionModal.addEventListener(
+            "click",
+            event => {
 
-        }
-    );
+                if (
+                    event.target.id ===
+                    "questionModal"
+                ) {
 
+                    closeQuestionModal();
 
-    // CLOSE MODAL WHEN CLICKING OUTSIDE
-
-    document.getElementById(
-        "questionModal"
-    ).addEventListener(
-        "click",
-        event => {
-
-            if (
-                event.target.id ===
-                "questionModal"
-            ) {
-
-                closeQuestionModal();
+                }
 
             }
+        );
 
-        }
-    );
+    }
 
 }
 
@@ -967,7 +1959,16 @@ function setupEvents() {
 // HELPERS
 // ========================================
 
-function capitalize(text) {
+function capitalize(
+    text
+) {
+
+    if (!text) {
+
+        return "";
+
+    }
+
 
     return (
         text.charAt(0).toUpperCase() +
@@ -977,13 +1978,23 @@ function capitalize(text) {
 }
 
 
-function escapeHTML(text) {
+// ========================================
+// ESCAPE HTML
+// ========================================
+
+function escapeHTML(
+    text
+) {
 
     const div =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
+
 
     div.textContent =
-        text;
+        text ?? "";
+
 
     return div.innerHTML;
 
@@ -994,12 +2005,25 @@ function escapeHTML(text) {
 // TOAST
 // ========================================
 
-function showToast(message) {
+function showToast(
+    message
+) {
 
     const toast =
         document.getElementById(
             "toast"
         );
+
+
+    if (!toast) {
+
+        alert(
+            message
+        );
+
+        return;
+
+    }
 
 
     toast.textContent =
@@ -1019,7 +2043,7 @@ function showToast(message) {
             );
 
         },
-        2200
+        2500
     );
 
 }

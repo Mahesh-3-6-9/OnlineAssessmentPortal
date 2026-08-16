@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Create Account | SecureAssess</title>
+
+    <link
+        rel="stylesheet"
+        href="css/login.css"
+    >
+
+    <style>
+
+        .register-card {
+            width: 100%;
+            max-width: 470px;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #777;
+        }
+
+        .register-link a {
+            color: #111;
+            font-weight: 700;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        .register-message {
+            display: none;
+            margin: 15px 0;
+            padding: 11px 13px;
+            border-radius: 7px;
+            font-size: 12px;
+        }
+
+        .register-message.show {
+            display: block;
+        }
+
+        .register-message.error {
+            background: #f9eeee;
+            color: #a04444;
+        }
+
+        .register-message.success {
+            background: #edf6ee;
+            color: #4d704f;
+        }
+
+        .role-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .role-option {
+            position: relative;
+        }
+
+        .role-option input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .role-option label {
+            display: block;
+            padding: 13px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            background: #fff;
+        }
+
+        .role-option input:checked + label {
+            border-color: #151515;
+            background: #151515;
+            color: white;
+        }
+
+        .back-login {
+            display: block;
+            text-align: center;
+            margin-top: 16px;
+            color: #777;
+            font-size: 11px;
+            text-decoration: none;
+        }
+
+        .back-login:hover {
+            color: #111;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<main class="login-page">
+
+
+    <!-- LEFT SIDE -->
+
+    <section class="login-info">
+
+        <a
+            href="index.html"
+            class="brand"
+        >
+
+            <span class="brand-icon">
+                S
+            </span>
+
+            <span>
+                SecureAssess
+            </span>
+
+        </a>
+
+
+        <div class="info-content">
+
+            <span class="eyebrow">
+                INTELLIGENT ASSESSMENT PLATFORM
+            </span>
+
+
+            <h1>
+                Create your
+                <span>SecureAssess account.</span>
+            </h1>
+
+
+            <p>
+                Join the secure assessment platform
+                as a student or faculty member.
+            </p>
+
+
+            <div class="security-points">
+
+                <div class="security-point">
+
+                    <div class="point-icon">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Secure account
+                        </strong>
+
+                        <p>
+                            Your password is securely
+                            hashed before storage.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="security-point">
+
+                    <div class="point-icon">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Choose your role
+                        </strong>
+
+                        <p>
+                            Register as a student or teacher.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="security-point">
+
+                    <div class="point-icon">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Ready to assess
+                        </strong>
+
+                        <p>
+                            Access the features available
+                            for your account.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="login-footer-text">
+            © 2026 SecureAssess
+        </div>
+
+    </section>
+
+
+    <!-- RIGHT SIDE -->
+
+    <section class="login-container">
+
+        <div class="login-card register-card">
+
+
+            <div class="mobile-brand">
+
+                <span class="brand-icon">
+                    S
+                </span>
+
+                <span>
+                    SecureAssess
+                </span>
+
+            </div>
+
+
+            <div class="login-heading">
+
+                <span class="small-label">
+                    GET STARTED
+                </span>
+
+                <h2>
+                    Create your account
+                </h2>
+
+                <p>
+                    Enter your details to get started.
+                </p>
+
+            </div>
+
+
+            <!-- REGISTER FORM -->
+
+            <form id="registerForm">
+
+
+                <!-- NAME -->
+
+                <div class="form-group">
+
+                    <label for="name">
+                        Full name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="Enter your name"
+                        autocomplete="name"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Minimum 6 characters"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- CONFIRM PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="confirmPassword">
+                        Confirm password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        placeholder="Re-enter your password"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- ROLE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Create account as
+                    </label>
+
+
+                    <div class="role-options">
+
+
+                        <div class="role-option">
+
+                            <input
+                                type="radio"
+                                id="studentRole"
+                                name="role"
+                                value="STUDENT"
+                                checked
+                            >
+
+                            <label for="studentRole">
+                                Student
+                            </label>
+
+                        </div>
+
+
+                        <div class="role-option">
+
+                            <input
+                                type="radio"
+                                id="teacherRole"
+                                name="role"
+                                value="TEACHER"
+                            >
+
+                            <label for="teacherRole">
+                                Teacher
+                            </label>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- MESSAGE -->
+
+                <div
+                    id="registerMessage"
+                    class="register-message"
+                ></div>
+
+
+                <!-- BUTTON -->
+
+                <button
+                    type="submit"
+                    class="login-button"
+                    id="registerButton"
+                >
+
+                    <span id="registerButtonText">
+                        Create account
+                    </span>
+
+                    <span
+                        id="registerLoader"
+                        class="loader"
+                    ></span>
+
+                </button>
+
+
+            </form>
+
+
+            <a
+                href="login.html"
+                class="back-login"
+            >
+                ← Already have an account? Sign in
+            </a>
+
+
+            <div class="login-note">
+
+                <span class="shield-icon">
+                    ◆
+                </span>
+
+                <span>
+                    Your password is securely protected.
+                </span>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script src="js/register.js"></script>
+
+</body>
+
+</html>

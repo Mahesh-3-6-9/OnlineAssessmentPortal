@@ -1,220 +1,39 @@
 // ========================================
 // SECUREASSESS
-// EXAM ENGINE
-// FRONTEND DEMONSTRATION
+// REAL EXAM ENGINE
+// CONNECTED TO SPRING BOOT
+// FULLSCREEN + INTEGRITY MONITORING
+// EXAM WINDOW + HARD DEADLINE
 // ========================================
+
+const API_BASE = "http://localhost:8080";
 
 
 // ========================================
 // EXAM CONFIGURATION
 // ========================================
 
-const TOTAL_QUESTIONS = 30;
-
-const MAX_WARNINGS = 3;
-
-
-// ========================================
-// QUESTION DATA
-// ========================================
-//
-// IMPORTANT:
-// These are temporary frontend questions.
-// Later Spring Boot will send the questions
-// from MySQL.
-//
-
-const questions = [
-
-    {
-        id: 1,
-        question:
-            "Which data structure follows the LIFO principle?",
-        options: {
-            A: "Queue",
-            B: "Stack",
-            C: "Linked List",
-            D: "Tree"
-        },
-        correct: "B",
-        marks: 1
-    },
-
-    {
-        id: 2,
-        question:
-            "Which data structure follows the FIFO principle?",
-        options: {
-            A: "Stack",
-            B: "Queue",
-            C: "Heap",
-            D: "Graph"
-        },
-        correct: "B",
-        marks: 1
-    },
-
-    {
-        id: 3,
-        question:
-            "What is the average time complexity of binary search?",
-        options: {
-            A: "O(n)",
-            B: "O(n²)",
-            C: "O(log n)",
-            D: "O(1)"
-        },
-        correct: "C",
-        marks: 1
-    },
-
-    {
-        id: 4,
-        question:
-            "Which traversal visits Root, Left, Right?",
-        options: {
-            A: "Preorder",
-            B: "Inorder",
-            C: "Postorder",
-            D: "Level Order"
-        },
-        correct: "A",
-        marks: 1
-    },
-
-    {
-        id: 5,
-        question:
-            "Which sorting algorithm uses divide and conquer?",
-        options: {
-            A: "Bubble Sort",
-            B: "Selection Sort",
-            C: "Merge Sort",
-            D: "Linear Search"
-        },
-        correct: "C",
-        marks: 1
-    },
-
-    {
-        id: 6,
-        question:
-            "Which data structure provides average O(1) lookup?",
-        options: {
-            A: "Array",
-            B: "Hash Table",
-            C: "Linked List",
-            D: "Stack"
-        },
-        correct: "B",
-        marks: 1
-    },
-
-    {
-        id: 7,
-        question:
-            "What is the time complexity of traversing an array of n elements?",
-        options: {
-            A: "O(n)",
-            B: "O(log n)",
-            C: "O(n²)",
-            D: "O(1)"
-        },
-        correct: "A",
-        marks: 1
-    },
-
-    {
-        id: 8,
-        question:
-            "Which of the following is a non-linear data structure?",
-        options: {
-            A: "Array",
-            B: "Stack",
-            C: "Queue",
-            D: "Binary Tree"
-        },
-        correct: "D",
-        marks: 1
-    },
-
-    {
-        id: 9,
-        question:
-            "Which data structure is commonly used to represent networks?",
-        options: {
-            A: "Array",
-            B: "Stack",
-            C: "Graph",
-            D: "Queue"
-        },
-        correct: "C",
-        marks: 1
-    },
-
-    {
-        id: 10,
-        question:
-            "Which data structure is commonly used to implement a priority queue?",
-        options: {
-            A: "Stack",
-            B: "Heap",
-            C: "Array",
-            D: "Linked List"
-        },
-        correct: "B",
-        marks: 1
-    }
-
-];
+const EXAM_ID =
+    Number(
+        new URLSearchParams(window.location.search)
+            .get("examId")
+    ) || 1;
 
 
-// ========================================
-// TEMPORARY PLACEHOLDER QUESTIONS
-// ========================================
-//
-// Your UI currently supports 30 questions.
-// Until Spring Boot provides the real
-// questions, generate placeholders.
-//
-
-for (
-    let i = questions.length + 1;
-    i <= TOTAL_QUESTIONS;
-    i++
-) {
-
-    questions.push({
-
-        id: i,
-
-        question:
-            `Sample examination question ${i}. This question will be replaced by the question received from the Spring Boot backend.`,
-
-        options: {
-
-            A: "Option A",
-
-            B: "Option B",
-
-            C: "Option C",
-
-            D: "Option D"
-
-        },
-
-        correct: "A",
-
-        marks: 1
-
-    });
-
-}
+// Student ID comes from login/localStorage
+const STUDENT_ID =
+    Number(
+        localStorage.getItem("studentId")
+    ) || 1;
 
 
 // ========================================
 // STATE
 // ========================================
+
+let examData = null;
+
+let questions = [];
 
 let currentQuestion = 0;
 
@@ -222,7 +41,7 @@ let answers = {};
 
 let markedForReview = new Set();
 
-let remainingSeconds = 45 * 60;
+let remainingSeconds = 0;
 
 let timerInterval = null;
 
@@ -236,7 +55,20 @@ let copyAttempts = 0;
 
 let examSubmitted = false;
 
-let examStartedAt = null;
+let attemptId = null;
+
+let examDurationMinutes = 0;
+
+let attemptStartedAt = null;
+
+let actualDeadline = null;
+
+
+// ========================================
+// FULLSCREEN STATE
+// ========================================
+
+let fullscreenPromptActive = false;
 
 
 // ========================================
@@ -245,45 +77,765 @@ let examStartedAt = null;
 
 document.addEventListener(
     "DOMContentLoaded",
-    () => {
+    async () => {
 
-        initializeExam();
+        try {
+
+            console.log(
+                "Starting exam:",
+                EXAM_ID
+            );
+
+
+            // ====================================
+            // 1. LOAD EXAM
+            // ====================================
+
+            await loadExam();
+
+
+            // ====================================
+            // 2. START / RESTORE BACKEND ATTEMPT
+            // ====================================
+
+            await startExam();
+
+
+            // ====================================
+            // 3. CALCULATE ACTUAL DEADLINE
+            // ====================================
+
+            calculateActualDeadline();
+
+
+            // ====================================
+            // 4. LOAD QUESTIONS
+            // ====================================
+
+            await loadQuestions();
+
+
+            // ====================================
+            // 5. RESTORE ANSWERS
+            // ====================================
+
+            loadSavedState();
+
+
+            // ====================================
+            // 6. SETUP CONTROLS
+            // ====================================
+
+            setupQuestionNavigation();
+
+            setupSecurityControls();
+
+            setupSubmitControls();
+
+
+            // ====================================
+            // 7. RENDER PAGE
+            // ====================================
+
+            renderExamDetails();
+
+            renderQuestion();
+
+            renderQuestionNavigator();
+
+            updateAllUI();
+
+
+            // ====================================
+            // 8. START TIMER
+            // ====================================
+
+            startTimer();
+
+
+            // ====================================
+            // 9. REQUEST FULLSCREEN
+            // ====================================
+
+            showFullscreenPrompt();
+
+
+            console.log(
+                "Exam initialized successfully."
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Exam initialization failed:",
+                error
+            );
+
+            alert(
+                "Unable to start the examination.\n\n" +
+                error.message
+            );
+
+        }
 
     }
 );
 
 
 // ========================================
-// INITIALIZE EXAM
+// LOAD EXAM DETAILS
+// GET /api/exams/{id}
 // ========================================
 
-function initializeExam() {
+async function loadExam() {
 
-    examStartedAt =
-        new Date();
+    const response =
+        await fetch(
+            `${API_BASE}/api/exams/${EXAM_ID}`
+        );
+
+
+    if (!response.ok) {
+
+        const message =
+            await response.text();
+
+        throw new Error(
+            message ||
+            "Failed to load examination."
+        );
+
+    }
+
+
+    examData =
+        await response.json();
+
+
+    console.log(
+        "Exam loaded:",
+        examData
+    );
+
+
+    examDurationMinutes =
+        Number(
+            examData.durationMinutes || 0
+        );
+
+
+    if (
+        examDurationMinutes <= 0
+    ) {
+
+        throw new Error(
+            "Invalid examination duration."
+        );
+
+    }
+
+}
+
+
+// ========================================
+// RENDER EXAM DETAILS
+// ========================================
+
+function renderExamDetails() {
+
+    if (!examData) {
+
+        return;
+
+    }
+
+
+    const titleElement =
+        document.getElementById(
+            "examTitle"
+        );
+
+
+    if (titleElement) {
+
+        titleElement.textContent =
+            examData.title ||
+            "Examination";
+
+    }
+
+
+    const descriptionElement =
+        document.getElementById(
+            "examDescription"
+        );
+
+
+    if (descriptionElement) {
+
+        descriptionElement.textContent =
+            examData.description ||
+            "";
+
+    }
+
+
+    const durationElements =
+        document.querySelectorAll(
+            ".exam-duration"
+        );
+
+
+    durationElements.forEach(
+        element => {
+
+            element.textContent =
+                `${examDurationMinutes} min`;
+
+        }
+    );
+
+
+    const marksElements =
+        document.querySelectorAll(
+            ".exam-marks"
+        );
+
+
+    marksElements.forEach(
+        element => {
+
+            element.textContent =
+                `${examData.totalMarks || 0} marks`;
+
+        }
+    );
+
+
+    const questionTotalElements =
+        document.querySelectorAll(
+            ".question-total"
+        );
+
+
+    questionTotalElements.forEach(
+        element => {
+
+            element.textContent =
+                `/ ${
+                    examData.totalQuestions ||
+                    questions.length
+                }`;
+
+        }
+    );
+}
+
+
+// ========================================
+// START / RESTORE EXAM ATTEMPT
+// POST /api/attempts/start
+// ========================================
+
+async function startExam() {
+
+    const response =
+        await fetch(
+            `${API_BASE}/api/attempts/start`,
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    studentId:
+                        STUDENT_ID,
+
+                    examId:
+                        EXAM_ID
+
+                })
+            }
+        );
+
+
+    if (!response.ok) {
+
+        const message =
+            await response.text();
+
+        throw new Error(
+            message ||
+            "Failed to start examination."
+        );
+
+    }
+
+
+    const attempt =
+        await response.json();
+
+
+    console.log(
+        "Attempt:",
+        attempt
+    );
+
+
+    attemptId =
+        attempt.id;
+
+
+    if (!attemptId) {
+
+        throw new Error(
+            "Backend did not return an attempt ID."
+        );
+
+    }
+
+
+    // ====================================
+    // SAVE ATTEMPT INFORMATION
+    // ====================================
+
+    localStorage.setItem(
+        "attemptId",
+        attemptId
+    );
+
+
+    localStorage.setItem(
+        "examId",
+        EXAM_ID
+    );
+
+
+    localStorage.setItem(
+        "studentId",
+        STUDENT_ID
+    );
+
+
+    attemptStartedAt =
+        attempt.startedAt;
+
+
+    if (!attemptStartedAt) {
+
+        attemptStartedAt =
+            new Date().toISOString();
+
+    }
 
 
     localStorage.setItem(
         "examStartedAt",
-        examStartedAt.toISOString()
+        attemptStartedAt
     );
 
 
-    loadSavedState();
+    // ====================================
+    // RESTORE / RESET INTEGRITY
+    // ====================================
 
-    setupQuestionNavigation();
+    warningCount = 0;
 
-    setupSecurityControls();
+    tabSwitches = 0;
 
-    setupSubmitControls();
+    fullscreenExits = 0;
 
-    renderQuestion();
+    copyAttempts = 0;
 
-    renderQuestionNavigator();
 
-    updateAllUI();
+    saveIntegrityState();
 
-    startTimer();
+}
+
+
+// ========================================
+// CALCULATE ACTUAL DEADLINE
+// ========================================
+//
+// Actual deadline:
+//
+// MIN(
+//     startedAt + duration,
+//     exam.endTime
+// )
+//
+// Example:
+//
+// Exam:
+// 10:00 -> 11:00
+//
+// Duration:
+// 30 minutes
+//
+// Student starts:
+// 10:45
+//
+// Duration deadline:
+// 11:15
+//
+// Exam deadline:
+// 11:00
+//
+// Actual deadline:
+// 11:00
+// ========================================
+
+function calculateActualDeadline() {
+
+    if (!attemptStartedAt) {
+
+        throw new Error(
+            "Exam start time was not received."
+        );
+
+    }
+
+
+    const startedTime =
+        new Date(
+            attemptStartedAt
+        );
+
+
+    if (
+        Number.isNaN(
+            startedTime.getTime()
+        )
+    ) {
+
+        throw new Error(
+            "Invalid exam start time."
+        );
+
+    }
+
+
+    // ====================================
+    // STUDENT DURATION DEADLINE
+    // ====================================
+
+    const durationDeadline =
+        new Date(
+            startedTime.getTime()
+            +
+            examDurationMinutes *
+            60 *
+            1000
+        );
+
+
+    actualDeadline =
+        durationDeadline;
+
+
+    // ====================================
+    // EXAM HARD END TIME
+    // ====================================
+
+    if (
+        examData &&
+        examData.endTime
+    ) {
+
+        const examEndTime =
+            parseBackendDate(
+                examData.endTime
+            );
+
+
+        if (
+            examEndTime &&
+            examEndTime < actualDeadline
+        ) {
+
+            actualDeadline =
+                examEndTime;
+
+        }
+
+    }
+
+
+    console.log(
+        "Attempt started:",
+        startedTime
+    );
+
+
+    console.log(
+        "Duration deadline:",
+        durationDeadline
+    );
+
+
+    console.log(
+        "Exam hard deadline:",
+        examData.endTime
+            ? parseBackendDate(
+                examData.endTime
+            )
+            : "Not configured"
+    );
+
+
+    console.log(
+        "Actual deadline:",
+        actualDeadline
+    );
+
+
+    updateRemainingSeconds();
+
+}
+
+
+// ========================================
+// PARSE BACKEND LOCALDATETIME
+// ========================================
+//
+// Spring Boot LocalDateTime normally returns:
+//
+// 2026-08-15T15:30:00
+//
+// This function treats it as local browser
+// time rather than UTC.
+// ========================================
+
+function parseBackendDate(
+    value
+) {
+
+    if (!value) {
+
+        return null;
+
+    }
+
+
+    if (
+        value instanceof Date
+    ) {
+
+        return value;
+
+    }
+
+
+    // ISO value with timezone
+    if (
+        value.endsWith("Z") ||
+        value.includes("+")
+    ) {
+
+        const date =
+            new Date(value);
+
+
+        return Number.isNaN(
+            date.getTime()
+        )
+            ? null
+            : date;
+
+    }
+
+
+    // LocalDateTime:
+    // YYYY-MM-DDTHH:mm:ss
+    const date =
+        new Date(value);
+
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return null;
+
+    }
+
+
+    return date;
+}
+
+
+// ========================================
+// UPDATE REMAINING SECONDS
+// ========================================
+
+function updateRemainingSeconds() {
+
+    if (!actualDeadline) {
+
+        return;
+
+    }
+
+
+    const now =
+        new Date();
+
+
+    const difference =
+        Math.floor(
+            (
+                actualDeadline.getTime()
+                -
+                now.getTime()
+            )
+            / 1000
+        );
+
+
+    remainingSeconds =
+        Math.max(
+            0,
+            difference
+        );
+
+}
+
+
+// ========================================
+// LOAD QUESTIONS
+// GET /api/questions/exam/{examId}
+// ========================================
+
+async function loadQuestions() {
+
+    const response =
+        await fetch(
+            `${API_BASE}/api/questions/exam/${EXAM_ID}`
+        );
+
+
+    if (!response.ok) {
+
+        const message =
+            await response.text();
+
+        throw new Error(
+            message ||
+            "Failed to load questions."
+        );
+
+    }
+
+
+    const backendQuestions =
+        await response.json();
+
+
+    if (
+        !Array.isArray(
+            backendQuestions
+        ) ||
+        backendQuestions.length === 0
+    ) {
+
+        throw new Error(
+            "No questions are available for this examination."
+        );
+
+    }
+
+
+    console.log(
+        "Questions loaded:",
+        backendQuestions
+    );
+
+
+    questions =
+        backendQuestions.map(
+            question => ({
+
+                id:
+                    question.id,
+
+                question:
+                    question.questionText,
+
+                options: {
+
+                    A:
+                        question.optionA,
+
+                    B:
+                        question.optionB,
+
+                    C:
+                        question.optionC,
+
+                    D:
+                        question.optionD
+
+                },
+
+                marks:
+                    Number(
+                        question.marks || 0
+                    )
+
+            })
+        );
+
+
+    const total =
+        questions.length;
+
+
+    document
+        .querySelectorAll(
+            ".question-total"
+        )
+        .forEach(
+            element => {
+
+                element.textContent =
+                    `/ ${total}`;
+
+            }
+        );
+
+
+    const navigationStatus =
+        document.getElementById(
+            "navigationStatus"
+        );
+
+
+    if (navigationStatus) {
+
+        navigationStatus.textContent =
+            `Question 1 of ${total}`;
+
+    }
+
+
+    const examQuestionCount =
+        document.getElementById(
+            "examQuestionCount"
+        );
+
+
+    if (examQuestionCount) {
+
+        examQuestionCount.textContent =
+            `${total} questions`;
+
+    }
 
 }
 
@@ -296,7 +848,7 @@ function loadSavedState() {
 
     const savedAnswers =
         localStorage.getItem(
-            "examAnswers"
+            `examAnswers_${EXAM_ID}`
         );
 
 
@@ -309,7 +861,7 @@ function loadSavedState() {
                     savedAnswers
                 );
 
-        } catch (error) {
+        } catch {
 
             answers = {};
 
@@ -320,7 +872,7 @@ function loadSavedState() {
 
     const savedReview =
         localStorage.getItem(
-            "examMarkedQuestions"
+            `examMarkedQuestions_${EXAM_ID}`
         );
 
 
@@ -335,7 +887,7 @@ function loadSavedState() {
                     )
                 );
 
-        } catch (error) {
+        } catch {
 
             markedForReview =
                 new Set();
@@ -348,13 +900,13 @@ function loadSavedState() {
 
 
 // ========================================
-// SAVE STATE
+// SAVE ANSWER STATE
 // ========================================
 
 function saveState() {
 
     localStorage.setItem(
-        "examAnswers",
+        `examAnswers_${EXAM_ID}`,
         JSON.stringify(
             answers
         )
@@ -362,10 +914,52 @@ function saveState() {
 
 
     localStorage.setItem(
-        "examMarkedQuestions",
+        `examMarkedQuestions_${EXAM_ID}`,
         JSON.stringify(
             [...markedForReview]
         )
+    );
+
+
+    const saveStatus =
+        document.getElementById(
+            "saveStatus"
+        );
+
+
+    if (saveStatus) {
+
+        saveStatus.textContent =
+            "All changes saved";
+
+    }
+
+}
+
+
+// ========================================
+// SAVE INTEGRITY STATE
+// ========================================
+
+function saveIntegrityState() {
+
+    localStorage.setItem(
+        `examIntegrity_${EXAM_ID}`,
+        JSON.stringify({
+
+            warningCount:
+                warningCount,
+
+            tabSwitches:
+                tabSwitches,
+
+            fullscreenExits:
+                fullscreenExits,
+
+            copyAttempts:
+                copyAttempts
+
+        })
     );
 
 }
@@ -406,18 +1000,15 @@ function renderQuestion() {
         );
 
 
-    const questionMarks =
-        document.getElementById(
-            "questionMarks"
-        );
-
-
     if (questionNumber) {
 
         questionNumber.textContent =
-            `Question ${String(
+            String(
                 currentQuestion + 1
-            ).padStart(2, "0")}`;
+            ).padStart(
+                2,
+                "0"
+            );
 
     }
 
@@ -426,14 +1017,6 @@ function renderQuestion() {
 
         questionText.textContent =
             question.question;
-
-    }
-
-
-    if (questionMarks) {
-
-        questionMarks.textContent =
-            `${question.marks} mark${question.marks > 1 ? "s" : ""}`;
 
     }
 
@@ -450,7 +1033,12 @@ function renderQuestion() {
 
 
     const letters =
-        ["A", "B", "C", "D"];
+        [
+            "A",
+            "B",
+            "C",
+            "D"
+        ];
 
 
     letters.forEach(
@@ -458,7 +1046,7 @@ function renderQuestion() {
 
             const option =
                 document.createElement(
-                    "div"
+                    "label"
                 );
 
 
@@ -466,10 +1054,13 @@ function renderQuestion() {
                 "option";
 
 
-            if (
-                answers[question.id] ===
-                letter
-            ) {
+            const selected =
+                answers[
+                    question.id
+                ] === letter;
+
+
+            if (selected) {
 
                 option.classList.add(
                     "selected"
@@ -480,13 +1071,21 @@ function renderQuestion() {
 
             option.innerHTML = `
 
+                <input
+                    type="radio"
+                    name="answer"
+                    value="${letter}"
+                    ${selected ? "checked" : ""}
+                >
+
                 <span class="option-letter">
                     ${letter}
                 </span>
 
                 <span class="option-text">
                     ${escapeHTML(
-                        question.options[letter]
+                        question.options[letter] ||
+                        ""
                     )}
                 </span>
 
@@ -513,6 +1112,8 @@ function renderQuestion() {
         }
     );
 
+
+    updateAnswerStatus();
 
     updateNavigationButtons();
 
@@ -549,6 +1150,55 @@ function selectAnswer(
 
 
 // ========================================
+// ANSWER STATUS
+// ========================================
+
+function updateAnswerStatus() {
+
+    const status =
+        document.getElementById(
+            "answerStatus"
+        );
+
+
+    if (!status) {
+
+        return;
+
+    }
+
+
+    const question =
+        questions[currentQuestion];
+
+
+    if (!question) {
+
+        return;
+
+    }
+
+
+    if (
+        answers[
+            question.id
+        ]
+    ) {
+
+        status.textContent =
+            "Answered";
+
+    } else {
+
+        status.textContent =
+            "Not answered";
+
+    }
+
+}
+
+
+// ========================================
 // QUESTION NAVIGATION
 // ========================================
 
@@ -566,9 +1216,9 @@ function setupQuestionNavigation() {
         );
 
 
-    const markButton =
+    const reviewButton =
         document.getElementById(
-            "markButton"
+            "reviewButton"
         );
 
 
@@ -625,9 +1275,9 @@ function setupQuestionNavigation() {
     }
 
 
-    if (markButton) {
+    if (reviewButton) {
 
-        markButton.addEventListener(
+        reviewButton.addEventListener(
             "click",
             toggleMarkForReview
         );
@@ -643,24 +1293,31 @@ function setupQuestionNavigation() {
 
 function toggleMarkForReview() {
 
-    const questionId =
-        questions[currentQuestion].id;
+    const question =
+        questions[currentQuestion];
+
+
+    if (!question) {
+
+        return;
+
+    }
 
 
     if (
         markedForReview.has(
-            questionId
+            question.id
         )
     ) {
 
         markedForReview.delete(
-            questionId
+            question.id
         );
 
     } else {
 
         markedForReview.add(
-            questionId
+            question.id
         );
 
     }
@@ -681,7 +1338,7 @@ function renderQuestionNavigator() {
 
     const container =
         document.getElementById(
-            "questionNavigator"
+            "questionGrid"
         );
 
 
@@ -703,6 +1360,10 @@ function renderQuestionNavigator() {
                 document.createElement(
                     "button"
                 );
+
+
+            button.type =
+                "button";
 
 
             button.className =
@@ -756,6 +1417,17 @@ function updateQuestionNavigator() {
     buttons.forEach(
         (button, index) => {
 
+            const question =
+                questions[index];
+
+
+            if (!question) {
+
+                return;
+
+            }
+
+
             button.classList.remove(
                 "current"
             );
@@ -770,7 +1442,7 @@ function updateQuestionNavigator() {
 
 
             const questionId =
-                questions[index].id;
+                question.id;
 
 
             if (
@@ -832,9 +1504,9 @@ function updateNavigationButtons() {
         );
 
 
-    const markButton =
+    const reviewButton =
         document.getElementById(
-            "markButton"
+            "reviewButton"
         );
 
 
@@ -848,27 +1520,50 @@ function updateNavigationButtons() {
 
     if (nextButton) {
 
-        nextButton.textContent =
+        nextButton.innerHTML =
             currentQuestion ===
             questions.length - 1
-                ? "Finish"
-                : "Next";
+                ? "Finish →"
+                : "Next →";
 
     }
 
 
-    if (markButton) {
+    if (
+        reviewButton &&
+        questions[currentQuestion]
+    ) {
 
-        const questionId =
-            questions[currentQuestion].id;
+        const question =
+            questions[currentQuestion];
 
 
-        markButton.textContent =
+        const marked =
             markedForReview.has(
-                questionId
-            )
-                ? "Unmark"
-                : "Mark for review";
+                question.id
+            );
+
+
+        reviewButton.classList.toggle(
+            "active",
+            marked
+        );
+
+
+        const icon =
+            document.getElementById(
+                "reviewIcon"
+            );
+
+
+        if (icon) {
+
+            icon.textContent =
+                marked
+                    ? "★"
+                    : "☆";
+
+        }
 
     }
 
@@ -891,6 +1586,8 @@ function updateAllUI() {
 
     updateIntegrityUI();
 
+    updateAnswerStatus();
+
 }
 
 
@@ -899,6 +1596,15 @@ function updateAllUI() {
 // ========================================
 
 function updateProgress() {
+
+    if (
+        questions.length === 0
+    ) {
+
+        return;
+
+    }
+
 
     const progress =
         (
@@ -932,12 +1638,19 @@ function updateCounters() {
     const answered =
         Object.keys(
             answers
+        ).filter(
+            id =>
+                answers[id] !== null &&
+                answers[id] !== ""
         ).length;
 
 
     const unanswered =
-        questions.length -
-        answered;
+        Math.max(
+            0,
+            questions.length -
+            answered
+        );
 
 
     const answeredElement =
@@ -946,23 +1659,37 @@ function updateCounters() {
         );
 
 
-    const unansweredElement =
-        document.getElementById(
-            "unansweredCount"
-        );
-
-
     if (answeredElement) {
 
         answeredElement.textContent =
+            `${answered} / ${questions.length}`;
+
+    }
+
+
+    const submitAnswered =
+        document.getElementById(
+            "submitAnswered"
+        );
+
+
+    const submitUnanswered =
+        document.getElementById(
+            "submitUnanswered"
+        );
+
+
+    if (submitAnswered) {
+
+        submitAnswered.textContent =
             answered;
 
     }
 
 
-    if (unansweredElement) {
+    if (submitUnanswered) {
 
-        unansweredElement.textContent =
+        submitUnanswered.textContent =
             unanswered;
 
     }
@@ -976,7 +1703,36 @@ function updateCounters() {
 
 function startTimer() {
 
+    if (timerInterval) {
+
+        clearInterval(
+            timerInterval
+        );
+
+    }
+
+
+    // Calculate immediately
+    updateRemainingSeconds();
+
     updateTimer();
+
+
+    // ====================================
+    // ALREADY EXPIRED
+    // ====================================
+
+    if (
+        remainingSeconds <= 0
+    ) {
+
+        submitExam(
+            "TIME_EXPIRED"
+        );
+
+        return;
+
+    }
 
 
     timerInterval =
@@ -987,16 +1743,37 @@ function startTimer() {
                     examSubmitted
                 ) {
 
+                    clearInterval(
+                        timerInterval
+                    );
+
                     return;
 
                 }
 
 
-                remainingSeconds--;
+                /*
+                 * IMPORTANT:
+                 *
+                 * Do not simply do:
+                 *
+                 * remainingSeconds--
+                 *
+                 * because the browser may be
+                 * paused/backgrounded.
+                 *
+                 * Instead calculate the actual
+                 * difference from the deadline.
+                 */
 
+                updateRemainingSeconds();
 
                 updateTimer();
 
+
+                // ====================================
+                // TIME EXPIRED
+                // ====================================
 
                 if (
                     remainingSeconds <= 0
@@ -1026,14 +1803,21 @@ function startTimer() {
 
 function updateTimer() {
 
+    const safeSeconds =
+        Math.max(
+            0,
+            remainingSeconds
+        );
+
+
     const minutes =
         Math.floor(
-            remainingSeconds / 60
+            safeSeconds / 60
         );
 
 
     const seconds =
-        remainingSeconds % 60;
+        safeSeconds % 60;
 
 
     const timer =
@@ -1049,6 +1833,42 @@ function updateTimer() {
 
     }
 
+
+    // ====================================
+    // TIMER WARNING
+    // ====================================
+
+    if (timer) {
+
+        timer.classList.remove(
+            "timer-warning"
+        );
+
+        timer.classList.remove(
+            "timer-danger"
+        );
+
+
+        if (
+            safeSeconds <= 60
+        ) {
+
+            timer.classList.add(
+                "timer-danger"
+            );
+
+        } else if (
+            safeSeconds <= 300
+        ) {
+
+            timer.classList.add(
+                "timer-warning"
+            );
+
+        }
+
+    }
+
 }
 
 
@@ -1058,10 +1878,9 @@ function updateTimer() {
 
 function setupSecurityControls() {
 
-
-    // ------------------------------
+    // ====================================
     // TAB SWITCH
-    // ------------------------------
+    // ====================================
 
     document.addEventListener(
         "visibilitychange",
@@ -1084,21 +1903,29 @@ function setupSecurityControls() {
     );
 
 
-    // ------------------------------
-    // FULLSCREEN
-    // ------------------------------
+    // ====================================
+    // FULLSCREEN EXIT
+    // ====================================
 
     document.addEventListener(
         "fullscreenchange",
         () => {
 
+            console.log(
+                "Fullscreen state changed:",
+                Boolean(
+                    document.fullscreenElement
+                )
+            );
+
+
             if (
                 !document.fullscreenElement &&
-                !examSubmitted
+                !examSubmitted &&
+                !fullscreenPromptActive
             ) {
 
                 fullscreenExits++;
-
 
                 registerWarning(
                     "Fullscreen mode was exited."
@@ -1110,9 +1937,9 @@ function setupSecurityControls() {
     );
 
 
-    // ------------------------------
+    // ====================================
     // COPY
-    // ------------------------------
+    // ====================================
 
     document.addEventListener(
         "copy",
@@ -1122,15 +1949,15 @@ function setupSecurityControls() {
 
             copyAttempts++;
 
-            updateIntegrityUI();
+            registerIntegrityChange();
 
         }
     );
 
 
-    // ------------------------------
+    // ====================================
     // CUT
-    // ------------------------------
+    // ====================================
 
     document.addEventListener(
         "cut",
@@ -1140,15 +1967,15 @@ function setupSecurityControls() {
 
             copyAttempts++;
 
-            updateIntegrityUI();
+            registerIntegrityChange();
 
         }
     );
 
 
-    // ------------------------------
+    // ====================================
     // PASTE
-    // ------------------------------
+    // ====================================
 
     document.addEventListener(
         "paste",
@@ -1158,15 +1985,15 @@ function setupSecurityControls() {
 
             copyAttempts++;
 
-            updateIntegrityUI();
+            registerIntegrityChange();
 
         }
     );
 
 
-    // ------------------------------
+    // ====================================
     // RIGHT CLICK
-    // ------------------------------
+    // ====================================
 
     document.addEventListener(
         "contextmenu",
@@ -1178,9 +2005,9 @@ function setupSecurityControls() {
     );
 
 
-    // ------------------------------
-    // SHORTCUTS
-    // ------------------------------
+    // ====================================
+    // KEYBOARD SHORTCUTS
+    // ====================================
 
     document.addEventListener(
         "keydown",
@@ -1207,10 +2034,6 @@ function setupSecurityControls() {
 
                 event.preventDefault();
 
-                copyAttempts++;
-
-                updateIntegrityUI();
-
             }
 
 
@@ -1229,6 +2052,285 @@ function setupSecurityControls() {
 
 
 // ========================================
+// FULLSCREEN PROMPT
+// ========================================
+
+function showFullscreenPrompt() {
+
+    const modal =
+        document.getElementById(
+            "warningModal"
+        );
+
+
+    const title =
+        document.getElementById(
+            "warningTitle"
+        );
+
+
+    const message =
+        document.getElementById(
+            "warningMessage"
+        );
+
+
+    const button =
+        document.getElementById(
+            "warningClose"
+        );
+
+
+    if (
+        !modal ||
+        !title ||
+        !message ||
+        !button
+    ) {
+
+        console.error(
+            "Fullscreen prompt elements not found."
+        );
+
+        return;
+
+    }
+
+
+    fullscreenPromptActive =
+        true;
+
+
+    const counter =
+        document.querySelector(
+            ".warning-counter"
+        );
+
+
+    if (counter) {
+
+        counter.style.display =
+            "none";
+
+    }
+
+
+    title.textContent =
+        "Enter Secure Exam Mode";
+
+
+    message.textContent =
+        "This examination requires fullscreen mode. Click the button below to enter secure exam mode. Pressing Esc later will be recorded as a fullscreen exit.";
+
+
+    button.textContent =
+        "Enter Fullscreen & Continue";
+
+
+    modal.classList.add(
+        "show"
+    );
+
+
+    const newButton =
+        button.cloneNode(
+            true
+        );
+
+
+    button.parentNode.replaceChild(
+        newButton,
+        button
+    );
+
+
+    newButton.addEventListener(
+        "click",
+        async () => {
+
+            await enterExamFullscreen(
+                newButton
+            );
+
+        }
+    );
+
+}
+
+
+// ========================================
+// ENTER FULLSCREEN
+// ========================================
+
+async function enterExamFullscreen(
+    button
+) {
+
+    try {
+
+        if (
+            !document.fullscreenElement
+        ) {
+
+            await document.documentElement.requestFullscreen();
+
+        }
+
+
+        console.log(
+            "Secure fullscreen enabled."
+        );
+
+
+        fullscreenPromptActive =
+            false;
+
+
+        restoreWarningModal();
+
+        closeWarningModal();
+
+
+    } catch (error) {
+
+        console.error(
+            "Fullscreen request failed:",
+            error
+        );
+
+
+        fullscreenPromptActive =
+            true;
+
+
+        if (button) {
+
+            button.disabled =
+                false;
+
+        }
+
+
+        alert(
+            "Fullscreen could not be enabled.\n\n" +
+            "Please click the button again and allow fullscreen mode."
+        );
+
+    }
+
+}
+
+
+// ========================================
+// RESTORE WARNING MODAL
+// ========================================
+
+function restoreWarningModal() {
+
+    const title =
+        document.getElementById(
+            "warningTitle"
+        );
+
+
+    const message =
+        document.getElementById(
+            "warningMessage"
+        );
+
+
+    const count =
+        document.getElementById(
+            "warningCount"
+        );
+
+
+    const button =
+        document.getElementById(
+            "warningClose"
+        );
+
+
+    if (title) {
+
+        title.textContent =
+            "Suspicious activity detected";
+
+    }
+
+
+    if (message) {
+
+        message.textContent =
+            "Your examination session detected an integrity-related event.";
+
+    }
+
+
+    if (count) {
+
+        count.textContent =
+            warningCount;
+
+    }
+
+
+    const counter =
+        document.querySelector(
+            ".warning-counter"
+        );
+
+
+    if (counter) {
+
+        counter.style.display =
+            "";
+
+    }
+
+
+    if (button) {
+
+        button.textContent =
+            "Continue examination";
+
+
+        const newButton =
+            button.cloneNode(
+                true
+            );
+
+
+        button.parentNode.replaceChild(
+            newButton,
+            button
+        );
+
+
+        newButton.addEventListener(
+            "click",
+            closeWarningModal
+        );
+
+    }
+
+}
+
+
+// ========================================
+// INTEGRITY CHANGE
+// ========================================
+
+function registerIntegrityChange() {
+
+    saveIntegrityState();
+
+    updateIntegrityUI();
+
+}
+
+
+// ========================================
 // WARNING
 // ========================================
 
@@ -1239,6 +2341,8 @@ function registerWarning(
     warningCount++;
 
 
+    saveIntegrityState();
+
     updateIntegrityUI();
 
 
@@ -1248,8 +2352,7 @@ function registerWarning(
 
 
     if (
-        warningCount >=
-        MAX_WARNINGS
+        warningCount >= 3
     ) {
 
         setTimeout(
@@ -1282,16 +2385,58 @@ function showWarningModal(
         );
 
 
+    const title =
+        document.getElementById(
+            "warningTitle"
+        );
+
+
     const messageElement =
         document.getElementById(
             "warningMessage"
         );
 
 
+    const countElement =
+        document.getElementById(
+            "warningCount"
+        );
+
+
+    if (title) {
+
+        title.textContent =
+            "Suspicious activity detected";
+
+    }
+
+
     if (messageElement) {
 
         messageElement.textContent =
             message;
+
+    }
+
+
+    if (countElement) {
+
+        countElement.textContent =
+            warningCount;
+
+    }
+
+
+    const counter =
+        document.querySelector(
+            ".warning-counter"
+        );
+
+
+    if (counter) {
+
+        counter.style.display =
+            "";
 
     }
 
@@ -1360,6 +2505,18 @@ function updateIntegrityUI() {
         );
 
 
+    const scoreElement =
+        document.getElementById(
+            "integrityScore"
+        );
+
+
+    const levelElement =
+        document.getElementById(
+            "integrityLevel"
+        );
+
+
     if (warningElement) {
 
         warningElement.textContent =
@@ -1391,6 +2548,63 @@ function updateIntegrityUI() {
 
     }
 
+
+    let score =
+        100;
+
+
+    score -=
+        tabSwitches * 10;
+
+
+    score -=
+        fullscreenExits * 10;
+
+
+    score -=
+        copyAttempts * 5;
+
+
+    score -=
+        warningCount * 10;
+
+
+    score =
+        Math.max(
+            0,
+            score
+        );
+
+
+    if (scoreElement) {
+
+        scoreElement.textContent =
+            score;
+
+    }
+
+
+    if (levelElement) {
+
+        if (score >= 80) {
+
+            levelElement.textContent =
+                "Excellent";
+
+        } else if (score >= 50) {
+
+            levelElement.textContent =
+                "Good";
+
+        } else {
+
+            levelElement.textContent =
+                "At risk";
+
+        }
+
+    }
+
 }
 
 
@@ -1402,7 +2616,7 @@ function setupSubmitControls() {
 
     const submitButton =
         document.getElementById(
-            "submitExam"
+            "submitButton"
         );
 
 
@@ -1458,7 +2672,7 @@ function setupSubmitControls() {
 
     const warningClose =
         document.getElementById(
-            "returnToExam"
+            "warningClose"
         );
 
 
@@ -1486,43 +2700,7 @@ function openSubmitModal() {
         );
 
 
-    const answered =
-        Object.keys(
-            answers
-        ).length;
-
-
-    const unanswered =
-        questions.length -
-        answered;
-
-
-    const answeredElement =
-        document.getElementById(
-            "submitAnswered"
-        );
-
-
-    const unansweredElement =
-        document.getElementById(
-            "submitUnanswered"
-        );
-
-
-    if (answeredElement) {
-
-        answeredElement.textContent =
-            answered;
-
-    }
-
-
-    if (unansweredElement) {
-
-        unansweredElement.textContent =
-            unanswered;
-
-    }
+    updateCounters();
 
 
     if (modal) {
@@ -1560,10 +2738,10 @@ function closeSubmitModal() {
 
 
 // ========================================
-// SUBMIT EXAM
+// SUBMIT EXAM TO BACKEND
 // ========================================
 
-function submitExam(
+async function submitExam(
     submissionReason = "MANUAL"
 ) {
 
@@ -1576,7 +2754,31 @@ function submitExam(
     }
 
 
-    examSubmitted = true;
+    if (!attemptId) {
+
+        attemptId =
+            Number(
+                localStorage.getItem(
+                    "attemptId"
+                )
+            );
+
+    }
+
+
+    if (!attemptId) {
+
+        alert(
+            "Exam attempt was not found."
+        );
+
+        return;
+
+    }
+
+
+    examSubmitted =
+        true;
 
 
     clearInterval(
@@ -1584,303 +2786,240 @@ function submitExam(
     );
 
 
-    // --------------------------------
-    // CALCULATE RESULT
-    // --------------------------------
-
-    let correct = 0;
-
-    let wrong = 0;
-
-    let unanswered = 0;
-
-    let obtainedMarks = 0;
-
-    const questionResults = [];
+    const submitButton =
+        document.getElementById(
+            "confirmSubmit"
+        );
 
 
-    questions.forEach(
-        question => {
+    if (submitButton) {
 
-            const studentAnswer =
-                answers[question.id];
+        submitButton.disabled =
+            true;
 
 
-            if (
-                !studentAnswer
+        submitButton.textContent =
+            "Submitting...";
+
+    }
+
+
+    try {
+
+        const submissionData = {
+
+            answers:
+                answers,
+
+            tabSwitches:
+                Number(
+                    tabSwitches
+                ),
+
+            fullscreenExits:
+                Number(
+                    fullscreenExits
+                ),
+
+            copyAttempts:
+                Number(
+                    copyAttempts
+                ),
+
+            integrityWarnings:
+                Number(
+                    warningCount
+                )
+
+        };
+
+
+        console.log(
+            "Submitting examination:",
+            submissionData
+        );
+
+
+        const response =
+            await fetch(
+                `${API_BASE}/api/attempts/${attemptId}/submit`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(
+                            submissionData
+                        )
+                }
+            );
+
+
+        if (!response.ok) {
+
+            const message =
+                await response.text();
+
+
+            throw new Error(
+                message ||
+                "Failed to submit examination."
+            );
+
+        }
+
+
+        const result =
+            await response.json();
+
+
+        console.log(
+            "Exam result:",
+            result
+        );
+
+
+        localStorage.setItem(
+            "examResult",
+            JSON.stringify(
+                result
+            )
+        );
+
+
+        localStorage.setItem(
+            "submissionReason",
+            submissionReason
+        );
+
+
+        localStorage.setItem(
+            "examSubmitted",
+            "true"
+        );
+
+
+        localStorage.setItem(
+            "examActive",
+            "false"
+        );
+
+
+        localStorage.setItem(
+            "lastTabSwitches",
+            String(
+                tabSwitches
+            )
+        );
+
+
+        localStorage.setItem(
+            "lastFullscreenExits",
+            String(
+                fullscreenExits
+            )
+        );
+
+
+        localStorage.setItem(
+            "lastCopyAttempts",
+            String(
+                copyAttempts
+            )
+        );
+
+
+        localStorage.setItem(
+            "lastIntegrityWarnings",
+            String(
+                warningCount
+            )
+        );
+
+
+        localStorage.removeItem(
+            `examAnswers_${EXAM_ID}`
+        );
+
+
+        localStorage.removeItem(
+            `examMarkedQuestions_${EXAM_ID}`
+        );
+
+
+        localStorage.removeItem(
+            `examIntegrity_${EXAM_ID}`
+        );
+
+
+        // ====================================
+        // EXIT FULLSCREEN
+        // ====================================
+
+        if (
+            document.fullscreenElement
+        ) {
+
+            try {
+
+                await document.exitFullscreen();
+
+            } catch (
+                fullscreenError
             ) {
 
-                unanswered++;
-
-
-                questionResults.push({
-
-                    question:
-                        question.id,
-
-                    status:
-                        "unanswered",
-
-                    answer:
-                        "Not answered",
-
-                    selected:
-                        null,
-
-                    correct:
-                        question.correct,
-
-                    marks:
-                        0
-
-                });
-
-
-                return;
-
-            }
-
-
-            if (
-                studentAnswer ===
-                question.correct
-            ) {
-
-                correct++;
-
-
-                obtainedMarks +=
-                    Number(
-                        question.marks ||
-                        0
-                    );
-
-
-                questionResults.push({
-
-                    question:
-                        question.id,
-
-                    status:
-                        "correct",
-
-                    answer:
-                        `${studentAnswer} — ${question.options[studentAnswer]}`,
-
-                    selected:
-                        studentAnswer,
-
-                    correct:
-                        question.correct,
-
-                    marks:
-                        question.marks
-
-                });
-
-            } else {
-
-                wrong++;
-
-
-                questionResults.push({
-
-                    question:
-                        question.id,
-
-                    status:
-                        "wrong",
-
-                    answer:
-                        `${studentAnswer} — ${question.options[studentAnswer]}`,
-
-                    selected:
-                        studentAnswer,
-
-                    correct:
-                        question.correct,
-
-                    marks:
-                        0
-
-                });
+                console.warn(
+                    "Could not exit fullscreen:",
+                    fullscreenError
+                );
 
             }
 
         }
-    );
 
 
-    const totalMarks =
-        questions.reduce(
-            (
-                total,
-                question
-            ) =>
-                total +
-                Number(
-                    question.marks ||
-                    0
-                ),
-            0
+        // ====================================
+        // RESULT PAGE
+        // ====================================
+
+        window.location.href =
+            `result.html?attemptId=${attemptId}`;
+
+
+    } catch (error) {
+
+        console.error(
+            "Submission failed:",
+            error
         );
 
 
-    const percentage =
-        totalMarks > 0
-            ? Math.round(
-                (
-                    obtainedMarks /
-                    totalMarks
-                ) * 100
-            )
-            : 0;
+        examSubmitted =
+            false;
 
 
-    // --------------------------------
-    // TIME TAKEN
-    // --------------------------------
+        if (submitButton) {
 
-    const initialSeconds =
-        45 * 60;
+            submitButton.disabled =
+                false;
 
 
-    const timeUsed =
-        initialSeconds -
-        remainingSeconds;
+            submitButton.textContent =
+                "Submit exam";
+
+        }
 
 
-    const timeTakenMinutes =
-        Math.max(
-            0,
-            Math.ceil(
-                timeUsed / 60
-            )
+        alert(
+            "Submission failed: " +
+            error.message
         );
 
-
-    // --------------------------------
-    // INTEGRITY SCORE
-    // --------------------------------
-
-    let integrityScore = 100;
-
-
-    integrityScore -=
-        tabSwitches * 10;
-
-
-    integrityScore -=
-        fullscreenExits * 10;
-
-
-    integrityScore -=
-        copyAttempts * 5;
-
-
-    integrityScore -=
-        warningCount * 10;
-
-
-    integrityScore =
-        Math.max(
-            0,
-            integrityScore
-        );
-
-
-    // --------------------------------
-    // RESULT OBJECT
-    // --------------------------------
-
-    const result = {
-
-        totalQuestions:
-            questions.length,
-
-        correct,
-
-        wrong,
-
-        unanswered,
-
-        totalMarks,
-
-        obtainedMarks,
-
-        percentage,
-
-        timeTaken:
-            `${timeTakenMinutes} min`,
-
-        integrityScore,
-
-        tabSwitches,
-
-        fullscreenExits,
-
-        copyAttempts,
-
-        warnings:
-            warningCount,
-
-        submissionReason,
-
-        questionResults,
-
-        submittedAt:
-            new Date().toISOString()
-
-    };
-
-
-    // --------------------------------
-    // SAVE RESULT
-    // --------------------------------
-
-    localStorage.setItem(
-        "examResult",
-        JSON.stringify(
-            result
-        )
-    );
-
-
-    localStorage.setItem(
-        "examAnswers",
-        JSON.stringify(
-            answers
-        )
-    );
-
-
-    localStorage.setItem(
-        "examSubmitted",
-        "true"
-    );
-
-
-    localStorage.setItem(
-        "examActive",
-        "false"
-    );
-
-
-    // --------------------------------
-    // CLEAR TEMPORARY STATE
-    // --------------------------------
-
-    localStorage.removeItem(
-        "examMarkedQuestions"
-    );
-
-
-    // --------------------------------
-    // GO TO RESULT
-    // --------------------------------
-
-    window.location.href =
-        "result.html";
+    }
 
 }
 
@@ -1889,7 +3028,9 @@ function submitExam(
 // ESCAPE HTML
 // ========================================
 
-function escapeHTML(text) {
+function escapeHTML(
+    text
+) {
 
     const div =
         document.createElement(
@@ -1898,9 +3039,8 @@ function escapeHTML(text) {
 
 
     div.textContent =
-        text;
+        text ?? "";
 
 
     return div.innerHTML;
-
 }

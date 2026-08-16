@@ -1,53 +1,16 @@
 // ========================================
 // SECUREASSESS
-// RESULT PAGE
-// FRONTEND DEMONSTRATION
+// REAL RESULT PAGE
+// CONNECTED TO SPRING BOOT
 // ========================================
 
+const API_BASE = "http://localhost:8080";
 
-// ========================================
-// FALLBACK RESULT
-// ========================================
+let resultData = null;
 
-const fallbackResult = {
+let questionResults = [];
 
-    totalQuestions: 30,
-
-    correct: 0,
-
-    wrong: 0,
-
-    unanswered: 30,
-
-    totalMarks: 30,
-
-    obtainedMarks: 0,
-
-    percentage: 0,
-
-    timeTaken: "0 min",
-
-    integrityScore: 100,
-
-    tabSwitches: 0,
-
-    fullscreenExits: 0,
-
-    copyAttempts: 0,
-
-    warnings: 0,
-
-    questionResults: []
-
-};
-
-
-// ========================================
-// RESULT STATE
-// ========================================
-
-let resultData =
-    fallbackResult;
+let currentAttemptId = null;
 
 
 // ========================================
@@ -56,77 +19,203 @@ let resultData =
 
 document.addEventListener(
     "DOMContentLoaded",
-    () => {
+    async () => {
 
-        loadResult();
+        try {
 
-        generateQuestionSummary();
+            await loadResult();
 
-        setupQuestionToggle();
+            await loadQuestionResults();
 
-        setupDownload();
+            generateQuestionSummary();
 
-        animateProgressBars();
+            setupQuestionToggle();
 
-        console.log(
-            "SecureAssess Result page loaded."
-        );
+            setupDownload();
 
+            animateProgressBars();
+
+
+            console.log(
+                "SecureAssess real result loaded."
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Unable to load result:",
+                error
+            );
+
+
+            showError(
+                error.message
+            );
+        }
     }
 );
 
 
 // ========================================
-// LOAD RESULT
+// GET ATTEMPT ID
 // ========================================
 
-function loadResult() {
+function getAttemptId() {
 
-    const savedResult =
-        localStorage.getItem(
-            "examResult"
+    const params =
+        new URLSearchParams(
+            window.location.search
         );
 
 
-    if (savedResult) {
+    let attemptId =
+        params.get(
+            "attemptId"
+        );
 
-        try {
 
-            resultData =
-                JSON.parse(
-                    savedResult
-                );
+    if (!attemptId) {
 
-        } catch (error) {
-
-            console.error(
-                "Unable to read exam result:",
-                error
+        attemptId =
+            localStorage.getItem(
+                "attemptId"
             );
-
-            resultData =
-                fallbackResult;
-
-        }
-
     }
 
 
+    if (!attemptId) {
+
+        throw new Error(
+            "Exam attempt ID was not found."
+        );
+    }
+
+
+    return attemptId;
+}
+
+
+// ========================================
+// LOAD RESULT FROM BACKEND
+// ========================================
+
+async function loadResult() {
+
+    currentAttemptId =
+        getAttemptId();
+
+
+    const response =
+        await fetch(
+            `${API_BASE}/api/attempts/${currentAttemptId}/result`
+        );
+
+
+    if (!response.ok) {
+
+        const message =
+            await response.text();
+
+
+        throw new Error(
+            message ||
+            "Unable to load examination result."
+        );
+    }
+
+
+    resultData =
+        await response.json();
+
+
+    console.log(
+        "Backend result:",
+        resultData
+    );
+
+
+    updateResultPage();
+}
+
+
+// ========================================
+// LOAD QUESTION RESULTS
+// ========================================
+
+async function loadQuestionResults() {
+
+    if (!currentAttemptId) {
+
+        throw new Error(
+            "Attempt ID is missing."
+        );
+    }
+
+
+    const response =
+        await fetch(
+            `${API_BASE}/api/attempts/${currentAttemptId}/question-results`
+        );
+
+
+    if (!response.ok) {
+
+        const message =
+            await response.text();
+
+
+        throw new Error(
+            message ||
+            "Unable to load question analysis."
+        );
+    }
+
+
+    questionResults =
+        await response.json();
+
+
+    console.log(
+        "Question results:",
+        questionResults
+    );
+}
+
+
+// ========================================
+// UPDATE RESULT PAGE
+// ========================================
+
+function updateResultPage() {
+
+    if (!resultData) {
+
+        return;
+    }
+
+
+    // ====================================
+    // BASIC RESULT
+    // ====================================
+
     setText(
         "finalPercentage",
-        resultData.percentage
+        formatNumber(
+            resultData.percentage
+        )
     );
 
 
     setText(
         "correctAnswers",
-        resultData.correct
+        resultData.correctAnswers
     );
 
 
     setText(
         "wrongAnswers",
-        resultData.wrong
+        resultData.wrongAnswers
     );
 
 
@@ -138,23 +227,15 @@ function loadResult() {
 
     setText(
         "timeTaken",
-        resultData.timeTaken
+        formatTime(
+            resultData.timeTakenSeconds
+        )
     );
 
 
-    setText(
-        "integrityScore",
-        resultData.integrityScore
-    );
-
-
-    /*
-     * These elements may or may not
-     * exist in your current result.html.
-     *
-     * setText() safely ignores missing
-     * elements.
-     */
+    // ====================================
+    // MARKS
+    // ====================================
 
     setText(
         "obtainedMarks",
@@ -168,29 +249,257 @@ function loadResult() {
     );
 
 
+    // ====================================
+    // EXAM INFORMATION
+    // ====================================
+
+    setText(
+        "examTitle",
+        resultData.examTitle
+    );
+
+
+    setText(
+        "studentName",
+        resultData.studentName
+    );
+
+
+    setText(
+        "breadcrumbExam",
+        resultData.examTitle
+    );
+
+
+    // ====================================
+    // SCORE TEXT
+    // ====================================
+
+    setText(
+        "performanceText",
+        getPerformanceText(
+            resultData.percentage
+        )
+    );
+
+
+    setText(
+        "marksText",
+        `${resultData.obtainedMarks} / ${resultData.totalMarks} marks`
+    );
+
+
+    // ====================================
+    // SCORE BREAKDOWN
+    // ====================================
+
+    const total =
+        Number(
+            resultData.totalQuestions
+        ) || 0;
+
+
+    const correct =
+        Number(
+            resultData.correctAnswers
+        ) || 0;
+
+
+    const wrong =
+        Number(
+            resultData.wrongAnswers
+        ) || 0;
+
+
+    const correctPercentage =
+        total > 0
+            ? (correct / total) * 100
+            : 0;
+
+
+    const wrongPercentage =
+        total > 0
+            ? (wrong / total) * 100
+            : 0;
+
+
+    setText(
+        "correctQuestionText",
+        `${correct} questions`
+    );
+
+
+    setText(
+        "wrongQuestionText",
+        `${wrong} questions`
+    );
+
+
+    setText(
+        "correctPercentage",
+        `${Math.round(
+            correctPercentage
+        )}%`
+    );
+
+
+    setText(
+        "wrongPercentage",
+        `${Math.round(
+            wrongPercentage
+        )}%`
+    );
+
+
+    setWidth(
+        "correctProgress",
+        correctPercentage
+    );
+
+
+    setWidth(
+        "wrongProgress",
+        wrongPercentage
+    );
+
+
+    // ====================================
+    // YOUR SCORE
+    // ====================================
+
+    setText(
+        "yourScore",
+        `${formatNumber(
+            resultData.percentage
+        )}%`
+    );
+
+
+    // ====================================
+    // INTEGRITY
+    // ====================================
+
+    /*
+     * IMPORTANT:
+     *
+     * Integrity values now come from
+     * the Spring Boot backend.
+     *
+     * They were stored in ExamAttempt
+     * when the student submitted the exam.
+     */
+
+
+    const tabSwitches =
+        Number(
+            resultData.tabSwitches
+        ) || 0;
+
+
+    const fullscreenExits =
+        Number(
+            resultData.fullscreenExits
+        ) || 0;
+
+
+    const copyAttempts =
+        Number(
+            resultData.copyAttempts
+        ) || 0;
+
+
+    const warnings =
+        Number(
+            resultData.integrityWarnings
+        ) || 0;
+
+
+    // ====================================
+    // CALCULATE INTEGRITY SCORE
+    // ====================================
+
+    let integrityScore =
+        100;
+
+
+    integrityScore -=
+        tabSwitches * 10;
+
+
+    integrityScore -=
+        fullscreenExits * 10;
+
+
+    integrityScore -=
+        copyAttempts * 5;
+
+
+    integrityScore -=
+        warnings * 10;
+
+
+    integrityScore =
+        Math.max(
+            0,
+            integrityScore
+        );
+
+
+    // ====================================
+    // DISPLAY INTEGRITY
+    // ====================================
+
+    setText(
+        "integrityScore",
+        integrityScore
+    );
+
+
     setText(
         "tabSwitches",
-        resultData.tabSwitches
+        tabSwitches
     );
 
 
     setText(
         "fullscreenExits",
-        resultData.fullscreenExits
+        fullscreenExits
     );
 
 
     setText(
         "copyAttempts",
-        resultData.copyAttempts
+        copyAttempts
     );
 
 
     setText(
         "warnings",
-        resultData.warnings
+        warnings
     );
 
+
+    // ====================================
+    // COMPLETION DATE
+    // ====================================
+
+    if (
+        resultData.submittedAt
+    ) {
+
+        const date =
+            new Date(
+                resultData.submittedAt
+            );
+
+
+        setText(
+            "completedDate",
+            `Completed on ${formatDate(
+                date
+            )}`
+        );
+    }
 }
 
 
@@ -209,7 +518,28 @@ function generateQuestionSummary() {
     if (!container) {
 
         return;
+    }
 
+
+    if (
+        !Array.isArray(
+            questionResults
+        ) ||
+        questionResults.length === 0
+    ) {
+
+        container.innerHTML = `
+
+            <div class="no-question-results">
+
+                No question analysis is available.
+
+            </div>
+
+        `;
+
+
+        return;
     }
 
 
@@ -217,113 +547,275 @@ function generateQuestionSummary() {
         "";
 
 
-    const results =
-        resultData.questionResults ||
-        [];
+    questionResults.forEach(
+        (question) => {
 
-
-    results.forEach(
-        item => {
-
-            const row =
+            const card =
                 document.createElement(
                     "div"
                 );
 
 
-            row.className =
-                "question-row";
+            card.className =
+                "question-result-card";
 
 
-            let statusText =
-                "Unanswered";
+            const statusClass =
+                getStatusClass(
+                    question.status
+                );
 
 
-            if (
-                item.status ===
-                "correct"
-            ) {
-
-                statusText =
-                    "Correct";
-
-            } else if (
-                item.status ===
-                "wrong"
-            ) {
-
-                statusText =
-                    "Incorrect";
-
-            }
+            const statusText =
+                getStatusText(
+                    question.status
+                );
 
 
-            let answerText =
-                item.answer ||
-                "Not answered";
+            const yourAnswerText =
+                getAnswerText(
+                    question,
+                    question.yourAnswer
+                );
 
 
-            row.innerHTML = `
+            const correctAnswerText =
+                getAnswerText(
+                    question,
+                    question.correctAnswer
+                );
 
-                <span class="question-number">
-                    Q${String(
-                        item.question
-                    ).padStart(2, "0")}
-                </span>
 
-                <div class="question-result">
+            card.innerHTML = `
+
+                <div class="question-result-header">
+
+                    <div class="question-number">
+
+                        Question
+                        ${question.questionNumber}
+
+                    </div>
+
 
                     <span
-                        class="result-dot ${item.status}"
-                    ></span>
+                        class="question-status ${statusClass}"
+                    >
 
-                    <span>
                         ${statusText}
+
                     </span>
 
                 </div>
 
-                <span class="question-answer">
+
+                <div class="question-result-text">
+
                     ${escapeHTML(
-                        answerText
+                        question.questionText
                     )}
-                </span>
+
+                </div>
+
+
+                <div class="question-answer-grid">
+
+
+                    <div class="answer-box">
+
+                        <span class="answer-label">
+                            Your answer
+                        </span>
+
+
+                        <strong>
+                            ${escapeHTML(
+                                yourAnswerText
+                            )}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="answer-box">
+
+                        <span class="answer-label">
+                            Correct answer
+                        </span>
+
+
+                        <strong>
+                            ${escapeHTML(
+                                correctAnswerText
+                            )}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="answer-box marks-box">
+
+                        <span class="answer-label">
+                            Marks
+                        </span>
+
+
+                        <strong>
+
+                            ${question.marksObtained}
+
+                            /
+
+                            ${question.marks}
+
+                        </strong>
+
+                    </div>
+
+                </div>
 
             `;
 
 
             container.appendChild(
-                row
+                card
             );
 
         }
     );
+}
 
 
-    /*
-     * If there is no stored result,
-     * show a useful message.
-     */
+// ========================================
+// GET ANSWER TEXT
+// ========================================
+
+function getAnswerText(
+    question,
+    answer
+) {
 
     if (
-        results.length === 0
+        !answer
     ) {
 
-        container.innerHTML = `
-
-            <div style="
-                padding:20px;
-                text-align:center;
-                color:#999;
-                font-size:9px;
-            ">
-                No detailed question result is available.
-            </div>
-
-        `;
-
+        return "Not answered";
     }
 
+
+    const option =
+        String(
+            answer
+        ).toUpperCase();
+
+
+    if (
+        question.options
+    ) {
+
+        return `${option} — ${
+            question.options[option] || ""
+        }`;
+    }
+
+
+    switch (
+        option
+    ) {
+
+        case "A":
+
+            return `A — ${question.optionA}`;
+
+
+        case "B":
+
+            return `B — ${question.optionB}`;
+
+
+        case "C":
+
+            return `C — ${question.optionC}`;
+
+
+        case "D":
+
+            return `D — ${question.optionD}`;
+
+
+        default:
+
+            return option;
+    }
+}
+
+
+// ========================================
+// STATUS CLASS
+// ========================================
+
+function getStatusClass(
+    status
+) {
+
+    switch (
+        status
+    ) {
+
+        case "CORRECT":
+
+            return "status-correct";
+
+
+        case "INCORRECT":
+
+            return "status-incorrect";
+
+
+        case "UNANSWERED":
+
+            return "status-unanswered";
+
+
+        default:
+
+            return "";
+    }
+}
+
+
+// ========================================
+// STATUS TEXT
+// ========================================
+
+function getStatusText(
+    status
+) {
+
+    switch (
+        status
+    ) {
+
+        case "CORRECT":
+
+            return "✓ Correct";
+
+
+        case "INCORRECT":
+
+            return "✕ Incorrect";
+
+
+        case "UNANSWERED":
+
+            return "— Unanswered";
+
+
+        default:
+
+            return status ||
+                "Unknown";
+    }
 }
 
 
@@ -351,7 +843,6 @@ function setupQuestionToggle() {
     ) {
 
         return;
-
     }
 
 
@@ -382,7 +873,6 @@ function setupQuestionToggle() {
 
         }
     );
-
 }
 
 
@@ -401,19 +891,13 @@ function setupDownload() {
     if (!button) {
 
         return;
-
     }
 
 
     button.addEventListener(
         "click",
-        () => {
-
-            downloadResult();
-
-        }
+        downloadResult
     );
-
 }
 
 
@@ -423,13 +907,130 @@ function setupDownload() {
 
 function downloadResult() {
 
-    /*
-     * Frontend demonstration:
-     * generate a simple text report.
-     *
-     * Later Spring Boot can generate
-     * a proper PDF result.
-     */
+    if (!resultData) {
+
+        return;
+    }
+
+
+    // ====================================
+    // INTEGRITY VALUES
+    // ====================================
+
+    const tabSwitches =
+        Number(
+            resultData.tabSwitches
+        ) || 0;
+
+
+    const fullscreenExits =
+        Number(
+            resultData.fullscreenExits
+        ) || 0;
+
+
+    const copyAttempts =
+        Number(
+            resultData.copyAttempts
+        ) || 0;
+
+
+    const warnings =
+        Number(
+            resultData.integrityWarnings
+        ) || 0;
+
+
+    let integrityScore =
+        100;
+
+
+    integrityScore -=
+        tabSwitches * 10;
+
+
+    integrityScore -=
+        fullscreenExits * 10;
+
+
+    integrityScore -=
+        copyAttempts * 5;
+
+
+    integrityScore -=
+        warnings * 10;
+
+
+    integrityScore =
+        Math.max(
+            0,
+            integrityScore
+        );
+
+
+    // ====================================
+    // QUESTION REPORT
+    // ====================================
+
+    let questionReport =
+        "";
+
+
+    if (
+        Array.isArray(
+            questionResults
+        )
+    ) {
+
+        questionResults.forEach(
+            question => {
+
+                questionReport += `
+
+Question ${question.questionNumber}
+
+${question.questionText}
+
+
+Your Answer:
+
+${getAnswerText(
+    question,
+    question.yourAnswer
+)}
+
+
+Correct Answer:
+
+${getAnswerText(
+    question,
+    question.correctAnswer
+)}
+
+
+Result:
+
+${question.status}
+
+
+Marks:
+
+${question.marksObtained}
+/
+${question.marks}
+
+--------------------------------
+
+`;
+
+            }
+        );
+    }
+
+
+    // ====================================
+    // COMPLETE REPORT
+    // ====================================
 
     const report = `
 
@@ -437,34 +1038,62 @@ SECUREASSESS
 EXAMINATION RESULT
 ==============================
 
+
+Student         : ${resultData.studentName}
+
+Exam            : ${resultData.examTitle}
+
+
+RESULT
+==============================
+
 Total Questions : ${resultData.totalQuestions}
 
-Correct         : ${resultData.correct}
+Correct         : ${resultData.correctAnswers}
 
-Wrong           : ${resultData.wrong}
+Wrong           : ${resultData.wrongAnswers}
 
 Unanswered      : ${resultData.unanswered}
 
-Marks           : ${resultData.obtainedMarks} / ${resultData.totalMarks}
+Marks           : ${resultData.obtainedMarks}
+                  /
+                  ${resultData.totalMarks}
 
-Percentage      : ${resultData.percentage}%
+Percentage      : ${formatNumber(
+    resultData.percentage
+)}%
 
-Time Taken      : ${resultData.timeTaken}
+Time Taken      : ${formatTime(
+    resultData.timeTakenSeconds
+)}
 
-Integrity Score : ${resultData.integrityScore}%
+Status          : ${resultData.status}
 
-Tab Switches    : ${resultData.tabSwitches}
 
-Fullscreen Exits: ${resultData.fullscreenExits}
+INTEGRITY
+==============================
 
-Copy Attempts   : ${resultData.copyAttempts}
+Integrity Score : ${integrityScore}%
 
-Warnings        : ${resultData.warnings}
+Tab Switches    : ${tabSwitches}
 
-Submission      : ${resultData.submissionReason || "MANUAL"}
+Fullscreen Exits: ${fullscreenExits}
+
+Copy Attempts   : ${copyAttempts}
+
+Warnings        : ${warnings}
+
+
+QUESTION ANALYSIS
+==============================
+
+${questionReport}
+
 
 ==============================
+
 SecureAssess
+
 `;
 
 
@@ -515,7 +1144,6 @@ SecureAssess
 
 
     showToast();
-
 }
 
 
@@ -534,8 +1162,11 @@ function showToast() {
     if (!toast) {
 
         return;
-
     }
+
+
+    toast.textContent =
+        "Result downloaded successfully.";
 
 
     toast.classList.add(
@@ -553,7 +1184,6 @@ function showToast() {
         },
         3000
     );
-
 }
 
 
@@ -573,6 +1203,7 @@ function animateProgressBars() {
         bar => {
 
             const originalWidth =
+                bar.dataset.width ||
                 bar.style.width;
 
 
@@ -592,7 +1223,127 @@ function animateProgressBars() {
 
         }
     );
+}
 
+
+// ========================================
+// PERFORMANCE TEXT
+// ========================================
+
+function getPerformanceText(
+    percentage
+) {
+
+    percentage =
+        Number(
+            percentage
+        );
+
+
+    if (
+        percentage >= 90
+    ) {
+
+        return "Excellent performance";
+    }
+
+
+    if (
+        percentage >= 75
+    ) {
+
+        return "Good performance";
+    }
+
+
+    if (
+        percentage >= 50
+    ) {
+
+        return "Average performance";
+    }
+
+
+    return "Needs improvement";
+}
+
+
+// ========================================
+// FORMAT TIME
+// ========================================
+
+function formatTime(
+    seconds
+) {
+
+    seconds =
+        Number(
+            seconds
+        ) || 0;
+
+
+    const minutes =
+        Math.floor(
+            seconds / 60
+        );
+
+
+    const remainingSeconds =
+        seconds % 60;
+
+
+    if (
+        minutes === 0
+    ) {
+
+        return `${remainingSeconds} sec`;
+    }
+
+
+    return `${minutes} min ${remainingSeconds} sec`;
+}
+
+
+// ========================================
+// FORMAT DATE
+// ========================================
+
+function formatDate(
+    date
+) {
+
+    return date.toLocaleDateString(
+        "en-US",
+        {
+            month: "long",
+
+            day: "numeric",
+
+            year: "numeric"
+        }
+    );
+}
+
+
+// ========================================
+// FORMAT NUMBER
+// ========================================
+
+function formatNumber(
+    value
+) {
+
+    const number =
+        Number(
+            value
+        ) || 0;
+
+
+    return Number.isInteger(
+        number
+    )
+        ? number
+        : number.toFixed(1);
 }
 
 
@@ -614,10 +1365,103 @@ function setText(
     if (element) {
 
         element.textContent =
-            value;
+            value ?? "";
 
     }
+}
 
+
+// ========================================
+// SET PROGRESS WIDTH
+// ========================================
+
+function setWidth(
+    id,
+    percentage
+) {
+
+    const element =
+        document.getElementById(
+            id
+        );
+
+
+    if (!element) {
+
+        return;
+    }
+
+
+    const width =
+        Math.max(
+            0,
+
+            Math.min(
+                100,
+
+                Number(
+                    percentage
+                ) || 0
+            )
+        );
+
+
+    element.dataset.width =
+        `${width}%`;
+
+
+    element.style.width =
+        `${width}%`;
+}
+
+
+// ========================================
+// ERROR
+// ========================================
+
+function showError(
+    message
+) {
+
+    document.body.innerHTML = `
+
+        <div style="
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-family:Arial,sans-serif;
+            text-align:center;
+            padding:30px;
+        ">
+
+            <div>
+
+                <h2>
+                    Unable to load result
+                </h2>
+
+
+                <p>
+                    ${escapeHTML(
+                        message
+                    )}
+                </p>
+
+
+                <button
+                    onclick="location.reload()"
+                >
+
+                    Try again
+
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
 }
 
 
@@ -625,7 +1469,9 @@ function setText(
 // ESCAPE HTML
 // ========================================
 
-function escapeHTML(text) {
+function escapeHTML(
+    text
+) {
 
     const div =
         document.createElement(
@@ -634,9 +1480,8 @@ function escapeHTML(text) {
 
 
     div.textContent =
-        text;
+        text ?? "";
 
 
     return div.innerHTML;
-
 }

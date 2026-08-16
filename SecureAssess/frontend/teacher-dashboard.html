@@ -51,97 +51,66 @@
 
             <nav class="sidebar-nav">
 
+                <!-- DASHBOARD -->
+
                 <a
                     href="#"
                     class="nav-item active"
                     data-section="dashboard"
                 >
-
                     <span class="nav-icon">⌂</span>
-
                     Dashboard
-
                 </a>
 
 
-                <a
-                    href="#"
-                    class="nav-item"
-                    data-section="exams"
-                >
-
-                    <span class="nav-icon">▣</span>
-
-                    Exams
-
-                </a>
-
+                <!-- QUESTION BANK -->
 
                 <a
                     href="#"
                     class="nav-item"
                     data-section="questions"
                 >
-
                     <span class="nav-icon">?</span>
-
                     Question Bank
-
                 </a>
 
 
-                <a
-                    href="#"
-                    class="nav-item"
-                    data-section="students"
-                >
-
-                    <span class="nav-icon">◯</span>
-
-                    Students
-
-                </a>
-
+                <!-- RESULTS -->
 
                 <a
-                    href="#"
+                    href="teacher-results.html"
                     class="nav-item"
                     data-section="results"
                 >
-
                     <span class="nav-icon">◫</span>
-
                     Results
-
                 </a>
 
+
+                <!-- ANALYTICS -->
 
                 <a
                     href="#"
                     class="nav-item"
                     data-section="analytics"
                 >
-
                     <span class="nav-icon">↗</span>
-
                     Analytics
-
                 </a>
 
 
                 <div class="nav-divider"></div>
 
 
+                <!-- SETTINGS -->
+
                 <a
                     href="#"
                     class="nav-item"
                     data-section="settings"
                 >
-
                     <span class="nav-icon">⚙</span>
-
                     Settings
-
                 </a>
 
             </nav>
@@ -149,29 +118,38 @@
         </div>
 
 
-        <!-- SIDEBAR BOTTOM -->
+        <!-- =========================
+             SIDEBAR BOTTOM
+        ========================== -->
 
         <div class="sidebar-bottom">
 
-            <div class="teacher-card">
+            <button
+                class="teacher-card"
+                id="sidebarProfileButton"
+                type="button"
+            >
 
-                <span class="teacher-avatar">
+                <span
+                    class="teacher-avatar"
+                    id="sidebarAvatar"
+                >
                     T
                 </span>
 
                 <div>
 
-                    <strong>
+                    <strong id="sidebarTeacherName">
                         Dr. Kumar
                     </strong>
 
-                    <small>
+                    <small id="sidebarTeacherRole">
                         Faculty
                     </small>
 
                 </div>
 
-            </div>
+            </button>
 
 
             <button
@@ -180,7 +158,6 @@
             >
 
                 ↪
-
                 Logout
 
             </button>
@@ -191,19 +168,22 @@
 
 
     <!-- =========================
-         MAIN
+         MAIN CONTENT
     ========================== -->
 
     <main class="main-content">
 
 
-        <!-- TOPBAR -->
+        <!-- =========================
+             TOPBAR
+        ========================== -->
 
         <header class="topbar">
 
             <button
                 class="menu-button"
                 id="menuButton"
+                type="button"
             >
                 ☰
             </button>
@@ -215,40 +195,52 @@
             <button
                 class="notification-button"
                 id="notificationButton"
+                type="button"
             >
 
                 ♧
 
-                <span class="notification-dot"></span>
+                <span
+                    class="notification-dot"
+                ></span>
 
             </button>
 
 
-            <div class="top-profile">
+            <!-- PROFILE -->
 
-                <span class="profile-avatar">
+            <button
+                class="top-profile"
+                id="profileButton"
+                type="button"
+            >
+
+                <span
+                    class="profile-avatar"
+                    id="topProfileAvatar"
+                >
                     T
                 </span>
 
                 <div>
 
-                    <strong>
+                    <strong id="topProfileName">
                         Dr. Kumar
                     </strong>
 
-                    <small>
+                    <small id="topProfileRole">
                         Faculty
                     </small>
 
                 </div>
 
-            </div>
+            </button>
 
         </header>
 
 
         <!-- =========================
-             CONTENT
+             DASHBOARD CONTENT
         ========================== -->
 
         <div class="dashboard-content">
@@ -266,7 +258,9 @@
 
                     <h1>
                         Good evening,
-                        <span>Dr. Kumar.</span>
+                        <span id="welcomeTeacherName">
+                            Dr. Kumar.
+                        </span>
                     </h1>
 
                     <p>
@@ -281,9 +275,7 @@
                     class="create-button"
                     id="createExamButton"
                 >
-
                     + Create examination
-
                 </button>
 
             </section>
@@ -304,18 +296,16 @@
                             Total examinations
                         </span>
 
-                        <b>
-                            ▣
-                        </b>
+                        <b>▣</b>
 
                     </div>
 
-                    <strong>
-                        12
+                    <strong id="totalExamsStat">
+                        0
                     </strong>
 
-                    <small>
-                        8 published · 4 drafts
+                    <small id="examBreakdownStat">
+                        Loading...
                     </small>
 
                 </div>
@@ -329,18 +319,16 @@
                             Students assessed
                         </span>
 
-                        <b>
-                            ◯
-                        </b>
+                        <b>◯</b>
 
                     </div>
 
-                    <strong>
-                        284
+                    <strong id="studentsAssessedStat">
+                        0
                     </strong>
 
                     <small>
-                        This semester
+                        Based on submitted attempts
                     </small>
 
                 </div>
@@ -354,18 +342,19 @@
                             Average score
                         </span>
 
-                        <b>
-                            ↗
-                        </b>
+                        <b>↗</b>
 
                     </div>
 
-                    <strong>
-                        76%
+                    <strong id="averageScoreStat">
+                        0%
                     </strong>
 
-                    <small class="positive">
-                        ↑ 4% from last month
+                    <small
+                        class="positive"
+                        id="averageScoreTrend"
+                    >
+                        Loading...
                     </small>
 
                 </div>
@@ -379,18 +368,16 @@
                             Integrity alerts
                         </span>
 
-                        <b>
-                            !
-                        </b>
+                        <b>!</b>
 
                     </div>
 
-                    <strong>
-                        07
+                    <strong id="integrityAlertsStat">
+                        00
                     </strong>
 
                     <small>
-                        Requires review
+                        Recorded warnings
                     </small>
 
                 </div>
@@ -405,7 +392,7 @@
             <section class="main-grid">
 
 
-                <!-- UPCOMING EXAMS -->
+                <!-- EXAMINATIONS -->
 
                 <div class="dashboard-card">
 
@@ -423,9 +410,11 @@
 
                         </div>
 
+
                         <a
                             href="#"
                             class="view-link"
+                            id="viewExamsButton"
                         >
                             View all →
                         </a>
@@ -435,21 +424,20 @@
 
                     <div class="exam-list">
 
-
                         <div class="exam-row">
 
                             <div class="exam-icon">
-                                DS
+                                ...
                             </div>
 
                             <div class="exam-info">
 
                                 <strong>
-                                    Data Structures
+                                    Loading examinations...
                                 </strong>
 
                                 <small>
-                                    30 questions · 45 min
+                                    Please wait
                                 </small>
 
                             </div>
@@ -457,91 +445,17 @@
                             <div class="exam-date">
 
                                 <strong>
-                                    Aug 14
+                                    --
                                 </strong>
 
                                 <small>
-                                    10:00 AM
+                                    --
                                 </small>
 
                             </div>
 
                             <span class="status scheduled">
-                                Scheduled
-                            </span>
-
-                        </div>
-
-
-                        <div class="exam-row">
-
-                            <div class="exam-icon">
-                                DB
-                            </div>
-
-                            <div class="exam-info">
-
-                                <strong>
-                                    Database Management
-                                </strong>
-
-                                <small>
-                                    25 questions · 40 min
-                                </small>
-
-                            </div>
-
-                            <div class="exam-date">
-
-                                <strong>
-                                    Aug 18
-                                </strong>
-
-                                <small>
-                                    11:00 AM
-                                </small>
-
-                            </div>
-
-                            <span class="status scheduled">
-                                Scheduled
-                            </span>
-
-                        </div>
-
-
-                        <div class="exam-row">
-
-                            <div class="exam-icon">
-                                OS
-                            </div>
-
-                            <div class="exam-info">
-
-                                <strong>
-                                    Operating Systems
-                                </strong>
-
-                                <small>
-                                    30 questions · 45 min
-                                </small>
-
-                            </div>
-
-                            <div class="exam-date">
-
-                                <strong>
-                                    Aug 21
-                                </strong>
-
-                                <small>
-                                    10:00 AM
-                                </small>
-
-                            </div>
-
-                            <span class="status draft">
-                                Draft
+                                Loading
                             </span>
 
                         </div>
@@ -551,9 +465,12 @@
                 </div>
 
 
-                <!-- PERFORMANCE -->
+                <!-- ANALYTICS -->
 
-                <div class="dashboard-card performance-card">
+                <div
+                    class="dashboard-card performance-card"
+                    id="analyticsSection"
+                >
 
                     <div class="card-header">
 
@@ -569,9 +486,55 @@
 
                         </div>
 
-                        <span class="period">
-                            This semester
+                        <span
+                            class="period"
+                            id="performancePeriod"
+                        >
+                            Live data
                         </span>
+
+                    </div>
+
+
+                    <div class="analytics-summary">
+
+                        <div>
+
+                            <strong id="analyticsAverage">
+                                0%
+                            </strong>
+
+                            <span>
+                                Average
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <strong id="analyticsStudents">
+                                0
+                            </strong>
+
+                            <span>
+                                Students
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <strong id="analyticsAttempts">
+                                0
+                            </strong>
+
+                            <span>
+                                Attempts
+                            </span>
+
+                        </div>
 
                     </div>
 
@@ -588,73 +551,20 @@
                         </div>
 
 
-                        <div class="chart-bars">
+                        <div
+                            class="chart-bars"
+                            id="performanceChartBars"
+                        >
 
                             <div class="chart-column">
 
                                 <div
                                     class="chart-bar"
-                                    style="height: 62%"
+                                    style="height:10%"
                                 ></div>
 
                                 <small>
-                                    CN
-                                </small>
-
-                            </div>
-
-
-                            <div class="chart-column">
-
-                                <div
-                                    class="chart-bar"
-                                    style="height: 76%"
-                                ></div>
-
-                                <small>
-                                    Java
-                                </small>
-
-                            </div>
-
-
-                            <div class="chart-column">
-
-                                <div
-                                    class="chart-bar"
-                                    style="height: 69%"
-                                ></div>
-
-                                <small>
-                                    OS
-                                </small>
-
-                            </div>
-
-
-                            <div class="chart-column">
-
-                                <div
-                                    class="chart-bar"
-                                    style="height: 84%"
-                                ></div>
-
-                                <small>
-                                    DBMS
-                                </small>
-
-                            </div>
-
-
-                            <div class="chart-column">
-
-                                <div
-                                    class="chart-bar highlight"
-                                    style="height: 76%"
-                                ></div>
-
-                                <small>
-                                    DSA
+                                    --
                                 </small>
 
                             </div>
@@ -675,7 +585,7 @@
             <section class="bottom-grid">
 
 
-                <!-- RECENT ACTIVITY -->
+                <!-- ACTIVITY -->
 
                 <div class="dashboard-card">
 
@@ -698,7 +608,6 @@
 
                     <div class="activity-list">
 
-
                         <div class="activity-row">
 
                             <span class="activity-icon">
@@ -708,13 +617,11 @@
                             <div>
 
                                 <strong>
-                                    Data Structures
-                                    examination completed
+                                    Examination activity
                                 </strong>
 
                                 <small>
-                                    42 students submitted
-                                    · 2 hours ago
+                                    Live examination data
                                 </small>
 
                             </div>
@@ -731,12 +638,11 @@
                             <div>
 
                                 <strong>
-                                    Database Management
-                                    exam created
+                                    Exams connected
                                 </strong>
 
                                 <small>
-                                    25 questions · Yesterday
+                                    Spring Boot API
                                 </small>
 
                             </div>
@@ -753,11 +659,11 @@
                             <div>
 
                                 <strong>
-                                    Integrity alert requires review
+                                    Integrity monitoring enabled
                                 </strong>
 
                                 <small>
-                                    Student ID #1042 · Yesterday
+                                    Based on submitted attempts
                                 </small>
 
                             </div>
@@ -787,40 +693,20 @@
 
                         </div>
 
-                        <span class="alert-count">
-                            3 new
+                        <span
+                            class="alert-count"
+                            id="integrityAlertCount"
+                        >
+                            0
                         </span>
 
                     </div>
 
 
-                    <div class="alert-list">
-
-
-                        <div class="alert-row">
-
-                            <span class="alert-indicator">
-                                !
-                            </span>
-
-                            <div>
-
-                                <strong>
-                                    Multiple tab switches
-                                </strong>
-
-                                <small>
-                                    Student #1042 · DSA
-                                </small>
-
-                            </div>
-
-                            <button class="review-alert">
-                                Review
-                            </button>
-
-                        </div>
-
+                    <div
+                        class="alert-list"
+                        id="alertList"
+                    >
 
                         <div class="alert-row">
 
@@ -831,41 +717,19 @@
                             <div>
 
                                 <strong>
-                                    Fullscreen exited
+                                    Integrity monitoring
                                 </strong>
 
                                 <small>
-                                    Student #1087 · DSA
+                                    Loading integrity data...
                                 </small>
 
                             </div>
 
-                            <button class="review-alert">
-                                Review
-                            </button>
-
-                        </div>
-
-
-                        <div class="alert-row">
-
-                            <span class="alert-indicator">
-                                !
-                            </span>
-
-                            <div>
-
-                                <strong>
-                                    Multiple warnings
-                                </strong>
-
-                                <small>
-                                    Student #1103 · Java
-                                </small>
-
-                            </div>
-
-                            <button class="review-alert">
+                            <button
+                                class="review-alert"
+                                type="button"
+                            >
                                 Review
                             </button>
 
@@ -877,6 +741,7 @@
                     <button
                         class="view-alerts"
                         id="viewAlertsButton"
+                        type="button"
                     >
                         View all integrity alerts →
                     </button>
@@ -893,7 +758,7 @@
 
 
 <!-- =========================
-     NOTIFICATION
+     NOTIFICATION PANEL
 ========================== -->
 
 <div
@@ -906,17 +771,242 @@
     </strong>
 
     <p>
-        3 students require integrity review.
+        Your examination analytics are connected
+        to live backend data.
     </p>
 
     <p>
-        Data Structures results are ready.
+        Integrity information is recorded from
+        submitted examination attempts.
     </p>
 
 </div>
 
 
-<script src="js/teacher-dashboard.js"></script>
+<!-- =========================
+     PROFILE MODAL
+========================== -->
+
+<div
+    class="modal-overlay"
+    id="profileModal"
+>
+
+    <div class="modal-card">
+
+        <button
+            class="modal-close"
+            id="closeProfileModal"
+            type="button"
+        >
+            ×
+        </button>
+
+        <span class="modal-label">
+            TEACHER PROFILE
+        </span>
+
+        <div class="modal-profile-header">
+
+            <div
+                class="large-avatar"
+                id="profileModalAvatar"
+            >
+                T
+            </div>
+
+            <div>
+
+                <h2 id="profileModalName">
+                    Dr. Kumar
+                </h2>
+
+                <p id="profileModalRole">
+                    Faculty
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="profile-details">
+
+            <div class="detail-row">
+
+                <span>
+                    Name
+                </span>
+
+                <strong id="profileNameDetail">
+                    --
+                </strong>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span>
+                    Email
+                </span>
+
+                <strong id="profileEmailDetail">
+                    --
+                </strong>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span>
+                    User ID
+                </span>
+
+                <strong id="profileIdDetail">
+                    --
+                </strong>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span>
+                    Role
+                </span>
+
+                <strong id="profileRoleDetail">
+                    --
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     SETTINGS MODAL
+========================== -->
+
+<div
+    class="modal-overlay"
+    id="settingsModal"
+>
+
+    <div class="modal-card settings-card">
+
+        <button
+            class="modal-close"
+            id="closeSettingsModal"
+            type="button"
+        >
+            ×
+        </button>
+
+        <span class="modal-label">
+            SETTINGS
+        </span>
+
+        <h2>
+            Dashboard settings
+        </h2>
+
+        <p class="settings-description">
+            Manage your SecureAssess dashboard preferences.
+        </p>
+
+
+        <div class="setting-row">
+
+            <div>
+
+                <strong>
+                    Notifications
+                </strong>
+
+                <small>
+                    Show dashboard notifications
+                </small>
+
+            </div>
+
+            <label class="switch">
+
+                <input
+                    type="checkbox"
+                    id="notificationSetting"
+                >
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+
+        <div class="setting-row">
+
+            <div>
+
+                <strong>
+                    Auto refresh analytics
+                </strong>
+
+                <small>
+                    Refresh dashboard data automatically
+                </small>
+
+            </div>
+
+            <label class="switch">
+
+                <input
+                    type="checkbox"
+                    id="autoRefreshSetting"
+                >
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+
+        <button
+            class="settings-save-button"
+            id="saveSettingsButton"
+            type="button"
+        >
+            Save settings
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     TOAST
+========================== -->
+
+<div
+    class="toast"
+    id="toast"
+>
+    Settings saved successfully.
+</div>
+
+
+<script
+    src="js/teacher-dashboard.js"
+></script>
+
 
 </body>
 

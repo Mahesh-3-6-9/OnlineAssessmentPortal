@@ -1,95 +1,106 @@
 // ========================================
 // SECUREASSESS
 // CREATE EXAMINATION
+// CONNECTED TO SPRING BOOT
+// WITH START + END TIME
 // ========================================
+
+const API_BASE = "http://localhost:8080";
 
 
 document.addEventListener(
     "DOMContentLoaded",
     () => {
 
-
-        // ===============================
-        // ELEMENTS
-        // ===============================
-
         const title =
-            document.getElementById(
-                "examTitle"
-            );
+            document.getElementById("examTitle");
 
         const subject =
-            document.getElementById(
-                "subject"
-            );
+            document.getElementById("subject");
 
         const examType =
-            document.getElementById(
-                "examType"
-            );
+            document.getElementById("examType");
 
         const examDate =
-            document.getElementById(
-                "examDate"
-            );
+            document.getElementById("examDate");
 
         const examTime =
-            document.getElementById(
-                "examTime"
-            );
+            document.getElementById("examTime");
+
+        const examEndTime =
+            document.getElementById("examEndTime");
 
         const duration =
-            document.getElementById(
-                "duration"
-            );
+            document.getElementById("duration");
 
         const maxMarks =
-            document.getElementById(
-                "maxMarks"
-            );
+            document.getElementById("maxMarks");
+
+        const totalQuestions =
+            document.getElementById("totalQuestions");
 
         const description =
-            document.getElementById(
-                "description"
-            );
-
+            document.getElementById("description");
 
         const saveDraftButton =
-            document.getElementById(
-                "saveDraftButton"
-            );
+            document.getElementById("saveDraftButton");
 
         const continueButton =
-            document.getElementById(
-                "continueButton"
-            );
+            document.getElementById("continueButton");
 
         const toast =
-            document.getElementById(
-                "toast"
-            );
+            document.getElementById("toast");
 
 
-        // ===============================
-        // SHOW TOAST
-        // ===============================
+        // ========================================
+        // TEACHER ID
+        // ========================================
+
+        function getTeacherId() {
+
+            const storedTeacherId =
+                localStorage.getItem("teacherId")
+                ||
+                localStorage.getItem("userId");
+
+
+            if (storedTeacherId) {
+
+                return Number(
+                    storedTeacherId
+                );
+
+            }
+
+
+            return 2;
+        }
+
+
+        // ========================================
+        // TOAST
+        // ========================================
 
         function showToast(message) {
+
+            if (!toast) {
+
+                return;
+
+            }
+
 
             toast.textContent =
                 message;
 
-            toast.classList.add(
-                "show"
-            );
+
+            toast.classList.add("show");
 
 
             setTimeout(
                 () => {
 
-                    toast.classList.remove(
-                        "show"
-                    );
+                    toast.classList.remove("show");
 
                 },
                 2500
@@ -98,11 +109,55 @@ document.addEventListener(
         }
 
 
-        // ===============================
+        // ========================================
+        // GET DATETIME
+        // ========================================
+
+        function buildDateTime(
+            date,
+            time
+        ) {
+
+            if (
+                !date ||
+                !time
+            ) {
+
+                return null;
+
+            }
+
+
+            /*
+             * Spring Boot LocalDateTime expects:
+             *
+             * 2026-08-15T14:30:00
+             */
+
+            return `${date}T${time}:00`;
+
+        }
+
+
+        // ========================================
         // COLLECT FORM DATA
-        // ===============================
+        // ========================================
 
         function getExamData() {
+
+            const startTime =
+                buildDateTime(
+                    examDate.value,
+                    examTime.value
+                );
+
+
+            const endTime =
+                buildDateTime(
+                    examDate.value,
+                    examEndTime.value
+                );
+
 
             return {
 
@@ -121,11 +176,29 @@ document.addEventListener(
                 time:
                     examTime.value,
 
+                endTimeInput:
+                    examEndTime.value,
+
+                startTime:
+                    startTime,
+
+                endTime:
+                    endTime,
+
                 duration:
-                    duration.value,
+                    Number(
+                        duration.value
+                    ),
 
                 maxMarks:
-                    maxMarks.value,
+                    Number(
+                        maxMarks.value
+                    ),
+
+                totalQuestions:
+                    Number(
+                        totalQuestions.value
+                    ),
 
                 description:
                     description.value.trim(),
@@ -178,13 +251,15 @@ document.addEventListener(
         }
 
 
-        // ===============================
+        // ========================================
         // VALIDATION
-        // ===============================
+        // ========================================
 
         function validateExam() {
 
-            if (!title.value.trim()) {
+            if (
+                !title.value.trim()
+            ) {
 
                 showToast(
                     "Please enter an examination title."
@@ -197,7 +272,9 @@ document.addEventListener(
             }
 
 
-            if (!subject.value) {
+            if (
+                !subject.value
+            ) {
 
                 showToast(
                     "Please select a subject."
@@ -210,7 +287,9 @@ document.addEventListener(
             }
 
 
-            if (!examType.value) {
+            if (
+                !examType.value
+            ) {
 
                 showToast(
                     "Please select the examination type."
@@ -223,7 +302,9 @@ document.addEventListener(
             }
 
 
-            if (!examDate.value) {
+            if (
+                !examDate.value
+            ) {
 
                 showToast(
                     "Please select the examination date."
@@ -236,10 +317,12 @@ document.addEventListener(
             }
 
 
-            if (!examTime.value) {
+            if (
+                !examTime.value
+            ) {
 
                 showToast(
-                    "Please select the examination time."
+                    "Please select the start time."
                 );
 
                 examTime.focus();
@@ -249,7 +332,59 @@ document.addEventListener(
             }
 
 
-            if (!duration.value) {
+            if (
+                !examEndTime.value
+            ) {
+
+                showToast(
+                    "Please select the end time."
+                );
+
+                examEndTime.focus();
+
+                return false;
+
+            }
+
+
+            // ========================================
+            // CHECK START < END
+            // ========================================
+
+            const start =
+                new Date(
+                    `${examDate.value}T${examTime.value}`
+                );
+
+
+            const end =
+                new Date(
+                    `${examDate.value}T${examEndTime.value}`
+                );
+
+
+            if (
+                end <= start
+            ) {
+
+                showToast(
+                    "End time must be after start time."
+                );
+
+                examEndTime.focus();
+
+                return false;
+
+            }
+
+
+            // ========================================
+            // CHECK DURATION
+            // ========================================
+
+            if (
+                !duration.value
+            ) {
 
                 showToast(
                     "Please select the examination duration."
@@ -262,9 +397,47 @@ document.addEventListener(
             }
 
 
+            // ========================================
+            // CHECK DURATION AGAINST WINDOW
+            // ========================================
+
+            const durationMinutes =
+                Number(
+                    duration.value
+                );
+
+
+            const availableMinutes =
+                (
+                    end.getTime()
+                    -
+                    start.getTime()
+                )
+                /
+                (1000 * 60);
+
+
+            if (
+                durationMinutes >
+                availableMinutes
+            ) {
+
+                showToast(
+                    `Duration cannot exceed the exam window of ${Math.floor(availableMinutes)} minutes.`
+                );
+
+                duration.focus();
+
+                return false;
+
+            }
+
+
             if (
                 !maxMarks.value ||
-                Number(maxMarks.value) <= 0
+                Number(
+                    maxMarks.value
+                ) <= 0
             ) {
 
                 showToast(
@@ -278,27 +451,161 @@ document.addEventListener(
             }
 
 
+            if (
+                !totalQuestions.value ||
+                Number(
+                    totalQuestions.value
+                ) <= 0
+            ) {
+
+                showToast(
+                    "Please enter the total number of questions."
+                );
+
+                totalQuestions.focus();
+
+                return false;
+
+            }
+
+
             return true;
 
         }
 
 
-        // ===============================
+        // ========================================
+        // CREATE EXAM
+        // ========================================
+
+        async function createExam(
+            data
+        ) {
+
+            const teacherId =
+                getTeacherId();
+
+
+            const requestBody = {
+
+                title:
+                    data.title,
+
+                description:
+                    data.description,
+
+                durationMinutes:
+                    data.duration,
+
+                totalMarks:
+                    data.maxMarks,
+
+                totalQuestions:
+                    data.totalQuestions,
+
+                teacherId:
+                    teacherId,
+
+                startTime:
+                    data.startTime,
+
+                endTime:
+                    data.endTime
+
+            };
+
+
+            console.log(
+                "Creating exam:",
+                requestBody
+            );
+
+
+            const response =
+                await fetch(
+                    `${API_BASE}/api/exams`,
+                    {
+
+                        method: "POST",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json"
+
+                        },
+
+                        body:
+                            JSON.stringify(
+                                requestBody
+                            )
+
+                    }
+                );
+
+
+            if (
+                !response.ok
+            ) {
+
+                const errorText =
+                    await response.text();
+
+
+                throw new Error(
+                    errorText ||
+                    `Server returned ${response.status}`
+                );
+
+            }
+
+
+            const exam =
+                await response.json();
+
+
+            console.log(
+                "Exam created:",
+                exam
+            );
+
+
+            return exam;
+
+        }
+
+
+        // ========================================
         // SAVE DRAFT
-        // ===============================
+        // ========================================
 
         saveDraftButton.addEventListener(
             "click",
-            () => {
+            async () => {
 
-                const data =
-                    getExamData();
-
-
-                if (!data.title) {
+                if (
+                    !title.value.trim()
+                ) {
 
                     showToast(
                         "Enter an examination title before saving."
+                    );
+
+                    title.focus();
+
+                    return;
+
+                }
+
+
+                if (
+                    !duration.value ||
+                    !maxMarks.value ||
+                    !totalQuestions.value
+                ) {
+
+                    showToast(
+                        "Please complete duration, marks and questions."
                     );
 
                     return;
@@ -306,44 +613,95 @@ document.addEventListener(
                 }
 
 
-                /*
-                 * TEMPORARY:
-                 *
-                 * Later:
-                 *
-                 * POST /api/exams
-                 *
-                 * Spring Boot will store
-                 * this information in MySQL.
-                 */
-
-                localStorage.setItem(
-                    "secureAssessExamDraft",
-                    JSON.stringify(data)
-                );
+                const data =
+                    getExamData();
 
 
-                showToast(
-                    "Examination draft saved."
-                );
+                try {
+
+                    saveDraftButton.disabled =
+                        true;
 
 
-                console.log(
-                    "Exam draft:",
-                    data
-                );
+                    saveDraftButton.textContent =
+                        "Saving...";
+
+
+                    /*
+                     * For a draft we still create it in backend.
+                     * If your backend has a dedicated draft endpoint,
+                     * we can change this later.
+                     */
+
+                    const exam =
+                        await createExam(
+                            data
+                        );
+
+
+                    localStorage.setItem(
+                        "currentExam",
+                        JSON.stringify(
+                            data
+                        )
+                    );
+
+
+                    localStorage.setItem(
+                        "currentExamId",
+                        exam.id
+                    );
+
+
+                    localStorage.setItem(
+                        "secureAssessExamDraft",
+                        JSON.stringify(
+                            data
+                        )
+                    );
+
+
+                    showToast(
+                        "Examination draft saved successfully."
+                    );
+
+
+                }
+                catch (error) {
+
+                    console.error(
+                        "Create exam error:",
+                        error
+                    );
+
+
+                    showToast(
+                        error.message
+                    );
+
+                }
+                finally {
+
+                    saveDraftButton.disabled =
+                        false;
+
+
+                    saveDraftButton.textContent =
+                        "Save draft";
+
+                }
 
             }
         );
 
 
-        // ===============================
-        // CONTINUE
-        // ===============================
+        // ========================================
+        // CONTINUE TO QUESTIONS
+        // ========================================
 
         continueButton.addEventListener(
             "click",
-            () => {
+            async () => {
 
                 if (
                     !validateExam()
@@ -358,39 +716,84 @@ document.addEventListener(
                     getExamData();
 
 
-                /*
-                 * Temporary local storage.
-                 *
-                 * Later this becomes:
-                 *
-                 * POST /api/exams
-                 *
-                 * Backend creates:
-                 *
-                 * examId
-                 */
+                try {
 
-                localStorage.setItem(
-                    "currentExam",
-                    JSON.stringify(data)
-                );
+                    continueButton.disabled =
+                        true;
 
 
-                /*
-                 * Question bank page
-                 * will be created next.
-                 */
+                    continueButton.innerHTML =
+                        "Creating examination...";
 
-                window.location.href =
-                    "question-bank.html";
+
+                    const exam =
+                        await createExam(
+                            data
+                        );
+
+
+                    localStorage.setItem(
+                        "currentExam",
+                        JSON.stringify(
+                            data
+                        )
+                    );
+
+
+                    localStorage.setItem(
+                        "currentExamId",
+                        exam.id
+                    );
+
+
+                    localStorage.removeItem(
+                        "secureAssessExamDraft"
+                    );
+
+
+                    console.log(
+                        "Exam ID:",
+                        exam.id
+                    );
+
+
+                    window.location.href =
+                        "question-bank.html";
+
+                }
+                catch (error) {
+
+                    console.error(
+                        "Create exam error:",
+                        error
+                    );
+
+
+                    showToast(
+                        error.message
+                    );
+
+                }
+                finally {
+
+                    continueButton.disabled =
+                        false;
+
+
+                    continueButton.innerHTML = `
+                        Continue to questions
+                        <span>→</span>
+                    `;
+
+                }
 
             }
         );
 
 
-        // ===============================
-        // LOAD DRAFT
-        // ===============================
+        // ========================================
+        // LOAD SAVED DRAFT
+        // ========================================
 
         const savedDraft =
             localStorage.getItem(
@@ -398,12 +801,16 @@ document.addEventListener(
             );
 
 
-        if (savedDraft) {
+        if (
+            savedDraft
+        ) {
 
             try {
 
                 const data =
-                    JSON.parse(savedDraft);
+                    JSON.parse(
+                        savedDraft
+                    );
 
 
                 title.value =
@@ -426,6 +833,10 @@ document.addEventListener(
                     data.time || "";
 
 
+                examEndTime.value =
+                    data.endTimeInput || "";
+
+
                 duration.value =
                     data.duration || "";
 
@@ -434,26 +845,35 @@ document.addEventListener(
                     data.maxMarks || "";
 
 
+                totalQuestions.value =
+                    data.totalQuestions || "";
+
+
                 description.value =
                     data.description || "";
 
 
-                if (data.security) {
+                if (
+                    data.security
+                ) {
 
                     document.getElementById(
                         "fullscreenSetting"
                     ).checked =
                         data.security.fullscreen;
 
+
                     document.getElementById(
                         "tabSetting"
                     ).checked =
                         data.security.tabDetection;
 
+
                     document.getElementById(
                         "copySetting"
                     ).checked =
                         data.security.copyProtection;
+
 
                     document.getElementById(
                         "loggingSetting"
@@ -463,17 +883,21 @@ document.addEventListener(
                 }
 
 
-                if (data.rules) {
+                if (
+                    data.rules
+                ) {
 
                     document.getElementById(
                         "randomQuestions"
                     ).checked =
                         data.rules.randomQuestions;
 
+
                     document.getElementById(
                         "randomOptions"
                     ).checked =
                         data.rules.randomOptions;
+
 
                     document.getElementById(
                         "oneAttempt"
@@ -482,12 +906,8 @@ document.addEventListener(
 
                 }
 
-
-                console.log(
-                    "Previous draft loaded."
-                );
-
-            } catch (error) {
+            }
+            catch (error) {
 
                 console.error(
                     "Could not load draft:",

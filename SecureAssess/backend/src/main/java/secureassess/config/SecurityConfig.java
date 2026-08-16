@@ -14,15 +14,30 @@ public class SecurityConfig {
     ) throws Exception {
 
         http
+
+                // ========================================
+                // DISABLE CSRF
+                // ========================================
+
                 .csrf(csrf -> csrf.disable())
 
+
+                // ========================================
+                // AUTHORIZE REQUESTS
+                // ========================================
+
                 .authorizeHttpRequests(auth -> auth
+
+                        // Authentication APIs
                         .requestMatchers(
                                 "/api/auth/**"
                         ).permitAll()
 
-                        .anyRequest().authenticated()
+                        // All other APIs
+                        // temporarily open for frontend testing
+                        .anyRequest().permitAll()
                 );
+
 
         return http.build();
     }
